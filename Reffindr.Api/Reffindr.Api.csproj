@@ -5,10 +5,11 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Reffindr.Api</RootNamespace>
-	 <GenerateDocumentationFile>true</GenerateDocumentationFile>
-	 <UserSecretsId>72fac20f-e0de-4536-aacf-983b77ab5c3a</UserSecretsId>
-	 <NoWarn>1591</NoWarn>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<UserSecretsId>72fac20f-e0de-4536-aacf-983b77ab5c3a</UserSecretsId>
+	<NoWarn>1591</NoWarn>
   </PropertyGroup>
+	
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.8" />

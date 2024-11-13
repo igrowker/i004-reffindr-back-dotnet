@@ -19,34 +19,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {
-    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
-    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-    c.IncludeXmlComments(xmlPath);
-});
 
-
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-{
-    options.UseNpgsql(connectionStrings);
-});
-
-#region Services
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IUsersService, UsersService>();
-builder.Services.AddScoped<ITokenService, TokenService>();
-
-#endregion Services
-
-#region Repositories
-builder.Services.AddScoped<IAuthRepository, AuthRepository>();
-builder.Services.AddScoped<IUsersRepository, UsersRepository>();
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-#endregion Repositories
-
-#endregion Services Area
-
-#region Utilities
-builder.Services.AddSingleton<TokenService>();
 builder.Services.AddAuthentication(config =>
 {
     config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -67,8 +40,31 @@ builder.Services.AddAuthentication(config =>
 }
 
 );
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+    
+});
 
-#endregion Utilities
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+{
+    options.UseNpgsql(connectionStrings);
+});
+
+#region Services
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+#endregion Services
+
+#region Repositories
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+#endregion Repositories
+
+#endregion Services Area
 
 var app = builder.Build();
 
@@ -84,6 +80,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 // Middleware para manejar excepciones globales
 app.UseMiddleware<ExceptionMiddleware>();
+app.UseMiddleware<TimingMiddleware>();
 
 app.UseHttpsRedirection();
 
