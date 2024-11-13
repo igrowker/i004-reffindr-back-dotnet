@@ -1,6 +1,6 @@
-﻿namespace Reffindr.Domain.Models;
+﻿namespace Reffindr.Shared.DTOs.Request.Auth;
 
-public class User : BaseModel
+public class UserRegisterRequestDto
 {
     public string Name { get; set; } = default!;
     public string LastName { get; set; } = default!;
@@ -8,7 +8,4 @@ public class User : BaseModel
     public string Password { get; set; } = default!;
     public string Role { get; set; } = default!;
 
-    #region NavigationProperties
-
-    #endregion NavigationProperties
 }

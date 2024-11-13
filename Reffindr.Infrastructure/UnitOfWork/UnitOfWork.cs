@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore;
 using Reffindr.Infrastructure.Data;
+using Reffindr.Infrastructure.Repositories.Interfaces;
 
 namespace Reffindr.Infrastructure.UnitOfWork;
 
@@ -8,12 +9,20 @@ public class UnitOfWork : IUnitOfWork
 {
     private readonly ApplicationDbContext _dbContext;
 
+    public IUsersRepository UsersRepository { get; }
+
+    public IAuthRepository AuthRepository { get; }
+
     public UnitOfWork
         (
-            ApplicationDbContext dbContext
+            ApplicationDbContext dbContext,
+            IUsersRepository usersRepository,
+            IAuthRepository authRepository
         )
     {
         _dbContext = dbContext;
+        UsersRepository = usersRepository;
+        AuthRepository = authRepository;
     }
     public async Task<int> Complete(CancellationToken cancellationToken)
     {
