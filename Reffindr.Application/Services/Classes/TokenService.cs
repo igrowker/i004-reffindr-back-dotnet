@@ -27,7 +27,7 @@ public class TokenService : ITokenService
             new Claim(ClaimTypes.Email, model.Email!),
             new Claim(ClaimTypes.Name, model.Name!),
         };
-        var keyBytes = Encoding.UTF8.GetBytes(secretKey);
+        var keyBytes = Encoding.UTF8.GetBytes(secretKey!);
         var securityKey = new SymmetricSecurityKey(keyBytes);
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
