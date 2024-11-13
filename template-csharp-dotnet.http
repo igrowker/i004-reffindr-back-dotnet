@@ -1,6 +1,0 @@
-@Reffindr.Api_HostAddress = http://localhost:5296
-
-GET {{Reffindr.Api_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
