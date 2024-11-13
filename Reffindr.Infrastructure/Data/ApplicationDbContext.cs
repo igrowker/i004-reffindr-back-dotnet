@@ -11,11 +11,15 @@ public class ApplicationDbContext : DbContext
         
     }
 
-    public DbSet<User> Users { get; set; }
+    public DbSet<User> User { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
         base.OnModelCreating(modelBuilder);
+
+        //modelBuilder.Entity<User>().ToTable("Usuarios", schema: "auth");
+
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }
