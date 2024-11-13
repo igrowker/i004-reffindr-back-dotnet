@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Reffindr.Api.Middleware;
 using Reffindr.Application.Services.Classes;
 using Reffindr.Application.Services.Interfaces;
 using Reffindr.Infrastructure.Data;
@@ -81,6 +82,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthentication();
 app.UseAuthorization();
+// Middleware para manejar excepciones globales
+app.UseMiddleware<ExceptionMiddleware>();
+
 app.UseHttpsRedirection();
 
 app.MapControllers();
