@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Reffindr.Application.Services.Interfaces;
 using Reffindr.Application.Utilities.Mappers;
-using Reffindr.Domain.Models;
+using Reffindr.Domain.Models.User;
 using Reffindr.Infrastructure.UnitOfWork;
 using Reffindr.Shared.DTOs.Request.Auth;
 using Reffindr.Shared.DTOs.Response.Auth;

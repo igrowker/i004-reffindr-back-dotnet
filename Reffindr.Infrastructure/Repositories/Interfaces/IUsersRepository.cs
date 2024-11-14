@@ -1,4 +1,4 @@
-﻿using Reffindr.Domain.Models;
+﻿using Reffindr.Domain.Models.User;
 
 namespace Reffindr.Infrastructure.Repositories.Interfaces;
 
