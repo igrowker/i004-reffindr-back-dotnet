@@ -58,6 +58,5 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
 
         return recordToDelete;
     }
-
 }
 

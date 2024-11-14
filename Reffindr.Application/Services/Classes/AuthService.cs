@@ -27,23 +27,32 @@ public class AuthService : IAuthService
 	public async Task<UserRegisterResponseDto> SignUpUserAsync(UserRegisterRequestDto userRegisterRequestDto, CancellationToken cancellationToken) 
 	{
         User userToRegister = userRegisterRequestDto.ToModel();
+
         userToRegister.Password = _passwordHasher.HashPassword(userToRegister, userToRegister.Password);
 
         User registeredUser = await _unitOfWork.AuthRepository.Create(userToRegister, cancellationToken);
 
         await _unitOfWork.Complete(cancellationToken);
 
-        string token = _tokenService.generateJWT(registeredUser);
+        string token = _tokenService.GenerateJWT(registeredUser);
 
-        UserRegisterResponseDto registeredUserResponse = registeredUser.ToResponseDto(token);
+        UserRegisterResponseDto registeredUserResponse = registeredUser.ToRegisterResponseDto(token);
 
         return registeredUserResponse;
     }
 
-    //public async Task<UserRegisterResponseDto> SignUpUserAsync(UserRegisterRequestDto userRegisterRequestDto, CancellationToken cancellationToken)
-    //{
-    //    PasswordVerificationResult passwordVerification = _passwordHasher.VerifyHashedPassword(userInDb, userInDb.Password, userData.Password);
+    public async Task<UserLoginResponseDto> LoginUserAsync(UserLoginRequestDto userLoginRequestDto, CancellationToken cancellationToken)
+    {
+        User userLoginRequestData = userLoginRequestDto.ToModel();
+        User userDataFromDb = await _unitOfWork.AuthRepository.GetByEmail(userLoginRequestData);
 
-    //    if (passwordVerification == PasswordVerificationResult.Failed) throw new Exception("Las credenciales no son correctas");
-    //}
+        PasswordVerificationResult passwordVerification = _passwordHasher.VerifyHashedPassword(userDataFromDb, userDataFromDb.Password, userLoginRequestData.Password);
+
+        if (passwordVerification == PasswordVerificationResult.Failed) throw new Exception("Las credenciales no son correctas");
+
+        string token = _tokenService.GenerateJWT(userDataFromDb);
+        UserLoginResponseDto loggedUserResponse = userDataFromDb.ToLoginResponseDto(token);
+
+        return loggedUserResponse;
+    }
 }

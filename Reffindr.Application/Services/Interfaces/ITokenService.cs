@@ -4,5 +4,5 @@ namespace Reffindr.Application.Services.Interfaces;
 
 public interface ITokenService
 {
-    string generateJWT(User model);
+    string GenerateJWT(User user);
 }

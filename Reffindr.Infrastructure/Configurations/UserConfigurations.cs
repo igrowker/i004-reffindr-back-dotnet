@@ -10,7 +10,7 @@ public class UserConfigurations : EntityTypeBaseConfiguration<User>
     {
         builder.HasKey(x => x.Id);
 
-        //builder.HasOne(x => x.??).WithMany(x => x.?).HasForeignKey(x => x.??);
+        builder.HasOne(x => x.Role).WithMany(x => x.Users).HasForeignKey(x => x.RoleId);
     }
 
     protected override void ConfigurateProperties(EntityTypeBuilder<User> builder)

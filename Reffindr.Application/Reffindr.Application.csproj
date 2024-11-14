@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Utilities\Custom\**" />
+    <EmbeddedResource Remove="Utilities\Custom\**" />
+    <None Remove="Utilities\Custom\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.4" />
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.11" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.2.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.2.0" />
@@ -14,10 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Reffindr.Infrastructure\Reffindr.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Utilities\Custom\" />
   </ItemGroup>
 
 </Project>

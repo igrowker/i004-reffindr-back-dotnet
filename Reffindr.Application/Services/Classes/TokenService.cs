@@ -4,7 +4,6 @@ using Reffindr.Application.Services.Interfaces;
 using Reffindr.Domain.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace Reffindr.Application.Services.Classes;
@@ -18,14 +17,14 @@ public class TokenService : ITokenService
         _configuration = configuration;
     }
     
-    public string generateJWT(User model)
+    public string GenerateJWT(User user)
     {
         string? secretKey = _configuration["Jwt:key"];
         var userClaims = new[]
         {
-            new Claim(ClaimTypes.NameIdentifier, model.Id.ToString()),
-            new Claim(ClaimTypes.Email, model.Email!),
-            new Claim(ClaimTypes.Name, model.Name!),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Email, user.Email!),
+            new Claim(ClaimTypes.Name, user.Name!),
         };
         var keyBytes = Encoding.UTF8.GetBytes(secretKey!);
         var securityKey = new SymmetricSecurityKey(keyBytes);
