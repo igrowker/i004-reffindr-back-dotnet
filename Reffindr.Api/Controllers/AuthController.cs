@@ -37,55 +37,18 @@ public class AuthController : ControllerBase
     {
         UserRegisterResponseDto userRegisterResponse = await _authService.SignUpUserAsync(userRegisterRequestDto, cancellationToken);
 
+        if (userRegisterResponse is null) return BadRequest("El email ya se encuentra registrado en nuestra base de datos.");
+
         return Ok(userRegisterResponse);
     }
 
-    ///// <summary>
-    ///// Log in a user and generate a JWT token.
-    ///// </summary>
-    ///// <remarks>
-    ///// This endpoint allows an existing user to log in. If the user credentials are valid, a JWT token is generated and returned.
-    ///// </remarks>
-    ///// <param name="user">The user login details including email and password.</param>
-    ///// <returns>Returns a status indicating whether the login was successful, along with a JWT token if successful.</returns>
-    ///// <response code="200">If the login is successful, returns isSucces=true and a JWT token; otherwise, returns isSucces=false with an empty token.</response>
-    //[HttpPost]
-    //[Route("LogIn")]
-    //public async Task<IActionResult> LogIn ([FromBody] UserRequestDto user)
-    //{
-    //    var foundUser = await _context.User.Where(x => x.email == user.email && x.password == _utilities.encriptedSha256(user.password)).FirstOrDefaultAsync();
-    //    if(foundUser == null)
-    //        return StatusCode(StatusCodes.Status200OK, new { isSucces = false, token = "" });
-    //    else
-    //        return StatusCode(StatusCodes.Status200OK, new { isSucces = true, token = _utilities.generateJWT(foundUser)});
-    //}
+    [HttpPost]
+    [Route("Login")]
+    public async Task<IActionResult> Login([FromBody] UserLoginRequestDto userLoginRequestDto, CancellationToken cancellationToken)
+    {
+        UserLoginResponseDto userLoginResponseDto = await _authService.LoginUserAsync(userLoginRequestDto, cancellationToken);
 
-
-    ///// <summary>
-    ///// Verifica la conexión a la base de datos.
-    ///// </summary>
-    ///// <remarks>
-    ///// Este endpoint se puede usar para verificar si la conexión a la base de datos es exitosa.
-    ///// Devuelve un mensaje indicando el estado de la conexión.
-    ///// </remarks>
-    ///// <returns>
-    ///// 200 OK si la conexión fue exitosa.
-    ///// 500 Internal Server Error si ocurre un problema al intentar conectarse.
-    ///// </returns>
-    //[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-    //[ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(string))]
-    //[HttpGet("test_connection")]
-    //public async Task<IActionResult> TestConnection()
-    //{
-    //    try
-    //    {
-    //        var usersss = await _context.User.ToListAsync();
-    //        return Ok(usersss);
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        return StatusCode(500, $"Error al acceder a la tabla: {ex.Message}");
-    //    }
-    //}
+        return Ok(userLoginResponseDto);
+    }
 
 }

@@ -17,14 +17,20 @@ var connectionStrings = builder.Configuration.GetConnectionString("DefaultConnec
 #region Services Area
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
-builder.Services.AddSwaggerGen(c =>
+
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
+    options.UseNpgsql(connectionStrings);
+});
 
 builder.Services.AddAuthentication(config =>
 {
     config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(config => {
+})
+.AddJwtBearer(config =>
+{
     config.RequireHttpsMetadata = false;
     config.SaveToken = true;
     config.TokenValidationParameters = new TokenValidationParameters
@@ -37,19 +43,13 @@ builder.Services.AddAuthentication(config =>
         IssuerSigningKey = new SymmetricSecurityKey
         (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
     };
-}
+});
 
-);
+builder.Services.AddSwaggerGen(c =>
+{
     var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
-    
-});
-
-
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-{
-    options.UseNpgsql(connectionStrings);
 });
 
 #region Services
@@ -62,6 +62,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 #endregion Repositories
 
 #endregion Services Area

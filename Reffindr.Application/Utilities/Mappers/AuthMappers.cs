@@ -14,10 +14,28 @@ public static class AuthMappers
             Name = userRegisterRequestDto.Name,
             LastName = userRegisterRequestDto.LastName,
             Password = userRegisterRequestDto.Password,
-            Role = userRegisterRequestDto.Role,
+            RoleId = userRegisterRequestDto.RoleId,
         };
     }
-    public static UserRegisterResponseDto ToResponseDto(this User user, string token) 
+
+    public static User ToModel(this UserLoginRequestDto userLoginRequestDto)
+    {
+        return new User
+        {
+            Email = userLoginRequestDto.Email,
+            Password = userLoginRequestDto.Password,
+        };
+    }
+
+    public static UserLoginResponseDto ToLoginResponseDto(this User user, string token)
+    {
+        return new UserLoginResponseDto
+        {
+            Token = token
+        };
+    }
+
+    public static UserRegisterResponseDto ToRegisterResponseDto(this User user, string token) 
     {
         return new UserRegisterResponseDto
         {
