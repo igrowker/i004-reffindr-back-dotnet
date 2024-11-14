@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Reffindr.Domain.Models;
+namespace Reffindr.Domain.Models.User;
 
 public class User : BaseModel
 {
@@ -14,6 +14,8 @@ public class User : BaseModel
     #region NavigationProperties
 
     public virtual Role? Role { get; set; }
+    public virtual UserOwnerInfo? UserOwnerInfo { get; set; }    
+    public virtual UserTenantInfo? UserTenantInfo { get; set; }    
 
     #endregion NavigationProperties
 }

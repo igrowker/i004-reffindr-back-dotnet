@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Reffindr.Domain.Models;
+using Reffindr.Domain.Models.User;
 using Reffindr.Infrastructure.Data;
 using Reffindr.Infrastructure.Repositories.Interfaces;
 

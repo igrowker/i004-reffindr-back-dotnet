@@ -1,4 +1,4 @@
-﻿using Reffindr.Domain.Models;
+﻿using Reffindr.Domain.Models.User;
 using Reffindr.Shared.DTOs.Request.Auth;
 using Reffindr.Shared.DTOs.Response.Auth;
 
