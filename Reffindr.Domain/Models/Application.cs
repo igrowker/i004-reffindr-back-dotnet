@@ -11,4 +11,5 @@ public class Application : BaseModel
 
     public virtual Property? Property { get; set; }
     public virtual User? User { get; set; }
+    public virtual Candidate? Candidate { get; set; }
 }

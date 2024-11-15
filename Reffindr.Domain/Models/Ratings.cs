@@ -1,9 +1,11 @@
-﻿namespace Reffindr.Domain.Models;
+﻿using Reffindr.Domain.Models.UserModels;
+
+namespace Reffindr.Domain.Models;
 
 public class Rating : BaseModel
 	{
 
-		public int RatedById { get; set; } 
+		public int RatedByUserId { get; set; } 
 
 		public int RatedUserId { get; set; } 
 
@@ -11,4 +13,6 @@ public class Rating : BaseModel
 
 		public string? Comment { get; set; }
 
+		public virtual User? RatedBy { get; set; }
+		public virtual User? RatedUser { get; set; }
 	}

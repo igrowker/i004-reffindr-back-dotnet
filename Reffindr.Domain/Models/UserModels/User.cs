@@ -24,6 +24,9 @@ public class User : BaseModel
     public virtual List<Application>? Applications { get; set; }
     public virtual UserOwnerInfo? UserOwnerInfo { get; set; }
     public virtual UserTenantInfo? UserTenantInfo { get; set; }
+    public virtual List<Notification>? Notifications { get; set; }
+    public virtual List<Rating>? RatingsGiven { get; set; }
+    public virtual List<Rating>? RatingsReceived { get; set; }
 
     #endregion NavigationProperties
 }
