@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Reffindr.Domain.Models.User;
+using Reffindr.Domain.Models.UserModels;
 
 namespace Reffindr.Infrastructure.Configurations;
 
-public class UserTenantInfoConfigurations : EntityTypeBaseConfiguration<UserTenantInfo>
+public class UserTenantInfoConfiguration : EntityTypeBaseConfiguration<UserTenantInfo>
 {
     protected override void ConfigurateConstraints(EntityTypeBuilder<UserTenantInfo> builder)
     {

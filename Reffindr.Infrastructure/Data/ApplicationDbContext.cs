@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Reffindr.Domain.Models;
-using Reffindr.Domain.Models.User;
+using Reffindr.Domain.Models.UserModels;
 using System.Reflection;
 
 namespace Reffindr.Infrastructure.Data;

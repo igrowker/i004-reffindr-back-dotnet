@@ -1,4 +1,6 @@
-﻿namespace Reffindr.Domain.Models;
+﻿using Reffindr.Domain.Models.UserModels;
+
+namespace Reffindr.Domain.Models;
 
 public class Country : BaseModel
 {
@@ -8,6 +10,9 @@ public class Country : BaseModel
 	#region Navigation Properties
 
 	public virtual List<State>? State { get; set; }
+	public virtual List<Property>? Property { get; set; }
+	public virtual List<User>? User { get; set; }
+
 	#endregion
 
 }

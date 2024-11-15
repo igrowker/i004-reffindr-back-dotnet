@@ -1,4 +1,4 @@
-﻿namespace Reffindr.Domain.Models.User;
+﻿namespace Reffindr.Domain.Models.UserModels;
 
 public class UserTenantInfo : BaseModel
 {
@@ -7,5 +7,5 @@ public class UserTenantInfo : BaseModel
     public decimal RangeSalary { get; set; } = default!;
     public int UserId { get; set; }
 
-    public User? User { get; set; }
+    public virtual User? User { get; set; }
 }

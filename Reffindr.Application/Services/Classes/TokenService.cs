@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Reffindr.Application.Services.Interfaces;
-using Reffindr.Domain.Models.User;
+using Reffindr.Domain.Models.UserModels;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;

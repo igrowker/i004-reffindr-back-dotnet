@@ -4,7 +4,7 @@ using Reffindr.Domain.Models;
 
 namespace Reffindr.Infrastructure.Configurations;
 
-public class PropertyRequirementConfigurations : EntityTypeBaseConfiguration<Requirement>
+public class RequirementConfiguration : EntityTypeBaseConfiguration<Requirement>
 {
     protected override void ConfigurateConstraints(EntityTypeBuilder<Requirement> builder)
     {
