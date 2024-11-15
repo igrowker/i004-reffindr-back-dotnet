@@ -5,7 +5,7 @@ using Reffindr.Domain.Models;
 
 namespace Reffindr.Infrastructure.Configurations;
 
-public class PropertyConfigurations : EntityTypeBaseConfiguration<Property>
+public class PropertyConfiguration : EntityTypeBaseConfiguration<Property>
 {
 	protected override void ConfigurateConstraints(EntityTypeBuilder<Property> builder)
 	{
@@ -16,14 +16,18 @@ public class PropertyConfigurations : EntityTypeBaseConfiguration<Property>
 			.HasForeignKey<Property>(x => x.RequirementId);
 
 		builder.HasOne(x => x.Country)
-			.WithMany()
+			.WithMany(x => x.Property)
 			.HasForeignKey(x => x.CountryId);
 
 		builder.HasOne(x => x.State)
-			.WithMany()
+			.WithMany(x => x.Property)
 			.HasForeignKey(x => x.StateId);
 
-	}
+        builder.HasMany(x => x.Application)
+			.WithOne(x => x.Property)
+			.HasForeignKey(x => x.PropertyId);
+
+    }
 
 	protected override void ConfigurateProperties(EntityTypeBuilder<Property> builder)
 	{

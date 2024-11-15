@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Reffindr.Domain.Models.UserModels;
 
-namespace Reffindr.Domain.Models
-{
-	public class Notification : BaseModel
+namespace Reffindr.Domain.Models;
+
+public class Notification : BaseModel
 	{
 		public int UserId { get; set; }
 
@@ -16,6 +12,5 @@ namespace Reffindr.Domain.Models
 
 		public bool Read { get; set; }
 
-		public User.User? User { get; set; }
+		public virtual User? User { get; set; }
 	}
-}

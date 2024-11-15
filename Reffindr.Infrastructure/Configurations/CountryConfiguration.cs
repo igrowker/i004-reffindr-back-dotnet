@@ -12,6 +12,8 @@ public class CountryConfiguration : EntityTypeBaseConfiguration<Country>
 
 		builder.HasMany(x => x.State)
 			.WithOne(x => x.Country);
+
+		builder.HasMany(x => x.Property).WithOne(x => x.Country).HasForeignKey(x => x.CountryId);
 	}
 
 	protected override void ConfigurateProperties(EntityTypeBuilder<Country> builder)

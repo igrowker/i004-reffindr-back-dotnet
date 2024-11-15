@@ -13,7 +13,15 @@ public class StateConfiguration : EntityTypeBaseConfiguration<State>
 		builder.HasOne(x => x.Country)
 				.WithMany(x => x.State)
 				.HasForeignKey(x => x.CountryId);
-	}
+
+		builder.HasMany(x => x.Property)
+			.WithOne(x => x.State)
+			.HasForeignKey(x => x.StateId);
+
+        builder.HasMany(x => x.User)
+            .WithOne(x => x.State)
+            .HasForeignKey(x => x.StateId);
+    }
 
 	protected override void ConfigurateProperties(EntityTypeBuilder<State> builder)
 	{

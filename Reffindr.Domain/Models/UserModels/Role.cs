@@ -1,4 +1,4 @@
-﻿namespace Reffindr.Domain.Models.User;
+﻿namespace Reffindr.Domain.Models.UserModels;
 
 public class Role : BaseModel
 {

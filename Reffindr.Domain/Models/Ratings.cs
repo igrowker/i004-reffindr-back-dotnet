@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Reffindr.Domain.Models;
 
-namespace Reffindr.Domain.Models
-{
-	public class Rating : BaseModel
+public class Rating : BaseModel
 	{
 
 		public int RatedById { get; set; } 
@@ -19,4 +12,3 @@ namespace Reffindr.Domain.Models
 		public string? Comment { get; set; }
 
 	}
-}
