@@ -3,8 +3,7 @@ namespace Reffindr.Domain.Models;
 
 public class State : BaseModel
 {
-
-	public string StateName = default!;
+	public string? StateName { get; set; }
 
 	public int CountryId { get; set; }
 
