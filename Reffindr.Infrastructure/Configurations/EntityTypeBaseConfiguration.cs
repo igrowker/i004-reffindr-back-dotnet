@@ -11,8 +11,10 @@ public abstract class EntityTypeBaseConfiguration<T> : IEntityTypeConfiguration<
         ConfigurateProperties(builder);
         ConfigurateConstraints(builder);
         ConfigurateTableName(builder);
-    }
+		SeedData(builder);
+	}
     protected abstract void ConfigurateProperties(EntityTypeBuilder<T> builder);
     protected abstract void ConfigurateConstraints(EntityTypeBuilder<T> builder);
     protected abstract void ConfigurateTableName(EntityTypeBuilder<T> builder);
+	protected virtual void SeedData(EntityTypeBuilder<T> builder) { }
 }

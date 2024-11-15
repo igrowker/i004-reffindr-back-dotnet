@@ -16,6 +16,9 @@ public class ApplicationDbContext : DbContext
     public DbSet<Role> Roles { get; set; }
     public DbSet<Property> Properties { get; set; }
     public DbSet<Requirement> Requirements { get; set; }
+    public DbSet<Country> Country { get; set; }
+    public DbSet<State> States { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
