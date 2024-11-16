@@ -24,4 +24,27 @@ public class RoleConfiguration : EntityTypeBaseConfiguration<Role>
     {
         builder.ToTable("Roles");
     }
+
+    protected override void SeedData(EntityTypeBuilder<Role> builder)
+    {
+        builder.HasData(
+            new Role
+            {
+                Id = 1,
+                RoleName = "Tenant",
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = null,
+                IsDeleted = false
+            },
+            new Role
+            {
+                Id = 2,
+                RoleName = "Owner",
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = null,
+                IsDeleted = false
+            }
+        );
+    }
+
 }
