@@ -2,6 +2,8 @@
 using Reffindr.Domain.Models;
 using Reffindr.Infrastructure.Data;
 using Reffindr.Infrastructure.Repositories.Interfaces;
+using Reffindr.Shared.DTOs.Pagination;
+using Reffindr.Shared.IQueryableExtensions;
 
 namespace Reffindr.Infrastructure.Repositories.Classes;
 
@@ -14,17 +16,13 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
         _dbSet = dbContext.Set<T>();
         _dbContext = dbContext;
     }
-    public async Task<List<T>> GetAll()
+
+    public virtual async Task<List<T>> GetAllWithPagination(PaginationDto paginationDto)
     {
-        return await _dbSet.ToListAsync();
+        var recordsQueriable = _dbSet.AsQueryable();
+
+        return await recordsQueriable.Paginate(paginationDto).ToListAsync();
     }
-
-    //public virtual async Task<List<T>> GetAllWithPagination(PaginationDto paginationDto)
-    //{
-    //    var recordsQueriable = _dbSet.AsQueryable();
-
-    //    return await recordsQueriable.Paginate(paginationDto).ToListAsync();
-    //}
 
     public async Task<T> GetById(int id)
     {
@@ -48,13 +46,13 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
         return existingData;
     }
 
-    public async Task<T> Delete(int id)
+    public async Task<T> SoftDelete(int id)
     {
         var recordToDelete = await GetById(id);
 
         if (recordToDelete is null) throw new Exception("El registro no se encontro");
 
-        await _dbSet.Where(x => x.Id == id).ExecuteDeleteAsync();
+        recordToDelete.IsDeleted = true;
 
         return recordToDelete;
     }
