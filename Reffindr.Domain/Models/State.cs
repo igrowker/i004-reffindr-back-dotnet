@@ -12,6 +12,6 @@ public class State : BaseModel
 	#region Navigation Properties
 	public virtual Country? Country { get; set; }
 	public virtual List<Property>? Property { get; set; }
-	public virtual List<User>? User { get; set; }
+	public virtual List<User>? Users { get; set; }
 	#endregion
 }

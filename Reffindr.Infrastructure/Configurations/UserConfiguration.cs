@@ -19,7 +19,7 @@ public class UserConfiguration : EntityTypeBaseConfiguration<User>
             .HasForeignKey(x => x.CountryId);
 
         builder.HasOne(x => x.State)
-            .WithMany(x => x.User)
+            .WithMany(x => x.Users)
             .HasForeignKey(x => x.StateId);
 
         builder.HasMany(x => x.Applications)
