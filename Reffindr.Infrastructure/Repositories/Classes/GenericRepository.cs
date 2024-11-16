@@ -53,6 +53,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
         if (recordToDelete is null) throw new Exception("El registro no se encontro");
 
         recordToDelete.IsDeleted = true;
+        recordToDelete.UpdatedAt = DateTime.UtcNow;
 
         return recordToDelete;
     }
