@@ -32,7 +32,14 @@ public class CountryConfiguration : EntityTypeBaseConfiguration<Country>
 	{
 	
 		builder.HasData(
-			new Country { Id = 1, CountryName = "Argentina" }
-		);
+            new Country
+            {
+                Id = 1,
+                CountryName = "Argentina",
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = null,
+                IsDeleted = false
+            }
+        );
 	}
 }
