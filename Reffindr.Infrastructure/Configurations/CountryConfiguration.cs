@@ -30,8 +30,9 @@ public class CountryConfiguration : EntityTypeBaseConfiguration<Country>
 
 	protected override void SeedData(EntityTypeBuilder<Country> builder)
 	{
+	
 		builder.HasData(
-			new Country { Id = 0, CountryName = "Argentina" }
+			new Country { Id = 1, CountryName = "Argentina" }
 		);
 	}
 }
