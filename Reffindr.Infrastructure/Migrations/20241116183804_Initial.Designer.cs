@@ -12,7 +12,7 @@ using Reffindr.Infrastructure.Data;
 namespace Reffindr.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241116122910_Initial")]
+    [Migration("20241116183804_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -46,7 +46,7 @@ namespace Reffindr.Infrastructure.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("character varying(10)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("UserId")
@@ -81,7 +81,7 @@ namespace Reffindr.Infrastructure.Migrations
                     b.Property<bool>("SelectedByTenant")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -111,7 +111,7 @@ namespace Reffindr.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -123,9 +123,8 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 1,
                             CountryName = "Argentina",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 197, DateTimeKind.Utc).AddTicks(2924),
+                            IsDeleted = false
                         });
                 });
 
@@ -156,7 +155,7 @@ namespace Reffindr.Infrastructure.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("character varying(15)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("UserId")
@@ -213,7 +212,7 @@ namespace Reffindr.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -255,7 +254,7 @@ namespace Reffindr.Infrastructure.Migrations
                     b.Property<int>("RatingValue")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -278,20 +277,23 @@ namespace Reffindr.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<bool>("HasWarranty")
+                    b.Property<bool?>("HasWarranty")
+                        .IsRequired()
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("IsWorking")
+                    b.Property<bool?>("IsWorking")
+                        .IsRequired()
                         .HasColumnType("boolean");
 
-                    b.Property<decimal>("RangeSalary")
+                    b.Property<decimal?>("RangeSalary")
+                        .IsRequired()
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -321,7 +323,7 @@ namespace Reffindr.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -335,217 +337,193 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 1,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1021),
                             IsDeleted = false,
-                            StateName = "Buenos Aires",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "Buenos Aires"
                         },
                         new
                         {
                             Id = 2,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1024),
                             IsDeleted = false,
-                            StateName = "Catamarca",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "Catamarca"
                         },
                         new
                         {
                             Id = 3,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1026),
                             IsDeleted = false,
-                            StateName = "Chaco",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "Chaco"
                         },
                         new
                         {
                             Id = 4,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1028),
                             IsDeleted = false,
-                            StateName = "Chubut",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "Chubut"
                         },
                         new
                         {
                             Id = 5,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1031),
                             IsDeleted = false,
-                            StateName = "Córdoba",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "Córdoba"
                         },
                         new
                         {
                             Id = 6,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1081),
                             IsDeleted = false,
-                            StateName = "Corrientes",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "Corrientes"
                         },
                         new
                         {
                             Id = 7,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1084),
                             IsDeleted = false,
-                            StateName = "Entre Ríos",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "Entre Ríos"
                         },
                         new
                         {
                             Id = 8,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1088),
                             IsDeleted = false,
-                            StateName = "Formosa",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "Formosa"
                         },
                         new
                         {
                             Id = 9,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1090),
                             IsDeleted = false,
-                            StateName = "Jujuy",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "Jujuy"
                         },
                         new
                         {
                             Id = 10,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1092),
                             IsDeleted = false,
-                            StateName = "La Pampa",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "La Pampa"
                         },
                         new
                         {
                             Id = 11,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1094),
                             IsDeleted = false,
-                            StateName = "La Rioja",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "La Rioja"
                         },
                         new
                         {
                             Id = 12,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1096),
                             IsDeleted = false,
-                            StateName = "Mendoza",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "Mendoza"
                         },
                         new
                         {
                             Id = 13,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1098),
                             IsDeleted = false,
-                            StateName = "Misiones",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "Misiones"
                         },
                         new
                         {
                             Id = 14,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1100),
                             IsDeleted = false,
-                            StateName = "Neuquén",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "Neuquén"
                         },
                         new
                         {
                             Id = 15,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1101),
                             IsDeleted = false,
-                            StateName = "Río Negro",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "Río Negro"
                         },
                         new
                         {
                             Id = 16,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1103),
                             IsDeleted = false,
-                            StateName = "Salta",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "Salta"
                         },
                         new
                         {
                             Id = 17,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1105),
                             IsDeleted = false,
-                            StateName = "San Juan",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "San Juan"
                         },
                         new
                         {
                             Id = 18,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1107),
                             IsDeleted = false,
-                            StateName = "San Luis",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "San Luis"
                         },
                         new
                         {
                             Id = 19,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1108),
                             IsDeleted = false,
-                            StateName = "Santa Cruz",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "Santa Cruz"
                         },
                         new
                         {
                             Id = 20,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1110),
                             IsDeleted = false,
-                            StateName = "Santa Fe",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "Santa Fe"
                         },
                         new
                         {
                             Id = 21,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1112),
                             IsDeleted = false,
-                            StateName = "Santiago del Estero",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "Santiago del Estero"
                         },
                         new
                         {
                             Id = 22,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1113),
                             IsDeleted = false,
-                            StateName = "Tierra del Fuego",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "Tierra del Fuego"
                         },
                         new
                         {
                             Id = 23,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1115),
                             IsDeleted = false,
-                            StateName = "Tucumán",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "Tucumán"
                         },
                         new
                         {
                             Id = 24,
                             CountryId = 1,
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 206, DateTimeKind.Utc).AddTicks(1117),
                             IsDeleted = false,
-                            StateName = "Ciudad Autónoma de Buenos Aires",
-                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            StateName = "Ciudad Autónoma de Buenos Aires"
                         });
                 });
 
@@ -568,12 +546,28 @@ namespace Reffindr.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
                     b.ToTable("Roles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 205, DateTimeKind.Utc).AddTicks(4808),
+                            IsDeleted = false,
+                            RoleName = "Tenant"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2024, 11, 16, 18, 38, 4, 205, DateTimeKind.Utc).AddTicks(4812),
+                            IsDeleted = false,
+                            RoleName = "Owner"
+                        });
                 });
 
             modelBuilder.Entity("Reffindr.Domain.Models.UserModels.User", b =>
@@ -616,7 +610,7 @@ namespace Reffindr.Infrastructure.Migrations
                     b.Property<int>("StateId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("UserOwnerInfoId")
@@ -653,7 +647,7 @@ namespace Reffindr.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("UserId")
@@ -691,7 +685,7 @@ namespace Reffindr.Infrastructure.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("UserId")
