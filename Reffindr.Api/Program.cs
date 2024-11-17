@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Reffindr.Api.Middleware;
 using Reffindr.Application.Services.Classes;
 using Reffindr.Application.Services.Interfaces;
@@ -29,27 +30,65 @@ builder.Services.AddAuthentication(config =>
     config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-.AddJwtBearer(config =>
+.AddJwtBearer(options =>
 {
-    config.RequireHttpsMetadata = false;
-    config.SaveToken = true;
-    config.TokenValidationParameters = new TokenValidationParameters
+    options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuerSigningKey = true,
-        ValidateIssuer = false,
-        ValidateAudience = false,
+        ValidateIssuer = true,
+        ValidateAudience = true,
         ValidateLifetime = true,
-        ClockSkew = TimeSpan.Zero,
-        IssuerSigningKey = new SymmetricSecurityKey
-        (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+        ValidateIssuerSigningKey = true,
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
     };
 });
 
 builder.Services.AddSwaggerGen(c =>
 {
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "GoPass API", Version = "v1" });
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Introduce el token JWT en el formato: Bearer {tu token}"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
     var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
+});
+
+var allowedOrigin = builder.Configuration.GetValue<string>("AllowedOrigins")!;
+builder.Services.AddCors(opciones =>
+{
+    opciones.AddDefaultPolicy(configuracion =>
+    {
+        configuracion.WithOrigins(allowedOrigin).AllowAnyHeader().AllowAnyMethod();
+    });
+
+    opciones.AddPolicy("free", configuracion =>
+    {
+        configuracion.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
 });
 
 #region Services
