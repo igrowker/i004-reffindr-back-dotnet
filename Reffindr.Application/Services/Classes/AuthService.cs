@@ -5,6 +5,7 @@ using Reffindr.Domain.Models.UserModels;
 using Reffindr.Infrastructure.UnitOfWork;
 using Reffindr.Shared.DTOs.Request.Auth;
 using Reffindr.Shared.DTOs.Response.Auth;
+using System.Security.Claims;
 
 namespace Reffindr.Application.Services.Classes;
 
@@ -54,5 +55,11 @@ public class AuthService : IAuthService
         UserLoginResponseDto loggedUserResponse = userDataFromDb.ToLoginResponseDto(token);
 
         return loggedUserResponse;
+    }
+    public int GetUserId(ClaimsPrincipal user)
+    {
+        string userId =  user?.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
+        int userIdParsed = int.Parse(userId);
+        return userIdParsed;
     }
 }

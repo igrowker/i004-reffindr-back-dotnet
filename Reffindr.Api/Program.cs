@@ -6,6 +6,7 @@ using Reffindr.Api.Middleware;
 using Reffindr.Application.Services.Classes;
 using Reffindr.Application.Services.Interfaces;
 using Reffindr.Infrastructure.Data;
+using Reffindr.Infrastructure.Extensions.Claims.ServiceWrapper;
 using Reffindr.Infrastructure.Repositories.Classes;
 using Reffindr.Infrastructure.Repositories.Interfaces;
 using Reffindr.Infrastructure.UnitOfWork;
@@ -91,10 +92,17 @@ builder.Services.AddCors(opciones =>
     });
 });
 
+builder.Services.AddHttpContextAccessor();
+
 #region Services
+
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IPropertiesService, PropertiesService>();
+builder.Services.AddScoped<IUserContext, UserContext>();
+
+
 #endregion Services
 
 #region Repositories

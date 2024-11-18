@@ -32,6 +32,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
 
     public async Task<T> Create(T model, CancellationToken cancellationToken)
     {
+        model.CreatedAt = DateTime.UtcNow;
         await _dbSet.AddAsync(model, cancellationToken);
         return model;
     }

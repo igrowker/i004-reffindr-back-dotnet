@@ -1,8 +1,6 @@
 ﻿using Reffindr.Domain.Models.UserModels;
 using Reffindr.Shared.DTOs.Request.Auth;
-using Reffindr.Shared.DTOs.Request.Property;
 using Reffindr.Shared.DTOs.Response.Auth;
-using Property = Reffindr.Domain.Models.Property;
 
 namespace Reffindr.Application.Utilities.Mappers;
 
@@ -28,20 +26,7 @@ public static class AuthMappers
             Password = userLoginRequestDto.Password,
         };
     }
-    public static Property ToModel(this PropertyPostRequestDto propertyPostRequestDto)
-    {
-        return new Property
-        {
-            OwnerId = propertyPostRequestDto.OwnerId,
-            TenantId = propertyPostRequestDto.TenantId,
-            RequirementId = propertyPostRequestDto.RequirementId,
-            CountryId = propertyPostRequestDto.CountryId,
-            StateId = propertyPostRequestDto.StateId,
-            Title = propertyPostRequestDto.Title,
-            Address = propertyPostRequestDto.Address,
-            Description = propertyPostRequestDto.Description,
-        };
-    }
+    
 
     public static UserLoginResponseDto ToLoginResponseDto(this User user, string token)
     {

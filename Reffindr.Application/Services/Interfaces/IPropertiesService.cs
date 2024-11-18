@@ -1,5 +1,6 @@
 ﻿using Reffindr.Shared.DTOs.Request.Property;
 using Reffindr.Shared.DTOs.Response.Property;
+using System.Security.Claims;
 
 namespace Reffindr.Application.Services.Interfaces;
 
