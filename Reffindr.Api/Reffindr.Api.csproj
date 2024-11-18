@@ -25,4 +25,8 @@
     <ProjectReference Include="..\Reffindr.Application\Reffindr.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+
 </Project>

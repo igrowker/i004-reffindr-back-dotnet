@@ -91,10 +91,15 @@ builder.Services.AddCors(opciones =>
     });
 });
 
+builder.Services.AddHttpContextAccessor();
+
 #region Services
+
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IPropertiesService, PropertiesService>();
+
 #endregion Services
 
 #region Repositories

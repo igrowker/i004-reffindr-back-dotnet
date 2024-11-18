@@ -1,11 +1,6 @@
-﻿using Reffindr.Domain.Models;
-using Reffindr.Domain.Models.UserModels;
+﻿using Reffindr.Domain.Models.UserModels;
 using Reffindr.Shared.DTOs.Request.Auth;
-using Reffindr.Shared.DTOs.Request.Property;
-using Reffindr.Shared.DTOs.Request.Requirement;
 using Reffindr.Shared.DTOs.Response.Auth;
-using Reffindr.Shared.DTOs.Response.Property;
-using Property = Reffindr.Domain.Models.Property;
 
 namespace Reffindr.Application.Utilities.Mappers;
 
@@ -31,35 +26,7 @@ public static class AuthMappers
             Password = userLoginRequestDto.Password,
         };
     }
-    public static Property ToModel(this PropertyPostRequestDto propertyPostRequestDto)
-    {
-        return new Property
-        {
-            CountryId = propertyPostRequestDto.CountryId,
-            StateId = propertyPostRequestDto.StateId,
-            Title = propertyPostRequestDto.Title,
-            Address = propertyPostRequestDto.Address,
-            Description = propertyPostRequestDto.Description,
-            //Requirement = propertyPostRequestDto.RequirementPostRequestDto.Select(r => new Requirement
-            //{
-
-            //}).Tolist()
-        };
-    }
-    //public static PropertyPostResponseDto ToResponse(this Property property )
-    //{
-    //    return new PropertyPostResponseDto
-    //    {
-    //        OwnerId = propertyPostRequestDto.OwnerId,
-    //        TenantId = propertyPostRequestDto.TenantId,
-    //        RequirementId = propertyPostRequestDto.RequirementId,
-    //        CountryId = propertyPostRequestDto.CountryId,
-    //        StateId = propertyPostRequestDto.StateId,
-    //        Title = propertyPostRequestDto.Title,
-    //        Address = propertyPostRequestDto.Address,
-    //        Description = propertyPostRequestDto.Description,
-    //    };
-    //}
+    
 
     public static UserLoginResponseDto ToLoginResponseDto(this User user, string token)
     {
