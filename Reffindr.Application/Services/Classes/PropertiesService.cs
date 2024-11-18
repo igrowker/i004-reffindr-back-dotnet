@@ -26,7 +26,7 @@ public class PropertiesService : IPropertiesService
         Property registeredProperty = await _unitOfWork.PropertiesRepository.Create(propertyToRegister, cancellationToken);
         await _unitOfWork.Complete(cancellationToken);
 
-        //PropertyPostResponseDto propertyPostResponseDto = registeredProperty
+        //PropertyPostResponseDto propertyPostResponseDto = registeredProperty.ToResponse();
 
         return new PropertyPostResponseDto { };
     }
