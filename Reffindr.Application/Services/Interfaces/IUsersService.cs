@@ -1,4 +1,5 @@
-﻿namespace Reffindr.Application.Services.Interfaces;
+﻿
+namespace Reffindr.Application.Services.Interfaces;
 
 public interface IUsersService
 {

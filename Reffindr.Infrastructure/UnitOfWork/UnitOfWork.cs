@@ -9,20 +9,22 @@ public class UnitOfWork : IUnitOfWork
 {
     private readonly ApplicationDbContext _dbContext;
 
-    public IUsersRepository UsersRepository { get; }
-
     public IAuthRepository AuthRepository { get; }
+    public IUsersRepository UsersRepository { get; }
+    public IPropertiesRepository PropertiesRepository { get; }
 
     public UnitOfWork
         (
             ApplicationDbContext dbContext,
+            IAuthRepository authRepository,
             IUsersRepository usersRepository,
-            IAuthRepository authRepository
+            IPropertiesRepository propertiesRepository
         )
     {
         _dbContext = dbContext;
-        UsersRepository = usersRepository;
         AuthRepository = authRepository;
+        UsersRepository = usersRepository;
+        PropertiesRepository = propertiesRepository;
     }
     public async Task<int> Complete(CancellationToken cancellationToken)
     {

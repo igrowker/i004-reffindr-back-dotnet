@@ -7,6 +7,7 @@ public interface IUnitOfWork
 {
     IUsersRepository UsersRepository { get; }
     IAuthRepository AuthRepository { get; }
+    IPropertiesRepository PropertiesRepository { get; }
 
     Task<int> Complete(CancellationToken cancellationToken);
     void Dispose();
