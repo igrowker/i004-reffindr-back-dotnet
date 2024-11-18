@@ -30,10 +30,14 @@ public class PropertiesService : IPropertiesService
 
     public async Task<PropertyPostResponseDto> PostPropertyAsync(PropertyPostRequestDto propertyPostRequestDto, CancellationToken cancellationToken)
     {
+        var userId = _userContext.GetUserId();
 
-        Property propertyToRegister = propertyPostRequestDto.ToModel();
-        propertyToRegister.TenantId = _userContext.GetUserId(); 
-        Property registeredProperty = await _unitOfWork.PropertiesRepository.Create(propertyToRegister, cancellationToken);
+        Property propertyToCreate = propertyPostRequestDto.ToModel();
+        propertyToCreate.TenantId = int.Parse(userId!);
+        propertyToCreate.IsDeleted = true;
+
+        Property registeredProperty = await _unitOfWork.PropertiesRepository.Create(propertyToCreate, cancellationToken);
+
         await _unitOfWork.Complete(cancellationToken);
 
         //PropertyPostResponseDto propertyPostResponseDto = registeredProperty.ToResponse();
