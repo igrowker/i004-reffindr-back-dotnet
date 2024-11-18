@@ -46,7 +46,7 @@ builder.Services.AddAuthentication(config =>
 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "GoPass API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Reffindr API", Version = "v1" });
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
@@ -100,6 +100,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 #region Repositories
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+builder.Services.AddScoped<IPropertiesRepository, PropertiesRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 #endregion Repositories
