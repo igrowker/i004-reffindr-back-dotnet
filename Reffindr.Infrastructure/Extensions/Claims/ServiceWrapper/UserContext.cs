@@ -12,9 +12,9 @@ public class UserContext : IUserContext
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public string? GetUserId()
+    public int GetUserId()
     {
-        var user = _httpContextAccessor.HttpContext?.User;
-        return user?.GetUserId();
+        ClaimsPrincipal user = _httpContextAccessor.HttpContext?.User!;
+        return user!.GetUserIdByClaim();
     }
 }
