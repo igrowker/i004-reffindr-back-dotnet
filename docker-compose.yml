@@ -1,0 +1,9 @@
+services:
+  reffindr.api:
+    image: ${DOCKER_REGISTRY-}reffindrapi
+    build:
+      context: .
+      dockerfile: Reffindr.Api/Dockerfile
+    ports:
+      - "5296:8080"
+      - "7220:8081"
