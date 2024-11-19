@@ -46,7 +46,7 @@ public class ExceptionMiddleware
                 break;
             default:
                 statusCode = HttpStatusCode.InternalServerError;
-                message = "Internal server error. Please retry later.";
+                message = "Internal server error. " + exception.Message;
                 break;
         }
 
