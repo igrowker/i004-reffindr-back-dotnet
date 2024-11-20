@@ -5,13 +5,13 @@ VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reffindr.Api", "Reffindr.Api\Reffindr.Api.csproj", "{79BC8B8E-733C-4046-8A06-362DD84E4104}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reffindr.Application", "Reffindr.Application\Reffindr.Application.csproj", "{78903407-713E-4334-ADEF-4426C60B9204}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reffindr.Application", "Reffindr.Application\Reffindr.Application.csproj", "{78903407-713E-4334-ADEF-4426C60B9204}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reffindr.Domain", "Reffindr.Domain\Reffindr.Domain.csproj", "{81E05C00-ACE9-4440-A036-A6E4B0612B9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reffindr.Domain", "Reffindr.Domain\Reffindr.Domain.csproj", "{81E05C00-ACE9-4440-A036-A6E4B0612B9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reffindr.Infrastructure", "Reffindr.Infrastructure\Reffindr.Infrastructure.csproj", "{E4BC4A8C-2706-47A7-BF49-E32B19C2C8AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reffindr.Infrastructure", "Reffindr.Infrastructure\Reffindr.Infrastructure.csproj", "{E4BC4A8C-2706-47A7-BF49-E32B19C2C8AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reffindr.Shared", "Reffindr.Shared\Reffindr.Shared.csproj", "{3DE44CD1-E7DA-419D-A3F7-F40A4862E2FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reffindr.Shared", "Reffindr.Shared\Reffindr.Shared.csproj", "{3DE44CD1-E7DA-419D-A3F7-F40A4862E2FE}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{540C15B6-8D8A-45A5-9CDD-A6756B730F1D}"
 EndProject
@@ -42,7 +42,6 @@ Global
 		{3DE44CD1-E7DA-419D-A3F7-F40A4862E2FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DE44CD1-E7DA-419D-A3F7-F40A4862E2FE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{540C15B6-8D8A-45A5-9CDD-A6756B730F1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{540C15B6-8D8A-45A5-9CDD-A6756B730F1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{540C15B6-8D8A-45A5-9CDD-A6756B730F1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{540C15B6-8D8A-45A5-9CDD-A6756B730F1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
