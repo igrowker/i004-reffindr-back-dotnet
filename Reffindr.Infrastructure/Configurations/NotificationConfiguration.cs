@@ -10,9 +10,9 @@ namespace Reffindr.Infrastructure.Configurations
         {
             builder.HasKey(x => x.Id);
 
-            builder.HasOne(x => x.User)
+            builder.HasOne(x => x.UserReceiving)
                 .WithMany(x => x.Notifications)
-                .HasForeignKey(x => x.UserId);
+                .HasForeignKey(x => x.UserReceivingId);
         }
 
         protected override void ConfigurateProperties(EntityTypeBuilder<Notification> builder)

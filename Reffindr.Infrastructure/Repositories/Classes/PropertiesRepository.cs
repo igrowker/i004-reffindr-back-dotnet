@@ -10,4 +10,5 @@ public class PropertiesRepository : GenericRepository<Property> , IPropertiesRep
     {
         
     }
+
 }

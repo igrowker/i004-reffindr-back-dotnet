@@ -31,7 +31,7 @@ namespace Reffindr.Application.Services.Classes
                 return Result<List<ApplicationGetResponseDto>>.Failure("No tienes permisos para ver las aplicaciones de otro usuario.");
             }
 
-            List<Domain.Models.ApplicationModel> applications = await _unitOfWork.ApplicationRepository.GetApplicationsByUserIdAsync(userId);
+            List<ApplicationModel> applications = await _unitOfWork.ApplicationRepository.GetApplicationsByUserIdAsync(userId);
 
             if (applications == null || !applications.Any())
             {

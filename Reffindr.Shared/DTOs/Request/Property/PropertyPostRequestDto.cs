@@ -9,6 +9,7 @@ public class PropertyPostRequestDto
     public string Title { get; set; } = default!;
     public string Address { get; set; } = default!;
     public string Description { get; set; } = default!;
+    public string Email { get; set; }= default!;
 
     public virtual RequirementPostRequestDto? RequirementPostRequestDto { get; set; }
 }
