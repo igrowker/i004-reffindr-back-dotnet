@@ -4,6 +4,10 @@ using Reffindr.Infrastructure.UnitOfWork;
 using Reffindr.Shared.DTOs.Response.Application;
 using Reffindr.Shared.Result;
 using Reffindr.Domain.Models;
+using Reffindr.Shared.DTOs.Request.Application;
+using System.Transactions;
+using Microsoft.EntityFrameworkCore.Storage;
+using Reffindr.Application.Utilities.Mappers;
 
 namespace Reffindr.Application.Services.Classes
 {
@@ -27,7 +31,7 @@ namespace Reffindr.Application.Services.Classes
                 return Result<List<ApplicationGetResponseDto>>.Failure("No tienes permisos para ver las aplicaciones de otro usuario.");
             }
 
-            List<Domain.Models.Application> applications = await _unitOfWork.ApplicationRepository.GetApplicationsByUserIdAsync(userId);
+            List<Domain.Models.ApplicationModel> applications = await _unitOfWork.ApplicationRepository.GetApplicationsByUserIdAsync(userId);
 
             if (applications == null || !applications.Any())
             {
@@ -46,6 +50,32 @@ namespace Reffindr.Application.Services.Classes
             }).ToList();
 
             return Result<List<ApplicationGetResponseDto>>.Success(applicationDtos);
+        }
+
+        public async Task<ApplicationPostResponseDto> PostApplicationAsync(ApplicationPostRequestDto applicationPostRequestDto, CancellationToken cancellationToken)
+        {
+            using IDbContextTransaction transaction = await _unitOfWork.BeginTransaction(cancellationToken); 
+
+            int userAuthenticated = _userContext.GetUserId();
+
+            ApplicationModel applicationToCreate = applicationPostRequestDto.ToModel();
+            applicationToCreate.UserId = userAuthenticated;
+            applicationToCreate.Status = "Pending";
+
+            ApplicationModel applicationCreated = await _unitOfWork.ApplicationRepository.Create(applicationToCreate, cancellationToken);
+            ApplicationPostResponseDto applicationResponse = applicationCreated.ToResponse();
+
+            Candidate candidateToCreate = new()
+            {
+                Application = applicationToCreate,
+                SelectedByTenant = false
+            };
+            await _unitOfWork.CandidateRepository.Create(candidateToCreate, cancellationToken);
+
+            await _unitOfWork.Complete(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+
+            return applicationResponse;
         }
     }
 }
