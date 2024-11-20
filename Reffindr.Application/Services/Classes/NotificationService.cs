@@ -20,7 +20,7 @@ namespace Reffindr.Application.Services.Classes
 		public async Task AddNotificationToUser(string userRecievingEmail, NotificationType Type, CancellationToken cancellationToken)
 		{
 			int userSenderId = _userContext.GetUserId();
-			var userRecievingId= await _unitOfWork.UsersRepository.GetUserbyEmail(userRecievingEmail);
+			var userRecievingId = await _unitOfWork.UsersRepository.GetUserbyEmail(userRecievingEmail);
 	
 
 			Notification notification = new Notification()
