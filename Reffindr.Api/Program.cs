@@ -14,8 +14,9 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddUserSecrets<Program>();
 
-var connectionStrings = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionStrings = builder.Configuration["DefaultConnection"];
 #region Services Area
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
