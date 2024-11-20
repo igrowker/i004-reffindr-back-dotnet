@@ -14,8 +14,8 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddUserSecrets<Program>();
 
-var connectionStrings = builder.Configuration.GetConnectionString("DefaultConnection");
 #region Services Area
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
@@ -23,7 +23,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseNpgsql(connectionStrings);
+    options.UseNpgsql(builder.Configuration["DefaultConnection"]);
 });
 
 builder.Services.AddAuthentication(config =>
