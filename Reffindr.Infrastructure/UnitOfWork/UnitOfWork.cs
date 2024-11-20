@@ -12,19 +12,21 @@ public class UnitOfWork : IUnitOfWork
     public IAuthRepository AuthRepository { get; }
     public IUsersRepository UsersRepository { get; }
     public IPropertiesRepository PropertiesRepository { get; }
-
+    public IApplicationRepository ApplicationRepository { get; }
     public UnitOfWork
         (
             ApplicationDbContext dbContext,
             IAuthRepository authRepository,
             IUsersRepository usersRepository,
-            IPropertiesRepository propertiesRepository
+            IPropertiesRepository propertiesRepository,
+            IApplicationRepository applicationRepository
         )
     {
         _dbContext = dbContext;
         AuthRepository = authRepository;
         UsersRepository = usersRepository;
         PropertiesRepository = propertiesRepository;
+        ApplicationRepository = applicationRepository;
     }
     public async Task<int> Complete(CancellationToken cancellationToken)
     {

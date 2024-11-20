@@ -8,7 +8,7 @@ public interface IUnitOfWork
     IUsersRepository UsersRepository { get; }
     IAuthRepository AuthRepository { get; }
     IPropertiesRepository PropertiesRepository { get; }
-
+    IApplicationRepository ApplicationRepository { get; }
     Task<int> Complete(CancellationToken cancellationToken);
     void Dispose();
     Task<IDbContextTransaction> BeginTransaction(CancellationToken cancellationToken);

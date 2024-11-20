@@ -138,3 +138,5 @@ $RECYCLE.BIN/
 
 _NCrunch*
 /src/.vs
+/Reffindr.Api/appsettings.json
+/Reffindr.Api/appsettings.json
