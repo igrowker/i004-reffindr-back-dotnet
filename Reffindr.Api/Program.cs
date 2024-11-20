@@ -14,16 +14,16 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddUserSecrets<Program>();
+//builder.Configuration.AddUserSecrets<Program>();
 
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
 #region Services Area
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 
-
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration["DefaultConnection"]);
+    options.UseNpgsql(connectionString);
 });
 
 builder.Services.AddAuthentication(config =>
