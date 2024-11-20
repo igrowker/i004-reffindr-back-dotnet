@@ -10,6 +10,7 @@ namespace Reffindr.Shared.Enum
 	{
 		Application,
 		Selection,
-		Rating
+		Rating,
+		PropertyPost
 	}
 }
