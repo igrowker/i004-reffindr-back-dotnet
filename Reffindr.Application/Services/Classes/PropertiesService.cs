@@ -5,6 +5,7 @@ using Reffindr.Infrastructure.Extensions.Claims.ServiceWrapper;
 using Reffindr.Infrastructure.UnitOfWork;
 using Reffindr.Shared.DTOs.Request.Property;
 using Reffindr.Shared.DTOs.Response.Property;
+using Reffindr.Shared.Enum;
 
 
 namespace Reffindr.Application.Services.Classes;
@@ -39,9 +40,10 @@ public class PropertiesService : IPropertiesService
         propertyToCreate.TenantId = userId;
         propertyToCreate.IsDeleted = true;
 
-        Property registeredProperty = await _unitOfWork.PropertiesRepository.Create(propertyToCreate, cancellationToken);
 
-        await _NotifService.AddNotificationToUser(registeredProperty, userId);
+		Property registeredProperty = await _unitOfWork.PropertiesRepository.Create(propertyToCreate, cancellationToken);
+
+        await _NotifService.AddNotificationToUser(registeredProperty.OwnerId, userId, NotificationType.Application);
 
 		await _unitOfWork.Complete(cancellationToken);
 

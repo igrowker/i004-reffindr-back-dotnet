@@ -1,5 +1,6 @@
 ﻿using Reffindr.Domain.Models;
 using Reffindr.Domain.Models.UserModels;
+using Reffindr.Shared.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,6 @@ namespace Reffindr.Application.Services.Interfaces
 {
 	public interface INotificationService
 	{
-		Task SendNotificationAsync(Notification notification);
-
-		Task AddNotificationToUser(Property property, int userSenderId);
+		Task AddNotificationToUser(int userReceiving, int userSenderId, NotificationType status, CancellationToken cancellationToken);
 	}
 }
