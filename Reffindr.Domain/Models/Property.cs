@@ -2,7 +2,7 @@
 
 public class Property : BaseModel
 {
-	public int? OwnerId { get; set; }
+	public int OwnerId { get; set; }
     public int TenantId { get; set; }
 	public int? RequirementId { get; set; }
 	public int CountryId { get; set; }

@@ -14,18 +14,21 @@ public class PropertiesService : IPropertiesService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IAuthService _authService;
     private readonly IUserContext _userContext;
+    private readonly INotificationService _NotifService;
 
     public PropertiesService
         (
              IUnitOfWork unitOfWork,
              IAuthService authService,
-             IUserContext userContext
+             IUserContext userContext,
+			 INotificationService notifService
 
-        )
+		)
     {
         _unitOfWork = unitOfWork;
         _authService = authService;
         _userContext = userContext;
+		_NotifService = notifService;
     }
 
     public async Task<PropertyPostResponseDto> PostPropertyAsync(PropertyPostRequestDto propertyPostRequestDto, CancellationToken cancellationToken)
@@ -38,7 +41,9 @@ public class PropertiesService : IPropertiesService
 
         Property registeredProperty = await _unitOfWork.PropertiesRepository.Create(propertyToCreate, cancellationToken);
 
-        await _unitOfWork.Complete(cancellationToken);
+        await _NotifService.AddNotificationToUser(registeredProperty, int.Parse(userId!));
+
+		await _unitOfWork.Complete(cancellationToken);
 
         //PropertyPostResponseDto propertyPostResponseDto = registeredProperty.ToResponse();
 

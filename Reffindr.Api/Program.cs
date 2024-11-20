@@ -101,6 +101,7 @@ builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IPropertiesService, PropertiesService>();
 builder.Services.AddScoped<IUserContext, UserContext>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 
 #endregion Services
