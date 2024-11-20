@@ -16,7 +16,7 @@ public class Property : BaseModel
 	public virtual Requirement? Requirement { get; set; }
 	public virtual Country? Country { get; set; }
 	public virtual State? State { get; set; }
-	public virtual List<Application>? Application { get; set; }
+	public virtual List<ApplicationModel>? Application { get; set; }
 
 	#endregion Navigation Properties
 }

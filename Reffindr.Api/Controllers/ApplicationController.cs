@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Reffindr.Application.Services.Interfaces;
+using Reffindr.Shared.DTOs.Request.Application;
+using Reffindr.Shared.DTOs.Response.Application;
 
 namespace Reffindr.Api.Controllers
 {
@@ -27,6 +29,14 @@ namespace Reffindr.Api.Controllers
             }
 
             return Ok(result.Value);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostApplication(ApplicationPostRequestDto applicationPostRequestDto, CancellationToken cancellationToken)
+        {
+            ApplicationPostResponseDto applicationResponse = await _applicationService.PostApplicationAsync(applicationPostRequestDto, cancellationToken);
+
+            return Ok(applicationResponse);
         }
     }
 }
