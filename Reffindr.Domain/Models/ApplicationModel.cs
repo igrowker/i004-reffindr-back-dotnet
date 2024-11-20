@@ -2,7 +2,7 @@
 
 namespace Reffindr.Domain.Models;
 
-public class Application : BaseModel
+public class ApplicationModel : BaseModel
 {
     public int PropertyId { get; set; }
     public int UserId { get; set; }

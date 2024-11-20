@@ -25,7 +25,7 @@ public class User : BaseModel
     public virtual Role? Role { get; set; }
     public virtual Country? Country { get; set; }
     public virtual State? State { get; set; }
-    public virtual List<Application>? Applications { get; set; }
+    public virtual List<ApplicationModel>? Applications { get; set; }
     public virtual UserOwnerInfo? UserOwnerInfo { get; set; }
     public virtual UserTenantInfo? UserTenantInfo { get; set; }
     public virtual List<Notification>? Notifications { get; set; }

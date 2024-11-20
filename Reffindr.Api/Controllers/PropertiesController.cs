@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Reffindr.Application.Services.Classes;
 using Reffindr.Application.Services.Interfaces;
-using Reffindr.Shared.DTOs.Request.Auth;
 using Reffindr.Shared.DTOs.Request.Property;
-using Reffindr.Shared.DTOs.Response.Auth;
 using Reffindr.Shared.DTOs.Response.Property;
-using System.Security.Claims;
 
 namespace Reffindr.Api.Controllers;
 
@@ -15,16 +11,13 @@ namespace Reffindr.Api.Controllers;
 public class PropertiesController : ControllerBase
 {
     private readonly IPropertiesService _propertiesService;
-    private readonly IUsersService _usersService;
 
     public PropertiesController
         (
-            IPropertiesService propertiesService,
-            IUsersService usersService
+            IPropertiesService propertiesService
         ) 
     {
         _propertiesService = propertiesService;
-        _usersService = usersService;
     }
         
     [Authorize]

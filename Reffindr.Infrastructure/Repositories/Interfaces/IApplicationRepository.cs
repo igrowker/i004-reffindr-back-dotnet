@@ -2,8 +2,8 @@
 
 namespace Reffindr.Infrastructure.Repositories.Interfaces
 {
-    public interface IApplicationRepository : IGenericRepository<Application>
+    public interface IApplicationRepository : IGenericRepository<ApplicationModel>
     {
-        Task<List<Application>> GetApplicationsByUserIdAsync(int userId);
+        Task<List<ApplicationModel>> GetApplicationsByUserIdAsync(int userId);
     }
 }
