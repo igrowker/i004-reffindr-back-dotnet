@@ -10,8 +10,8 @@ namespace Reffindr.Application.Services.Interfaces
 {
 	public interface INotificationService
 	{
-		Task SendNotificationAsync(Notification notification); //Envia Email
+		Task SendNotificationAsync(Notification notification);
 
-		Task AddNotificationToUser(Property property, int userSenderId);  // guarda una notificacion en un usuario
+		Task AddNotificationToUser(Property property, int userSenderId);
 	}
 }

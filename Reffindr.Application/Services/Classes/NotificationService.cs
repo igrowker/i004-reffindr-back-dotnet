@@ -21,7 +21,7 @@ namespace Reffindr.Application.Services.Classes
 			{
 				UserReceivingId = property.OwnerId,
 				Message ="Su propiedad fue publicada",
-				Type = "PENDING",
+				Type = "Application",
 				Read =false,
 				UserSenderId = UserSenderId
 			};

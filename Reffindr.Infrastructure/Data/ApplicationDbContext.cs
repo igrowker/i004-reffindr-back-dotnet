@@ -18,6 +18,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Requirement> Requirements { get; set; }
     public DbSet<Country> Country { get; set; }
     public DbSet<State> States { get; set; }
+    public DbSet<Notification> Notification { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
