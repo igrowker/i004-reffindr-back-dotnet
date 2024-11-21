@@ -14,6 +14,15 @@ public class PropertiesRepository : GenericRepository<Property>, IPropertiesRepo
         _userTenantInfoRepository = userTenantInfoRepository;
     }
 
+    public async Task<Property?> GetByIdWithRequirementsAsync(int propertyId)
+    {
+        Property? property = await _dbSet
+            .Include(p => p.Requirement)
+            .FirstOrDefaultAsync(p => p.Id == propertyId && !p.IsDeleted);
+
+        return property;
+    }
+
     public async Task<IEnumerable<Property>> GetPropertiesAsync(PropertyFilterDto filter, int userId)
     {
         var query = _dbSet
