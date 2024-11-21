@@ -11,6 +11,7 @@ public interface IUnitOfWork
 	IApplicationRepository ApplicationRepository { get; }
 	ICandidateRepository CandidateRepository { get; }
 	INotificationRepository NotificationRepository { get; }
+	IUserTenantInfoRepository UserTenantInfoRepository { get; }
 	Task<int> Complete(CancellationToken cancellationToken);
 	void Dispose();
 	Task<IDbContextTransaction> BeginTransaction(CancellationToken cancellationToken);
