@@ -24,18 +24,18 @@ namespace Reffindr.Application.Services.Classes
 
         public async Task<Result<List<ApplicationGetResponseDto>>> GetApplicationsByUserIdAsync(int userId)
         {
-            int userAutenticado = _userContext.GetUserId();
+            int userCurrentId = _userContext.GetUserId();
 
-            if (userId != userAutenticado)
+            if (userId != userCurrentId)
             {
-                return Result<List<ApplicationGetResponseDto>>.Failure("No tienes permisos para ver las aplicaciones de otro usuario.");
+                return Result<List<ApplicationGetResponseDto>>.Failure("You don't have permissions to view another user's applications.");
             }
 
             List<ApplicationModel> applications = await _unitOfWork.ApplicationRepository.GetApplicationsByUserIdAsync(userId);
 
-            if (applications == null || !applications.Any())
+            if (applications == null || applications.Count == 0)
             {
-                return Result<List<ApplicationGetResponseDto>>.Failure("No se encontraron aplicaciones para este usuario.");
+                return Result<List<ApplicationGetResponseDto>>.Failure("No applications found for this user.");
             }
 
             // Mapeo manual
@@ -43,9 +43,9 @@ namespace Reffindr.Application.Services.Classes
             {
                 Id = a.Id,
                 PropertyId = a.PropertyId,
-                PropertyTitle = a.Property?.Title ?? "Sin título",
-                PropertyAddress = a.Property?.Address ?? "Sin dirección",
-                Status = a.Status ?? "Desconocido",
+                PropertyTitle = a.Property?.Title ?? "No title",
+                PropertyAddress = a.Property?.Address ?? "No address",
+                Status = a.Status ?? "Unknown",
                 CreatedAt = a.CreatedAt
             }).ToList();
 
