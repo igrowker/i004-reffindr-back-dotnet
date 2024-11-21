@@ -1,11 +1,10 @@
-﻿using FluentValidation;
+﻿using Reffindr.Application.Services.Validations.Interfaces;
 using Reffindr.Infrastructure.Extensions.Claims.ServiceWrapper;
 using Reffindr.Infrastructure.UnitOfWork;
-using Reffindr.Shared.DTOs.Request.Application;
 
 namespace Reffindr.Application.Services.Validations.Classes
 {
-    public class ApplicationValidationService : AbstractValidator<ApplicationPostRequestDto>
+    public class ApplicationValidationService : IApplicationValidationService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserContext _userContext;
@@ -14,36 +13,32 @@ namespace Reffindr.Application.Services.Validations.Classes
         {
             _unitOfWork = unitOfWork;
             _userContext = userContext;
-
-            RuleFor(a => a.PropertyId)
-                .GreaterThan(0).WithMessage("El ID de la propiedad debe ser mayor que cero.")
-                .MustAsync(PropertyExists).WithMessage("La propiedad especificada no existe.")
-                .DependentRules(() =>
-                {
-                    RuleFor(a => a).MustAsync(UserHasNotApplied).WithMessage("Ya has aplicado a esta propiedad.")
-                                   .MustAsync(UserMeetsRequirements).WithMessage("No cumples con los requisitos de esta propiedad.")
-                                   .MustAsync(UserHasCompleteProfile).WithMessage("Debes completar tu perfil antes de aplicar a una propiedad.")
-                                   .Must(UserIsTenant).WithMessage("Solo los inquilinos pueden aplicar a propiedades.");
-                });
         }
-
-        private async Task<bool> PropertyExists(int propertyId, CancellationToken cancellationToken)
+        public async Task<bool> PropertyExists(int propertyId)
         {
-            var property = await _unitOfWork.PropertiesRepository.GetByIdWithRequirementsAsync(propertyId);
+            var property = await _unitOfWork.PropertiesRepository.GetById(propertyId);
             return property != null && !property.IsDeleted;
         }
 
-        private async Task<bool> UserHasNotApplied(ApplicationPostRequestDto dto, CancellationToken cancellationToken)
+        public async Task<bool> UserHasCompleteProfile()
         {
             int userId = _userContext.GetUserId();
-            return !await _unitOfWork.ApplicationRepository.ExistsAsync(userId, dto.PropertyId);
+            var user = await _unitOfWork.UsersRepository.GetById(userId);
+            return user != null && user.IsProfileComplete;
         }
 
-        private async Task<bool> UserMeetsRequirements(ApplicationPostRequestDto dto, CancellationToken cancellationToken)
+        public async Task<bool> UserHasNotApplied(int propertyId)
+        {
+            int userId = _userContext.GetUserId();
+            return !await _unitOfWork.ApplicationRepository.ExistsAsync(userId, propertyId);
+        }
+
+        // Esta validación es para el caso de que el usuario cumpla con los requisitos de la propiedad
+        public async Task<bool> UserMeetsRequirements(int propertyId)
         {
             int userId = _userContext.GetUserId();
 
-            var property = await _unitOfWork.PropertiesRepository.GetByIdWithRequirementsAsync(dto.PropertyId);
+            var property = await _unitOfWork.PropertiesRepository.GetByIdWithRequirementsAsync(propertyId);
             var tenantInfo = await _unitOfWork.UserTenantInfoRepository.GetById(userId);
 
             if (tenantInfo == null)
@@ -75,19 +70,6 @@ namespace Reffindr.Application.Services.Validations.Classes
             }
 
             return true;
-        }
-
-        private async Task<bool> UserHasCompleteProfile(ApplicationPostRequestDto dto, CancellationToken cancellationToken)
-        {
-            int userId = _userContext.GetUserId();
-            var user = await _unitOfWork.UsersRepository.GetById(userId);
-            return user != null && user.IsProfileComplete;
-        }
-
-        private bool UserIsTenant(ApplicationPostRequestDto dto)
-        {
-            // Aqui definir si guardar el rol en el token o buscarlo en la base de datos
-            return false;
         }
     }
 }

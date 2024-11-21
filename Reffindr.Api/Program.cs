@@ -5,11 +5,14 @@ using Microsoft.OpenApi.Models;
 using Reffindr.Api.Middleware;
 using Reffindr.Application.Services.Classes;
 using Reffindr.Application.Services.Interfaces;
+using Reffindr.Application.Services.Validations.Classes;
+using Reffindr.Application.Services.Validations.Interfaces;
 using Reffindr.Infrastructure.Data;
 using Reffindr.Infrastructure.Extensions.Claims.ServiceWrapper;
 using Reffindr.Infrastructure.Repositories.Classes;
 using Reffindr.Infrastructure.Repositories.Interfaces;
 using Reffindr.Infrastructure.UnitOfWork;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,7 +44,8 @@ builder.Services.AddAuthentication(config =>
         ValidateIssuerSigningKey = true,
         ValidAudience = builder.Configuration["Jwt:Audience"],
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)),
+        RoleClaimType = ClaimTypes.Role
     };
 });
 
@@ -103,6 +107,7 @@ builder.Services.AddScoped<IPropertiesService, PropertiesService>();
 builder.Services.AddScoped<IApplicationService, ApplicationService>();
 builder.Services.AddScoped<IUserContext, UserContext>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IApplicationValidationService, ApplicationValidationService>();
 
 #endregion Services
 

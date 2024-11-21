@@ -3,5 +3,6 @@
     public interface IUserContext
     {
         int GetUserId();
+        int GetRoleId();
     }
 }
