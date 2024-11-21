@@ -10,10 +10,11 @@ public class Property : BaseModel
     public string Title { get; set; } = default!;
 	public string Address { get; set; } = default!;
 	public string Description { get; set; } = default!;
+    public decimal Price { get; set; }
 
-	#region Navigation Properties
+    #region Navigation Properties
 
-	public virtual Requirement? Requirement { get; set; }
+    public virtual Requirement? Requirement { get; set; }
 	public virtual Country? Country { get; set; }
 	public virtual State? State { get; set; }
 	public virtual List<ApplicationModel>? Application { get; set; }

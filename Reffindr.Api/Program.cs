@@ -14,7 +14,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddUserSecrets<Program>();
+var connectionStrings = builder.Configuration.GetConnectionString("DefaultConnection");
 
 #region Services Area
 builder.Services.AddEndpointsApiExplorer();
@@ -23,7 +23,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration["DefaultConnection"]);
+    options.UseNpgsql(connectionStrings);
 });
 
 builder.Services.AddAuthentication(config =>
@@ -114,6 +114,8 @@ builder.Services.AddScoped<IApplicationRepository, ApplicationRepository>();
 builder.Services.AddScoped<ICandidateRepository, CandidateRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IUserTenantInfoRepository, UserTenantInfoRepository>();
+
 
 #endregion Repositories
 
