@@ -330,24 +330,15 @@ namespace Reffindr.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Countries",
                 columns: new[] { "Id", "CountryName", "CreatedAt", "IsDeleted", "UpdatedAt" },
-<<<<<<<< HEAD:Reffindr.Infrastructure/Migrations/20241120225513_Initial.cs
-                values: new object[] { 1, "Argentina", new DateTime(2024, 11, 20, 22, 55, 13, 367, DateTimeKind.Utc).AddTicks(1164), false, null });
-========
-                values: new object[] { 1, "Argentina", new DateTime(2024, 11, 20, 23, 11, 17, 878, DateTimeKind.Utc).AddTicks(3946), false, null });
->>>>>>>> develop:Reffindr.Infrastructure/Migrations/20241120231118_Initial.cs
+                values: new object[] { 1, "Argentina", new DateTime(2024, 11, 21, 15, 48, 21, 96, DateTimeKind.Utc).AddTicks(3553), false, null });
 
             migrationBuilder.InsertData(
                 table: "Roles",
                 columns: new[] { "Id", "CreatedAt", "IsDeleted", "RoleName", "UpdatedAt" },
                 values: new object[,]
                 {
-<<<<<<<< HEAD:Reffindr.Infrastructure/Migrations/20241120225513_Initial.cs
-                    { 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(4445), false, "Tenant", null },
-                    { 2, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(4448), false, "Owner", null }
-========
-                    { 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(5127), false, "Tenant", null },
-                    { 2, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(5130), false, "Owner", null }
->>>>>>>> develop:Reffindr.Infrastructure/Migrations/20241120231118_Initial.cs
+                    { 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(689), false, "Tenant", null },
+                    { 2, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(692), false, "Owner", null }
                 });
 
             migrationBuilder.InsertData(
@@ -355,57 +346,30 @@ namespace Reffindr.Infrastructure.Migrations
                 columns: new[] { "Id", "CountryId", "CreatedAt", "IsDeleted", "StateName", "UpdatedAt" },
                 values: new object[,]
                 {
-<<<<<<<< HEAD:Reffindr.Infrastructure/Migrations/20241120225513_Initial.cs
-                    { 1, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9511), false, "Buenos Aires", null },
-                    { 2, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9514), false, "Catamarca", null },
-                    { 3, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9515), false, "Chaco", null },
-                    { 4, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9516), false, "Chubut", null },
-                    { 5, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9517), false, "Córdoba", null },
-                    { 6, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9518), false, "Corrientes", null },
-                    { 7, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9520), false, "Entre Ríos", null },
-                    { 8, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9521), false, "Formosa", null },
-                    { 9, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9522), false, "Jujuy", null },
-                    { 10, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9523), false, "La Pampa", null },
-                    { 11, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9524), false, "La Rioja", null },
-                    { 12, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9525), false, "Mendoza", null },
-                    { 13, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9527), false, "Misiones", null },
-                    { 14, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9528), false, "Neuquén", null },
-                    { 15, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9529), false, "Río Negro", null },
-                    { 16, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9530), false, "Salta", null },
-                    { 17, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9531), false, "San Juan", null },
-                    { 18, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9533), false, "San Luis", null },
-                    { 19, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9534), false, "Santa Cruz", null },
-                    { 20, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9535), false, "Santa Fe", null },
-                    { 21, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9536), false, "Santiago del Estero", null },
-                    { 22, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9537), false, "Tierra del Fuego", null },
-                    { 23, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9538), false, "Tucumán", null },
-                    { 24, 1, new DateTime(2024, 11, 20, 22, 55, 13, 371, DateTimeKind.Utc).AddTicks(9540), false, "Ciudad Autónoma de Buenos Aires", null }
-========
-                    { 1, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9810), false, "Buenos Aires", null },
-                    { 2, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9812), false, "Catamarca", null },
-                    { 3, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9814), false, "Chaco", null },
-                    { 4, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9816), false, "Chubut", null },
-                    { 5, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9817), false, "Córdoba", null },
-                    { 6, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9819), false, "Corrientes", null },
-                    { 7, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9821), false, "Entre Ríos", null },
-                    { 8, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9822), false, "Formosa", null },
-                    { 9, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9824), false, "Jujuy", null },
-                    { 10, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9826), false, "La Pampa", null },
-                    { 11, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9827), false, "La Rioja", null },
-                    { 12, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9829), false, "Mendoza", null },
-                    { 13, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9830), false, "Misiones", null },
-                    { 14, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9832), false, "Neuquén", null },
-                    { 15, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9833), false, "Río Negro", null },
-                    { 16, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9835), false, "Salta", null },
-                    { 17, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9837), false, "San Juan", null },
-                    { 18, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9838), false, "San Luis", null },
-                    { 19, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9840), false, "Santa Cruz", null },
-                    { 20, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9841), false, "Santa Fe", null },
-                    { 21, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9843), false, "Santiago del Estero", null },
-                    { 22, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9844), false, "Tierra del Fuego", null },
-                    { 23, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9846), false, "Tucumán", null },
-                    { 24, 1, new DateTime(2024, 11, 20, 23, 11, 17, 883, DateTimeKind.Utc).AddTicks(9847), false, "Ciudad Autónoma de Buenos Aires", null }
->>>>>>>> develop:Reffindr.Infrastructure/Migrations/20241120231118_Initial.cs
+                    { 1, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(4985), false, "Buenos Aires", null },
+                    { 2, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(4987), false, "Catamarca", null },
+                    { 3, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(4988), false, "Chaco", null },
+                    { 4, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(4989), false, "Chubut", null },
+                    { 5, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(4991), false, "Córdoba", null },
+                    { 6, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(4992), false, "Corrientes", null },
+                    { 7, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(4993), false, "Entre Ríos", null },
+                    { 8, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(4994), false, "Formosa", null },
+                    { 9, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(4995), false, "Jujuy", null },
+                    { 10, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(4996), false, "La Pampa", null },
+                    { 11, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(4998), false, "La Rioja", null },
+                    { 12, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(4999), false, "Mendoza", null },
+                    { 13, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(5000), false, "Misiones", null },
+                    { 14, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(5001), false, "Neuquén", null },
+                    { 15, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(5002), false, "Río Negro", null },
+                    { 16, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(5004), false, "Salta", null },
+                    { 17, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(5005), false, "San Juan", null },
+                    { 18, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(5006), false, "San Luis", null },
+                    { 19, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(5007), false, "Santa Cruz", null },
+                    { 20, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(5008), false, "Santa Fe", null },
+                    { 21, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(5009), false, "Santiago del Estero", null },
+                    { 22, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(5011), false, "Tierra del Fuego", null },
+                    { 23, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(5012), false, "Tucumán", null },
+                    { 24, 1, new DateTime(2024, 11, 21, 15, 48, 21, 101, DateTimeKind.Utc).AddTicks(5013), false, "Ciudad Autónoma de Buenos Aires", null }
                 });
 
             migrationBuilder.CreateIndex(
