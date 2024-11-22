@@ -5,6 +5,8 @@ using Microsoft.OpenApi.Models;
 using Reffindr.Api.Middleware;
 using Reffindr.Application.Services.Classes;
 using Reffindr.Application.Services.Interfaces;
+using Reffindr.Application.Services.Validations.Classes;
+using Reffindr.Application.Services.Validations.Interfaces;
 using Reffindr.Infrastructure.Data;
 using Reffindr.Infrastructure.Extensions.Claims.ServiceWrapper;
 using Reffindr.Infrastructure.Repositories.Classes;
@@ -105,6 +107,7 @@ builder.Services.AddScoped<IPropertiesService, PropertiesService>();
 builder.Services.AddScoped<IApplicationService, ApplicationService>();
 builder.Services.AddScoped<IUserContext, UserContext>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IApplicationValidationService, ApplicationValidationService>();
 
 #endregion Services
 
