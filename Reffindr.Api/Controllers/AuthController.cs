@@ -51,4 +51,12 @@ public class AuthController : ControllerBase
         return Ok(userLoginResponseDto);
     }
 
+    [HttpPost]
+    [Route("TestString")]
+    public async Task<IActionResult> GetTestStringAsync(CancellationToken cancellationToken)
+    {
+        await Task.Delay(5, cancellationToken);
+        return Ok("Este es un string de prueba");
+    }
+
 }
