@@ -12,7 +12,7 @@ namespace Reffindr.Application.Services.Classes
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IUserContext _userContext;
 
-		public NotificationService(IUnitOfWork unitOfWork , IUserContext userContext)
+		public NotificationService(IUnitOfWork unitOfWork, IUserContext userContext)
 		{
 			_unitOfWork = unitOfWork;
 			_userContext = userContext;
@@ -21,7 +21,7 @@ namespace Reffindr.Application.Services.Classes
 		{
 			int userSenderId = _userContext.GetUserId();
 			var userRecievingId = await _unitOfWork.UsersRepository.GetUserbyEmail(userRecievingEmail);
-	
+
 
 			Notification notification = new Notification()
 			{
@@ -33,5 +33,15 @@ namespace Reffindr.Application.Services.Classes
 			};
 			await _unitOfWork.NotificationRepository.Create(notification, cancellationToken);
 		}
+
+		public async Task ConfirmPropertyfromNotification(int propertyId)
+		{
+
+			Property? property = await _unitOfWork.PropertiesRepository.GetById(propertyId);
+			property.IsDeleted = false;
+			property.UpdatedAt = DateTime.UtcNow;
+			await _unitOfWork.PropertiesRepository.Update(propertyId, property);
+		}
 	}
+
 }

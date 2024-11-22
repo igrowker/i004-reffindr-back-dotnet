@@ -12,5 +12,6 @@ namespace Reffindr.Application.Services.Interfaces
 	public interface INotificationService
 	{
 		Task AddNotificationToUser(string userReceivingEmail, NotificationType status, CancellationToken cancellationToken);
+		Task ConfirmPropertyfromNotification(int propertyId);
 	}
 }

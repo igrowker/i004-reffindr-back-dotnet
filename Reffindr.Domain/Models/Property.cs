@@ -10,6 +10,7 @@ public class Property : BaseModel
     public string Title { get; set; } = default!;
 	public string Address { get; set; } = default!;
 	public string Description { get; set; } = default!;
+	public bool IsHistoric { get; set; }
 
 	#region Navigation Properties
 
