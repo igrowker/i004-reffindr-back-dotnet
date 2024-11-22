@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Reffindr.Application.Services.Interfaces;
 using Reffindr.Shared.DTOs.Request.Application;
 using Reffindr.Shared.DTOs.Response.Application;
+using Reffindr.Shared.Result;
 
 namespace Reffindr.Api.Controllers
 {
@@ -34,9 +35,15 @@ namespace Reffindr.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> PostApplication(ApplicationPostRequestDto applicationPostRequestDto, CancellationToken cancellationToken)
         {
-            ApplicationPostResponseDto applicationResponse = await _applicationService.PostApplicationAsync(applicationPostRequestDto, cancellationToken);
 
-            return Ok(applicationResponse);
+            Result<ApplicationPostResponseDto> result = await _applicationService.PostApplicationAsync(applicationPostRequestDto, cancellationToken);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(new { Message = result.Error });
+            }
+
+            return Ok(result.Value);
         }
     }
 }

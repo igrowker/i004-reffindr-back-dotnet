@@ -7,6 +7,6 @@ namespace Reffindr.Application.Services.Interfaces
     public interface IApplicationService
     {
         Task<Result<List<ApplicationGetResponseDto>>> GetApplicationsByUserIdAsync(int userId);
-        Task<ApplicationPostResponseDto> PostApplicationAsync(ApplicationPostRequestDto applicationPostRequestDto, CancellationToken cancellationToken);
+        Task<Result<ApplicationPostResponseDto>> PostApplicationAsync(ApplicationPostRequestDto applicationPostRequestDto, CancellationToken cancellationToken);
     }
 }

@@ -17,4 +17,10 @@ public class UserContext : IUserContext
         ClaimsPrincipal user = _httpContextAccessor.HttpContext?.User!;
         return user!.GetUserIdByClaim();
     }
+
+    public int GetRoleId()
+    {
+        Claim? roleId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Role);
+        return roleId == null ? 0 : int.Parse(roleId.Value);
+    }
 }
