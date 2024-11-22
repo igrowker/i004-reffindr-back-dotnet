@@ -18,7 +18,7 @@ jobs:
         password: dckr_pat_ibDd3Bz1Q2bXvLyO8d78fi3zGwI
 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag dash977/reffindr:latest
+      run: docker build . --file ./Reffindr.Api/Dockerfile --tag dash977/reffindr:latest
 
     - name: Push the Docker image
       run: docker push dash977/reffindr:latest
