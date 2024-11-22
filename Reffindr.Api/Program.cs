@@ -121,6 +121,7 @@ builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserTenantInfoRepository, UserTenantInfoRepository>();
 
+
 #endregion Repositories
 
 #endregion Services Area
