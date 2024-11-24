@@ -8,5 +8,5 @@ namespace Reffindr.Application.Services.Interfaces;
 public interface IPropertiesService
 {
     Task<Result<IEnumerable<PropertyGetResponseDto>>> GetPropertiesAsync(PropertyFilterDto filter);
-    Task<PropertyPostResponseDto> PostPropertyAsync(PropertyPostRequestDto propertyPostRequestDto, CancellationToken cancellationToken);
+    Task<PropertyPostResponseDto> PostPropertyAsync(PropertyPostRequestDto propertyPostRequestDto, string ownerEmail, CancellationToken cancellationToken);
 }
