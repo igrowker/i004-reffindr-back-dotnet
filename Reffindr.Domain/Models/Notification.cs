@@ -14,6 +14,8 @@ public class Notification : BaseModel
 
 	public bool Read { get; set; }
 
+	public virtual Property? Property { get; set; }
+
 	public virtual User? UserReceiving { get; set; }
 
 	public int? UserSenderId { get; set; }
