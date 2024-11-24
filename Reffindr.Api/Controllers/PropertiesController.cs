@@ -39,10 +39,10 @@ public class PropertiesController : ControllerBase
     [Authorize]
     [HttpPost]
     [Route("PostProperty")]
-    public async Task<IActionResult> PostProperty([FromBody] PropertyPostRequestDto propertyPostRequestDto, CancellationToken cancellationToken)
+    public async Task<IActionResult> PostProperty([FromBody] PropertyPostRequestDto propertyPostRequestDto, string ownerEmail, CancellationToken cancellationToken)
     {
 
-        PropertyPostResponseDto propertyPostResponse = await _propertiesService.PostPropertyAsync(propertyPostRequestDto, cancellationToken);
+        PropertyPostResponseDto propertyPostResponse = await _propertiesService.PostPropertyAsync(propertyPostRequestDto, ownerEmail, cancellationToken);
 
         if (propertyPostResponse is null) return BadRequest("No Pudo Crearse");
 
