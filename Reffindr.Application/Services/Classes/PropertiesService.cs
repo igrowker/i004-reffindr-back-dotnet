@@ -74,7 +74,7 @@ public class PropertiesService : IPropertiesService
 
 		Property registeredProperty = await _unitOfWork.PropertiesRepository.Create(propertyToCreate, cancellationToken);
 
-        await _NotifService.AddNotificationToUser(ownerEmail, NotificationType.Application, cancellationToken);
+        await _NotifService.AddNotificationToUser(ownerEmail, registeredProperty.Id, NotificationType.Application, cancellationToken);
 
 		await _unitOfWork.Complete(cancellationToken);
 

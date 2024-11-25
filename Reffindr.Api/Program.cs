@@ -29,6 +29,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString);
 });
 
+
+builder.Services.AddSignalR().AddJsonProtocol(options =>
+{
+	options.PayloadSerializerOptions.PropertyNamingPolicy = null;
+});
+
+
 builder.Services.AddAuthentication(config =>
 {
     config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -128,6 +135,7 @@ builder.Services.AddScoped<IUserTenantInfoRepository, UserTenantInfoRepository>(
 
 var app = builder.Build();
 
+
 #region Middlewares
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
@@ -136,6 +144,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwaggerUI();
 }
 
+app.MapHub<NotificationHub>("/notificationHub");
 app.UseCors();
 
 app.UseAuthentication();
