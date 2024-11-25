@@ -20,7 +20,8 @@ public class UserContext : IUserContext
 
     public int GetRoleId()
     {
-        Claim? roleId = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Role);
-        return roleId == null ? 0 : int.Parse(roleId.Value);
+        Claim? roleClaim = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.Role);
+
+        return int.Parse(roleClaim!.Value);
     }
 }

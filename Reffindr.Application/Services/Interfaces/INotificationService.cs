@@ -1,17 +1,17 @@
-﻿using Reffindr.Domain.Models;
-using Reffindr.Domain.Models.UserModels;
+﻿using Reffindr.Shared.DTOs.Pagination;
+using Reffindr.Shared.DTOs.Response.Notification;
 using Reffindr.Shared.Enum;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Reffindr.Application.Services.Interfaces
 {
-	public interface INotificationService
+    public interface INotificationService
 	{
 		Task AddNotificationToUser(string userReceivingEmail, NotificationType status, CancellationToken cancellationToken);
 		Task ConfirmPropertyfromNotification(int propertyId);
 	}
+        Task<List<NotificationResponseDto>> GetNotificationsAsync(PaginationDto paginationDto);
+
+        Task AddNotificationToUser(string userReceivingEmail, NotificationType status, CancellationToken cancellationToken);
+
+    }
 }
