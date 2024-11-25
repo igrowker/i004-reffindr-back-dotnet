@@ -35,7 +35,7 @@ namespace Reffindr.Application.Services.Classes
 			return notificationsResponse;
 		}
 
-		public async Task AddNotificationToUser(string userRecievingEmail, NotificationType Type, CancellationToken cancellationToken)
+		public async Task AddNotificationToUser(string userRecievingEmail,int propertyId, NotificationType Type, CancellationToken cancellationToken)
 		{
 			int userSenderId = _userContext.GetUserId();
 			var userRecievingId = await _unitOfWork.UsersRepository.GetUserbyEmail(userRecievingEmail);
@@ -47,7 +47,8 @@ namespace Reffindr.Application.Services.Classes
 				Message = $"Tiene nueva notificacion de tipo {Type}",
 				Type = Type.ToString(),
 				Read = false,
-				UserSenderId = userSenderId
+				UserSenderId = userSenderId,
+				PropertyId = propertyId,
 			};
 			await _unitOfWork.NotificationRepository.Create(notification, cancellationToken);
 			await _hubContext.Clients.User(userRecievingId.Id.ToString()).SendAsync("ReceiveNotification", notification.Message);

@@ -25,7 +25,9 @@ public class Property : BaseModel
     public bool Grill { get; set; }
     public bool Elevator { get; set; }
     public bool Terrace { get; set; }
-    public string Description { get; set; } = default!;
+	public bool IsHistoric { get; set; }
+    public int NotificationId { get; set; }
+	public string Description { get; set; } = default!;
 
     #region Navigation Properties
 

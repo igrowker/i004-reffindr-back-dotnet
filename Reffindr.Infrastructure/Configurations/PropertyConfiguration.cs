@@ -27,7 +27,11 @@ public class PropertyConfiguration : EntityTypeBaseConfiguration<Property>
 			.WithOne(x => x.Property)
 			.HasForeignKey(x => x.PropertyId);
 
-    }
+		builder.HasOne(x => x.Notification)
+		.WithOne(x => x.Property)
+		.HasForeignKey<Notification>(x => x.PropertyId);
+
+	}
 
 	protected override void ConfigurateProperties(EntityTypeBuilder<Property> builder)
 	{
