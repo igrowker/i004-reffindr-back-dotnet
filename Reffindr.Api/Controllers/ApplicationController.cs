@@ -19,7 +19,7 @@ namespace Reffindr.Api.Controllers
             _applicationService = applicationService;
         }
 
-        [HttpGet("{userId}")]
+        [HttpGet("User/{userId}")]
         public async Task<IActionResult> GetApplicationsByUserIdAsync(int userId)
         {
             var result = await _applicationService.GetApplicationsByUserIdAsync(userId);
@@ -30,6 +30,14 @@ namespace Reffindr.Api.Controllers
             }
 
             return Ok(result.Value);
+        }
+
+        [HttpGet("Property/{propertyId}")]
+        public async Task<IActionResult> GetApplicationsByPropertyIdAsync(int propertyId)
+        {
+            List<ApplicationGetResponseDto> applications = await _applicationService.GetApplicationsByPropertyIdAsync(propertyId);
+
+            return Ok(applications);
         }
 
         [HttpPost]

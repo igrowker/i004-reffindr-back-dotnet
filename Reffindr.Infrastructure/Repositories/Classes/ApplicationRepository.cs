@@ -21,6 +21,14 @@ namespace Reffindr.Infrastructure.Repositories.Classes
                 .ToListAsync();
         }
 
+        public async Task<List<ApplicationModel>> GetApplicationsByPropertyIdAsync(int propertyId)
+        {
+            return await _dbSet
+                .Where(a => a.PropertyId == propertyId && !a.IsDeleted)
+                .Include(a => a.User)
+                .ToListAsync();
+        }
+
         public async Task<bool> ExistsAsync(int userId, int propertyId)
         {
             return await _dbSet.AnyAsync(a =>

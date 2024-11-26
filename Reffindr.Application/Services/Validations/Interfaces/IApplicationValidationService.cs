@@ -8,5 +8,6 @@ namespace Reffindr.Application.Services.Validations.Interfaces
         Task<bool> UserHasNotApplied(int propertyId);
         Task<bool> UserMeetsRequirements(int propertyId);
         Task<bool> UserHasCompleteProfile();
+        Task<bool> UserIsOwnerOrTenant(int propertyId);
     }
 }
