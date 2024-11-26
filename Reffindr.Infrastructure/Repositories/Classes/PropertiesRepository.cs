@@ -24,6 +24,17 @@ public class PropertiesRepository : GenericRepository<Property>, IPropertiesRepo
         return property;
     }
 
+    public async Task<Tuple<int?, int?>> GetOwnerIdAndTenantId(int propertyId)
+    {
+        // Obtener solo el id del propietario y el inquilino de la propiedad
+        var ids = await _dbSet
+            .Where(p => p.Id == propertyId)
+            .Select(p => new { p.OwnerId, p.TenantId })
+            .FirstOrDefaultAsync();
+
+        return new Tuple<int?, int?>(ids?.OwnerId, ids?.TenantId);
+    }
+
     public async Task<IEnumerable<Property>> GetPropertiesAsync(PropertyFilterDto filter, int userId)
     {
         var query = _dbSet

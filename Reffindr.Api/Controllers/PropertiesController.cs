@@ -35,7 +35,6 @@ public class PropertiesController : ControllerBase
         return Ok(result.Value);
     }
 
-
     [Authorize]
     [HttpPost]
     [Route("PostProperty")]

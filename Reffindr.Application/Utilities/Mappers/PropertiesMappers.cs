@@ -1,5 +1,6 @@
 ﻿using Reffindr.Domain.Models;
 using Reffindr.Shared.DTOs.Request.Property;
+using Reffindr.Shared.DTOs.Response.Property;
 
 namespace Reffindr.Application.Utilities.Mappers;
 
@@ -14,6 +15,21 @@ public static class PropertiesMappers
             Title = propertyPostRequestDto.Title,
             Address = propertyPostRequestDto.Address,
             Description = propertyPostRequestDto.Description,
+            Environments = propertyPostRequestDto.Environments,
+            Bathrooms = propertyPostRequestDto.Bathrooms,
+            Bedrooms = propertyPostRequestDto.Bedrooms,
+            Seniority = propertyPostRequestDto.Seniority,
+            Water = propertyPostRequestDto.Water,
+            Gas = propertyPostRequestDto.Gas,
+            Surveillance = propertyPostRequestDto.Surveillance,
+            Electricity = propertyPostRequestDto.Electricity,
+            Internet = propertyPostRequestDto.Internet,
+            Pool = propertyPostRequestDto.Pool,
+            Garage = propertyPostRequestDto.Garage,
+            Pets = propertyPostRequestDto.Pets,
+            Grill = propertyPostRequestDto.Grill,
+            Elevator = propertyPostRequestDto.Elevator,
+            Terrace = propertyPostRequestDto.Terrace,
             Requirement = new Requirement
             {
                 IsWorking = propertyPostRequestDto.RequirementPostRequestDto!.IsWorking,
@@ -21,6 +37,35 @@ public static class PropertiesMappers
                 RangeSalary = propertyPostRequestDto.RequirementPostRequestDto!.RangeSalary,
                 
             }
+        };
+    }
+
+    public static PropertyGetResponseDto ToResponse(this Property property)
+    {
+        return new PropertyGetResponseDto
+        {
+            Id = property.Id,
+            Title = property.Title,
+            Address = property.Address,
+            Description = property.Description,
+            CountryName = property.Country?.CountryName ?? "N/A",
+            StateName = property.State?.StateName ?? "N/A",
+            Price = property.Price,
+            Environments = property.Environments,
+            Bathrooms = property.Bathrooms,
+            Bedrooms = property.Bedrooms,
+            Seniority = property.Seniority,
+            Water = property.Water,
+            Gas = property.Gas,
+            Surveillance = property.Surveillance,
+            Electricity = property.Electricity,
+            Internet = property.Internet,
+            Pool = property.Pool,
+            Garage = property.Garage,
+            Pets = property.Pets,
+            Grill = property.Grill,
+            Elevator = property.Elevator,
+            Terrace = property.Terrace
         };
     }
     
