@@ -56,7 +56,6 @@ namespace Reffindr.Application.Services.Classes
 
 		public async Task ConfirmPropertyfromNotification(int propertyId)
 		{
-
 			Property? property = await _unitOfWork.PropertiesRepository.GetById(propertyId);
 			property.IsDeleted = false;
 			property.UpdatedAt = DateTime.UtcNow;

@@ -40,17 +40,14 @@ public static class PropertiesMappers
         };
     }
 
-    public static PropertyGetResponseDto ToResponse(this Property property)
+    public static PropertyPostResponseDto ToResponse(this Property property)
     {
-        return new PropertyGetResponseDto
+        return new PropertyPostResponseDto
         {
-            Id = property.Id,
+            CountryId = property.CountryId,
+            StateId = property.StateId,
             Title = property.Title,
             Address = property.Address,
-            Description = property.Description,
-            CountryName = property.Country?.CountryName ?? "N/A",
-            StateName = property.State?.StateName ?? "N/A",
-            Price = property.Price,
             Environments = property.Environments,
             Bathrooms = property.Bathrooms,
             Bedrooms = property.Bedrooms,
@@ -65,22 +62,10 @@ public static class PropertiesMappers
             Pets = property.Pets,
             Grill = property.Grill,
             Elevator = property.Elevator,
-            Terrace = property.Terrace
+            Terrace = property.Terrace,
+            Description = property.Description,
+
+           
         };
     }
-    
-    //public static PropertyPostResponseDto ToResponse(this Property property )
-    //{
-    //    return new PropertyPostResponseDto
-    //    {
-    //        OwnerId = propertyPostRequestDto.OwnerId,
-    //        TenantId = propertyPostRequestDto.TenantId,
-    //        RequirementId = propertyPostRequestDto.RequirementId,
-    //        CountryId = propertyPostRequestDto.CountryId,
-    //        StateId = propertyPostRequestDto.StateId,
-    //        Title = propertyPostRequestDto.Title,
-    //        Address = propertyPostRequestDto.Address,
-    //        Description = propertyPostRequestDto.Description,
-    //    };
-    //}
 }

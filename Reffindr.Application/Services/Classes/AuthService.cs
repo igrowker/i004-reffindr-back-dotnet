@@ -4,6 +4,7 @@ using Reffindr.Application.Utilities.Mappers;
 using Reffindr.Domain.Models.UserModels;
 using Reffindr.Infrastructure.UnitOfWork;
 using Reffindr.Shared.DTOs.Request.Auth;
+using Reffindr.Shared.DTOs.Request.User;
 using Reffindr.Shared.DTOs.Response.Auth;
 using System.Security.Claims;
 
