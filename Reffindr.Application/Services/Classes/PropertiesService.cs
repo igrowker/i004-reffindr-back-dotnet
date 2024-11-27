@@ -9,7 +9,6 @@ using Reffindr.Shared.DTOs.Response.Property;
 using Reffindr.Shared.Enum;
 using Reffindr.Shared.Result;
 
-
 namespace Reffindr.Application.Services.Classes;
 
 public class PropertiesService : IPropertiesService
@@ -65,8 +64,8 @@ public class PropertiesService : IPropertiesService
 
         await _NotifService.AddNotificationToUser(ownerEmail, registeredProperty.Id, NotificationType.Application, cancellationToken);
 
-        //PropertyPostResponseDto propertyPostResponseDto = registeredProperty.ToResponse();
+        PropertyPostResponseDto propertyPostResponseDto = registeredProperty.ToResponsePost();
 
-        return new PropertyPostResponseDto { };
+        return propertyPostResponseDto;
     }
 }
