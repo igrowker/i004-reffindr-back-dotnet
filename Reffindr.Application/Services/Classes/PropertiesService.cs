@@ -43,21 +43,7 @@ public class PropertiesService : IPropertiesService
 
         var properties = await _unitOfWork.PropertiesRepository.GetPropertiesAsync(filter, userId);
 
-        if (properties == null || !properties.Any())
-        {
-            return Result<IEnumerable<PropertyGetResponseDto>>.Failure("No properties found.");
-        }
-
-        IEnumerable<PropertyGetResponseDto> propertyDtos = properties.Select(p => new PropertyGetResponseDto
-        {
-            Id = p.Id,
-            Title = p.Title,
-            Address = p.Address,
-            Description = p.Description,
-            CountryName = p.Country?.CountryName ?? "N/A",
-            StateName = p.State?.StateName ?? "N/A",
-            Price = p.Price
-        });
+        IEnumerable<PropertyGetResponseDto> propertyDtos = properties.Select(p => p.ToResponse());
 
         return Result<IEnumerable<PropertyGetResponseDto>>.Success(propertyDtos);
     }
@@ -83,6 +69,4 @@ public class PropertiesService : IPropertiesService
 
         return propertyPostResponseDto;
     }
-
-
 }

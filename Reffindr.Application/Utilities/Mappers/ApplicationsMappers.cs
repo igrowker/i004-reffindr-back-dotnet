@@ -21,4 +21,17 @@ public static class ApplicationsMappers
             PropertyId = applicationModel.PropertyId
         };
     }
+
+    public static ApplicationGetResponseDto ToGetResponse(this ApplicationModel applicationModel)
+    { 
+        return new ApplicationGetResponseDto
+        {
+            Id = applicationModel.Id,
+            PropertyId = applicationModel.PropertyId,
+            PropertyTitle = applicationModel.Property?.Title ?? "No title",
+            PropertyAddress = applicationModel.Property?.Address ?? "No address",
+            Status = applicationModel.Status ?? "Unknown",
+            CreatedAt = applicationModel.CreatedAt
+        };
+    }
 }

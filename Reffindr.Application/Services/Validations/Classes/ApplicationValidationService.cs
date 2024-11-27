@@ -14,6 +14,16 @@ namespace Reffindr.Application.Services.Validations.Classes
             _unitOfWork = unitOfWork;
             _userContext = userContext;
         }
+
+        // Validación para veritificar si la persona que quiere ver las aplicaciones es el dueño de las mismas o un inquilino saliente que publicó la propiedad
+        public async Task<bool> UserIsOwnerOrTenant(int propertyId)
+        {
+            int userId = _userContext.GetUserId();
+            Tuple<int?, int?> propertyUser = await _unitOfWork.PropertiesRepository.GetOwnerIdAndTenantId(propertyId);
+
+            return propertyUser.Item1 == userId || propertyUser.Item2 == userId;
+        }
+
         public async Task<bool> PropertyExists(int propertyId)
         {
             var property = await _unitOfWork.PropertiesRepository.GetById(propertyId);

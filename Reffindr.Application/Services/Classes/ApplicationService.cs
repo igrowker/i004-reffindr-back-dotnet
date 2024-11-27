@@ -36,23 +36,28 @@ namespace Reffindr.Application.Services.Classes
 
             List<ApplicationModel> applications = await _unitOfWork.ApplicationRepository.GetApplicationsByUserIdAsync(userId);
 
-            if (applications == null || applications.Count == 0)
-            {
-                return Result<List<ApplicationGetResponseDto>>.Failure("No applications found for this user.");
-            }
-
-            // Mapeo manual
-            List<ApplicationGetResponseDto> applicationDtos = applications.Select(a => new ApplicationGetResponseDto
-            {
-                Id = a.Id,
-                PropertyId = a.PropertyId,
-                PropertyTitle = a.Property?.Title ?? "No title",
-                PropertyAddress = a.Property?.Address ?? "No address",
-                Status = a.Status ?? "Unknown",
-                CreatedAt = a.CreatedAt
-            }).ToList();
+            // Mapeo
+            List<ApplicationGetResponseDto> applicationDtos = applications.Select(a => a.ToGetResponse()).ToList();
 
             return Result<List<ApplicationGetResponseDto>>.Success(applicationDtos);
+        }
+
+        public async Task<List<ApplicationGetResponseDto>> GetApplicationsByPropertyIdAsync(int propertyId)
+        {
+            // No sé si agregar una validación para que solo pueda obtener las aplicaciones el dueño de la propiedad o el inquilino saliente que la publicó
+            bool userIsOwnerOrTenant = await _applicationValidationService.UserIsOwnerOrTenant(propertyId);
+
+            if (!userIsOwnerOrTenant)
+            {
+                throw new Exception("You don't have permissions to view applications for this property.");
+            }
+
+            List<ApplicationModel> applications = await _unitOfWork.ApplicationRepository.GetApplicationsByPropertyIdAsync(propertyId);
+
+            // Mapeo
+            List<ApplicationGetResponseDto> applicationDtos = applications.Select(a => a.ToGetResponse()).ToList();
+
+            return applicationDtos;
         }
 
         public async Task<Result<ApplicationPostResponseDto>> PostApplicationAsync(ApplicationPostRequestDto applicationPostRequestDto, CancellationToken cancellationToken)
