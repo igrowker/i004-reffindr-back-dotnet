@@ -62,16 +62,16 @@ public class PropertiesRepository : GenericRepository<Property>, IPropertiesRepo
 
         // Aplicar filtros basados en los requisitos
         if (filter.IsWorking.HasValue)
-            query = query.Where(p => p.Requirement.IsWorking == filter.IsWorking.Value);
+            query = query.Where(p => p.Requirement!.IsWorking == filter.IsWorking.Value);
 
         if (filter.HasWarranty.HasValue)
-            query = query.Where(p => p.Requirement.HasWarranty == filter.HasWarranty.Value);
+            query = query.Where(p => p.Requirement!.HasWarranty == filter.HasWarranty.Value);
 
         if (filter.RangeSalaryMin.HasValue)
-            query = query.Where(p => p.Requirement.RangeSalary >= filter.RangeSalaryMin.Value);
+            query = query.Where(p => p.Requirement!.RangeSalary >= filter.RangeSalaryMin.Value);
 
         if (filter.RangeSalaryMax.HasValue)
-            query = query.Where(p => p.Requirement.RangeSalary <= filter.RangeSalaryMax.Value);
+            query = query.Where(p => p.Requirement!.RangeSalary <= filter.RangeSalaryMax.Value);
 
         // Obtener la información del perfil del usuario
         var tenantInfo = await _userTenantInfoRepository.GetById(userId);
@@ -80,13 +80,13 @@ public class PropertiesRepository : GenericRepository<Property>, IPropertiesRepo
         {
             // Aplicar filtros adicionales basados en el perfil del usuario
             if (tenantInfo.IsWorking)
-                query = query.Where(p => p.Requirement.IsWorking == true);
+                query = query.Where(p => p.Requirement!.IsWorking == true);
 
             if (tenantInfo.HasWarranty)
-                query = query.Where(p => p.Requirement.HasWarranty == true);
+                query = query.Where(p => p.Requirement!.HasWarranty == true);
 
             if (tenantInfo.RangeSalary > 0)
-                query = query.Where(p => p.Requirement.RangeSalary <= tenantInfo.RangeSalary);
+                query = query.Where(p => p.Requirement!.RangeSalary <= tenantInfo.RangeSalary);
         }
 
         // Ejecutar la consulta y devolver los resultados
