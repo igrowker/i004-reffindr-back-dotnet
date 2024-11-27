@@ -19,11 +19,4 @@ public class UsersRepository : GenericRepository<User> , IUsersRepository
 
         return userDB!;
 	}
-
-    public async Task<User> GetUserById(int userId)
-    {
-        User? userDB = await _dbSet.FindAsync(userId);
-
-        return userDB!;
-    }
 }

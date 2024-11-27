@@ -18,24 +18,7 @@ namespace Reffindr.Api.Controllers
 			_notificationService = notificationService;
 		}
 
-        /// <summary>
-        /// Confirma una propiedad desde una notificación.
-        /// </summary>
-        /// <remarks>
-        /// Este endpoint permite confirmar una propiedad específica basada en una notificación recibida. 
-        /// Se requiere autorización para acceder a este recurso.
-        /// </remarks>
-        /// <param name="propertyId">El identificador único de la propiedad que se desea confirmar.</param>
-        /// <returns>
-        /// Devuelve un código de estado HTTP 200 (OK) si la operación se realizó con éxito. 
-        /// Si ocurre un error, devolverá un código de error apropiado.
-        /// </returns>
-        /// <response code="200">La propiedad fue confirmada exitosamente.</response>
-        /// <response code="400">El identificador de la propiedad no es válido.</response>
-        /// <response code="401">El usuario no está autorizado para realizar esta acción.</response>
-        /// <response code="404">No se encontró la propiedad especificada.</response>
-        /// <response code="500">Ocurrió un error interno en el servidor.</response>
-        [Authorize]
+		[Authorize]
 		[HttpPut]
 		[Route("ConfirmProperty/{propertyId:int}")]
 

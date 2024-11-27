@@ -1,6 +1,6 @@
 ﻿namespace Reffindr.Domain.Models;
 
-public class Property : BaseModel 
+public class Property : BaseModel
 {
     public int OwnerId { get; set; }
     public int TenantId { get; set; }

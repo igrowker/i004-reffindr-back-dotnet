@@ -1,6 +1,5 @@
 ﻿using Reffindr.Domain.Models.UserModels;
 using Reffindr.Shared.DTOs.Request.Auth;
-using Reffindr.Shared.DTOs.Request.User;
 using Reffindr.Shared.DTOs.Response.Auth;
 
 namespace Reffindr.Application.Utilities.Mappers;
