@@ -40,16 +40,13 @@ public class UserService : IUserService
             throw new ArgumentNullException(nameof(user), "User cannot be null.");
         }
 
-        user = new User
-        {
-            Name = userRequestDto.Name ?? user.Name,
-            LastName = userRequestDto.LastName ?? user.LastName,
-            Dni = userRequestDto.Dni ?? user.Dni,
-            Phone = userRequestDto.Phone ?? user.Phone,
-            Address = userRequestDto.Address ?? user.Address,
-            BirthDate = userRequestDto.BirthDate ?? user.BirthDate,
-            UpdatedAt = DateTime.UtcNow,
-        };
+        user.Name = userRequestDto.Name ?? user.Name;
+        user.LastName = userRequestDto.LastName ?? user.LastName;
+        user.Dni = userRequestDto.Dni ?? user.Dni;
+        user.Phone = userRequestDto.Phone ?? user.Phone;
+        user.Address = userRequestDto.Address ?? user.Address;
+        user.BirthDate = userRequestDto.BirthDate ?? user.BirthDate;
+        user.UpdatedAt = DateTime.UtcNow;
 
         user.IsProfileComplete = !string.IsNullOrWhiteSpace(user.Name) &&
                              !string.IsNullOrWhiteSpace(user.LastName) &&
