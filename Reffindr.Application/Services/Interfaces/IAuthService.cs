@@ -1,4 +1,5 @@
 ﻿using Reffindr.Shared.DTOs.Request.Auth;
+using Reffindr.Shared.DTOs.Request.User;
 using Reffindr.Shared.DTOs.Response.Auth;
 using System.Security.Claims;
 
