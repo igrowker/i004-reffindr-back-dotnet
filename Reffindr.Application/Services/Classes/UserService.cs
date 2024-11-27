@@ -1,33 +1,20 @@
 ﻿using Reffindr.Application.Services.Interfaces;
-using Reffindr.Application.Utilities.Mappers;
-using Reffindr.Domain.Models.UserModels;
-using Reffindr.Infrastructure.Extensions.Claims.ServiceWrapper;
-using Reffindr.Infrastructure.Repositories.Interfaces;
 using Reffindr.Infrastructure.UnitOfWork;
-using Reffindr.Shared.DTOs.Request.User;
-using Reffindr.Shared.DTOs.Response.User;
-using System.Data;
-using System.Threading;
 
 namespace Reffindr.Application.Services.Classes;
 
 public class UserService : IUserService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IUserContext _userContext;
-    private readonly IUsersRepository _usersRepository;
 
     public UserService
         (
-            IUnitOfWork unitOfWork,
-            IUserContext userContext,
-            IUsersRepository usersRepository
+            IUnitOfWork unitOfWork
         )
     {
         _unitOfWork = unitOfWork;
-        _userContext = userContext;
-        _usersRepository = usersRepository;
     }
+
 
     public async Task<UserUpdateResponseDto> UpdateUserAsync(UserUpdateRequestDto userRequestDto, CancellationToken cancellationToken)
     {
@@ -62,6 +49,7 @@ public class UserService : IUserService
         return userUpdateResponseDto;
 
     }
+
 
 
 }

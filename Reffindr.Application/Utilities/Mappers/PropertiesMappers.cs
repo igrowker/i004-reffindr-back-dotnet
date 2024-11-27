@@ -39,6 +39,7 @@ public static class PropertiesMappers
             }
         };
     }
+
     public static PropertyGetResponseDto ToResponse(this Property property)
     {
         return new PropertyGetResponseDto
@@ -67,6 +68,7 @@ public static class PropertiesMappers
             Terrace = property.Terrace
         };
     }
+  
     public static PropertyPostResponseDto ToPostResponse(this Property property)
     {
         return new PropertyPostResponseDto
@@ -89,10 +91,36 @@ public static class PropertiesMappers
             Pets = property.Pets,
             Grill = property.Grill,
             Elevator = property.Elevator,
-            Terrace = property.Terrace,
-            Description = property.Description,
+            Terrace = property.Terrace
+        };
+    }
 
-           
+    public static PropertyGetResponseDto ToResponse(this Property property)
+    {
+        return new PropertyGetResponseDto
+        {
+            Id = property.Id,
+            Title = property.Title,
+            Address = property.Address,
+            Description = property.Description,
+            CountryName = property.Country?.CountryName ?? "N/A",
+            StateName = property.State?.StateName ?? "N/A",
+            Price = property.Price,
+            Environments = property.Environments,
+            Bathrooms = property.Bathrooms,
+            Bedrooms = property.Bedrooms,
+            Seniority = property.Seniority,
+            Water = property.Water,
+            Gas = property.Gas,
+            Surveillance = property.Surveillance,
+            Electricity = property.Electricity,
+            Internet = property.Internet,
+            Pool = property.Pool,
+            Garage = property.Garage,
+            Pets = property.Pets,
+            Grill = property.Grill,
+            Elevator = property.Elevator,
+            Terrace = property.Terrace
         };
     }
 }

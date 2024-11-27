@@ -9,7 +9,6 @@ using Reffindr.Shared.DTOs.Response.Property;
 using Reffindr.Shared.Enum;
 using Reffindr.Shared.Result;
 
-
 namespace Reffindr.Application.Services.Classes;
 
 public class PropertiesService : IPropertiesService
