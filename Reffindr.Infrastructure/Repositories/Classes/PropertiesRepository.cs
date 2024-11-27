@@ -81,4 +81,12 @@ public class PropertiesRepository : GenericRepository<Property>, IPropertiesRepo
         // Ejecutar la consulta y devolver los resultados
         return await query.ToListAsync();
     }
+
+    public async Task<List<Property>?> GetOwnerProperties(int ownerUserId)
+    {
+        List<Property>? ownerProperties = await _dbSet.Where(x => x.OwnerId == ownerUserId).ToListAsync();
+        return ownerProperties;
+    }
+
+
 }

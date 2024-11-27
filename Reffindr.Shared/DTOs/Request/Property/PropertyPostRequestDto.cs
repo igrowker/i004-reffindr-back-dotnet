@@ -8,6 +8,7 @@ public class PropertyPostRequestDto
     public int StateId { get; set; }
     public string Title { get; set; } = default!;
     public string Address { get; set; } = default!;
+    public decimal Price { get; set; }
     public int Environments { get; set; }
     public int Bathrooms { get; set; }
     public int Bedrooms { get; set; }
