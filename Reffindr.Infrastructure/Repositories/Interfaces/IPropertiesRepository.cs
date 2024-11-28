@@ -8,4 +8,5 @@ public interface IPropertiesRepository : IGenericRepository<Property>
     Task<IEnumerable<Property>> GetPropertiesAsync(PropertyFilterDto filter, int userId);
     Task<Tuple<int?, int?>> GetOwnerIdAndTenantId(int propertyId);
     Task<Property?> GetByIdWithRequirementsAsync(int propertyId);
+    Task<List<Property>?> GetOwnerProperties(int ownerUserId);
 }

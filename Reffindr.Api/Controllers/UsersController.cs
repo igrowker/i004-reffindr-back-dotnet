@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Reffindr.Application.Services.Interfaces;
+using Reffindr.Shared.DTOs.Response.Property;
 using Reffindr.Shared.DTOs.Response.User;
 
 namespace Reffindr.Api.Controllers;
@@ -11,13 +12,16 @@ namespace Reffindr.Api.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly IUserService _userService;
+    private readonly IPropertiesService _propertiesService;
 
     public UsersController
         (
-            IUserService userService
+            IUserService userService,
+            IPropertiesService propertiesService
         )
     {
         _userService = userService;
+        _propertiesService = propertiesService;
     }
 
     /// <summary>
@@ -51,4 +55,12 @@ public class UsersController : ControllerBase
         return Ok(userResponseDto);
     }
 
+    [Authorize]
+    [HttpGet("get-ownerProperties")]
+    public async Task<IActionResult> GetOwnerProperties()
+    {
+        List<PropertyGetResponseDto> ownerProperties = await _propertiesService.GetOwnerPropertiesAsync();
+
+        return Ok(ownerProperties);
+    }
 }

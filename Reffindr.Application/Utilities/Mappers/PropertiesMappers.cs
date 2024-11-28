@@ -91,7 +91,9 @@ public static class PropertiesMappers
             Pets = property.Pets,
             Grill = property.Grill,
             Elevator = property.Elevator,
-            Terrace = property.Terrace
+            Terrace = property.Terrace,
+            CountryId = property.CountryId,
+            StateId = property.StateId
         };
     }
 }

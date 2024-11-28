@@ -9,4 +9,5 @@ public interface IPropertiesService
 {
     Task<Result<IEnumerable<PropertyGetResponseDto>>> GetPropertiesAsync(PropertyFilterDto filter);
     Task<PropertyPostResponseDto> PostPropertyAsync(PropertyPostRequestDto propertyPostRequestDto, string ownerEmail, CancellationToken cancellationToken);
+    Task<List<PropertyGetResponseDto>> GetOwnerPropertiesAsync();
 }
