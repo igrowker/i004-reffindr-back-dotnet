@@ -15,6 +15,12 @@ public class PropertiesRepository : GenericRepository<Property>, IPropertiesRepo
         _userTenantInfoRepository = userTenantInfoRepository;
     }
 
+    public async Task<List<Property>?> GetOwnerProperties(int ownerUserId)
+    {
+        List<Property>? ownerProperties = await _dbSet.Where(x => x.OwnerId == ownerUserId).ToListAsync();
+        return ownerProperties;
+    }
+
     public async Task<Property?> GetByIdWithRequirementsAsync(int propertyId)
     {
         Property? property = await _dbSet

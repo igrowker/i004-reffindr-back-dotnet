@@ -33,6 +33,15 @@ public class PropertiesService : IPropertiesService
 		_NotifService = notifService;
     }
 
+    public async Task<List<PropertyGetResponseDto>> GetOwnerPropertiesAsync()
+    {
+        int userOwnerId = _userContext.GetUserId();
+        List<Property>? ownerProperties = await _unitOfWork.PropertiesRepository.GetOwnerProperties(userOwnerId);
+
+        List<PropertyGetResponseDto>? ownerPropertiesResponse = ownerProperties!.Select(x => x.ToResponse()).ToList();
+        return ownerPropertiesResponse;
+    }
+
     public async Task<Result<IEnumerable<PropertyGetResponseDto>>> GetPropertiesAsync(PropertyFilterDto filter)
     {
         int userId = _userContext.GetUserId();

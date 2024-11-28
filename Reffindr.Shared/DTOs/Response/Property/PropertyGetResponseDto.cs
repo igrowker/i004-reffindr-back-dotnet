@@ -3,6 +3,8 @@
     public class PropertyGetResponseDto
     {
         public int Id { get; set; }
+        public int CountryId { get; set; }
+        public int StateId { get; set; }
         public string Title { get; set; } = default!;
         public string Address { get; set; } = default!;
         public string CountryName { get; set; } = default!;
