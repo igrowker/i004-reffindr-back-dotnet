@@ -25,22 +25,47 @@ public class AuthService : IAuthService
         _passwordHasher = new PasswordHasher<User>();
     }
 
-	public async Task<UserRegisterResponseDto> SignUpUserAsync(UserRegisterRequestDto userRegisterRequestDto, CancellationToken cancellationToken) 
-	{
+    public async Task<UserRegisterResponseDto> SignUpUserAsync(UserRegisterRequestDto userRegisterRequestDto, CancellationToken cancellationToken)
+    {
         User userToRegister = userRegisterRequestDto.ToModel();
 
+        User emailExists = await _unitOfWork.AuthRepository.GetByEmail(userToRegister);
+        if (emailExists != null)
+        {
+            throw new InvalidOperationException("Email ya registrado");
+        }
         userToRegister.Password = _passwordHasher.HashPassword(userToRegister, userToRegister.Password);
 
         User registeredUser = await _unitOfWork.AuthRepository.Create(userToRegister, cancellationToken);
+
+        await _unitOfWork.Complete(cancellationToken); 
+
+        if (userRegisterRequestDto.RoleId == 1)
+        {
+            UserTenantInfo tenantInfo = new UserTenantInfo
+            {
+                UserId = registeredUser.Id,
+               
+            };
+            await _unitOfWork.UserTenantInfoRepository.Create(tenantInfo, cancellationToken);
+        }
+        else if (userRegisterRequestDto.RoleId == 2)
+        {
+            UserOwnerInfo userOwnerInfo = new UserOwnerInfo
+            {
+                UserId = registeredUser.Id,
+            };
+            await _unitOfWork.UserOwnerInfoRepository.Create(userOwnerInfo, cancellationToken);
+        }
 
         await _unitOfWork.Complete(cancellationToken);
 
         string token = _tokenService.GenerateJWT(registeredUser);
 
         UserRegisterResponseDto registeredUserResponse = registeredUser.ToRegisterResponseDto(token);
-
         return registeredUserResponse;
     }
+
 
     public async Task<UserLoginResponseDto> LoginUserAsync(UserLoginRequestDto userLoginRequestDto, CancellationToken cancellationToken)
     {

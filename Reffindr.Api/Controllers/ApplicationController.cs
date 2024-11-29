@@ -41,6 +41,7 @@ namespace Reffindr.Api.Controllers
         }
 
         [HttpPost]
+        [Route("PostApplication")]
         public async Task<IActionResult> PostApplication(ApplicationPostRequestDto applicationPostRequestDto, CancellationToken cancellationToken)
         {
 
