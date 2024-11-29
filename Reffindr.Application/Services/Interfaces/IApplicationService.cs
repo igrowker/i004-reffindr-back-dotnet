@@ -9,5 +9,6 @@ namespace Reffindr.Application.Services.Interfaces
         Task<Result<List<ApplicationGetResponseDto>>> GetApplicationsByUserIdAsync(int userId);
         Task <List<ApplicationGetResponseDto>> GetApplicationsByPropertyIdAsync(int propertyId);
         Task<Result<ApplicationPostResponseDto>> PostApplicationAsync(ApplicationPostRequestDto applicationPostRequestDto, CancellationToken cancellationToken);
-    }
+        Task<List<ApplicationGetResponseDto>> GetApplicationForPanelOwner(int propertyId);
+	}
 }

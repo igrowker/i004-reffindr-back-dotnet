@@ -60,7 +60,25 @@ namespace Reffindr.Application.Services.Classes
             return applicationDtos;
         }
 
-        public async Task<Result<ApplicationPostResponseDto>> PostApplicationAsync(ApplicationPostRequestDto applicationPostRequestDto, CancellationToken cancellationToken)
+		public async Task<List<ApplicationGetResponseDto>> GetApplicationForPanelOwner(int propertyId)
+		{
+			// No sé si agregar una validación para que solo pueda obtener las aplicaciones el dueño de la propiedad o el inquilino saliente que la publicó
+			bool userIsOwnerOrTenant = await _applicationValidationService.UserIsOwnerOrTenant(propertyId);
+
+			if (!userIsOwnerOrTenant)
+			{
+				throw new Exception("You don't have permissions to view applications for this property.");
+			}
+
+			List<ApplicationModel> applications = await _unitOfWork.ApplicationRepository.GetApplicationsForPanelOwner(propertyId);
+
+			// Mapeo
+			List<ApplicationGetResponseDto> applicationDtos = applications.Select(a => a.ToGetResponse()).ToList();
+
+			return applicationDtos;
+		}
+
+		public async Task<Result<ApplicationPostResponseDto>> PostApplicationAsync(ApplicationPostRequestDto applicationPostRequestDto, CancellationToken cancellationToken)
         {
             using IDbContextTransaction transaction = await _unitOfWork.BeginTransaction(cancellationToken); 
 
