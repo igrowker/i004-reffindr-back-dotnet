@@ -16,6 +16,8 @@ public class UnitOfWork : IUnitOfWork
     public ICandidateRepository CandidateRepository { get; }
     public INotificationRepository NotificationRepository { get; }
     public IUserTenantInfoRepository UserTenantInfoRepository { get; }
+    public IUserOwnerInfoRepository UserOwnerInfoRepository { get; }
+
 
     public UnitOfWork
         (

@@ -22,15 +22,15 @@ public class AuthController : ControllerBase
     }
 
     /// <summary>
-    /// Register a new user in the system.
+    /// Registra un nuevo usuario en el sistema.
     /// </summary>
     /// <remarks>
-    /// This endpoint allows the creation of a new user. The user's password is encrypted using SHA-256 before storing it in the database.
+    /// Este endpoint permite la creación de un nuevo usuario. La contraseña del usuario se encripta utilizando SHA-256 antes de almacenarla en la base de datos.
     /// </remarks>
-    /// <param name="userRegisterRequestDto">The user registration details including email, role, name, and password.</param>
-    /// <param name="cancellationToken">The user registration details including email, role, name, and password.</param>
-    /// <returns>Returns a status indicating whether the registration was successful or not.</returns>
-    /// <response code="200">If the user was created successfully, returns isSucces=true; otherwise, returns isSucces=false.</response>
+    /// <param name="userRegisterRequestDto">Los detalles de registro del usuario, incluyendo email, rol, nombre y contraseña.</param>
+    /// <param name="cancellationToken">Token de cancelación para controlar la operación asincrónica.</param>
+    /// <returns>Devuelve un estado indicando si el registro fue exitoso o no.</returns>
+    /// <response code="200">Si el usuario fue creado exitosamente devuelve el email y el token de acceso</response>
     [HttpPost]
     [Route("SignUp")]
     public async Task<IActionResult> SignUp([FromBody] UserRegisterRequestDto userRegisterRequestDto, CancellationToken cancellationToken)
@@ -42,6 +42,17 @@ public class AuthController : ControllerBase
         return Ok(userRegisterResponse);
     }
 
+    /// <summary>
+    /// Permite a un usuario iniciar sesión en el sistema.
+    /// </summary>
+    /// <remarks>
+    /// Este endpoint valida las credenciales del usuario proporcionadas en el cuerpo de la solicitud. 
+    /// Si las credenciales son válidas, genera y devuelve un token de acceso junto con los datos del usuario.
+    /// </remarks>
+    /// <param name="userLoginRequestDto">Los datos de inicio de sesión del usuario, que incluyen email y contraseña.</param>
+    /// <param name="cancellationToken">Token de cancelación para controlar la operación asincrónica.</param>
+    /// <returns>Devuelve un objeto <see cref="UserLoginResponseDto"/> con el token de acceso y la información básica del usuario.</returns>
+    /// <response code="200">Si las credenciales son válidas, devuelve el token de acceso</response>
     [HttpPost]
     [Route("Login")]
     public async Task<IActionResult> Login([FromBody] UserLoginRequestDto userLoginRequestDto, CancellationToken cancellationToken)
@@ -50,13 +61,4 @@ public class AuthController : ControllerBase
 
         return Ok(userLoginResponseDto);
     }
-
-    [HttpPost]
-    [Route("TestString")]
-    public async Task<IActionResult> GetTestStringAsync(CancellationToken cancellationToken)
-    {
-        await Task.Delay(5, cancellationToken);
-        return Ok("Este es un string de prueba");
-    }
-
 }

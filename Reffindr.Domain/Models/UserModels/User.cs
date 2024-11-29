@@ -7,8 +7,6 @@ public class User : BaseModel
     public int RoleId { get; set; }
     public int? CountryId { get; set; }
     public int? StateId { get; set; }
-    public int? UserOwnerInfoId { get; set; }
-    public int? UserTenantInfoId { get; set; }
     public string Name { get; set; } = default!;
     public string LastName { get; set; } = default!;
     public string? Dni { get; set; } = default!;

@@ -28,11 +28,11 @@ public class UserConfiguration : EntityTypeBaseConfiguration<User>
 
         builder.HasOne(x => x.UserOwnerInfo)
             .WithOne(x => x.User)
-            .HasForeignKey<User>(x => x.UserOwnerInfoId);
+            .HasForeignKey<UserOwnerInfo>(x => x.UserId);
 
         builder.HasOne(x => x.UserTenantInfo)
             .WithOne(x => x.User)
-            .HasForeignKey<User>(x => x.UserTenantInfoId);
+            .HasForeignKey<UserTenantInfo>(x => x.UserId);
     }
 
     protected override void ConfigurateProperties(EntityTypeBuilder<User> builder)
