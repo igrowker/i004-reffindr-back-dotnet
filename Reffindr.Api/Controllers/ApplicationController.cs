@@ -40,7 +40,15 @@ namespace Reffindr.Api.Controllers
             return Ok(applications);
         }
 
-        [HttpPost]
+		[HttpGet("PanelOwner/{propertyId}")]
+		public async Task<IActionResult> GetApplicationsForPanelOwner(int propertyId)
+		{
+			List<ApplicationGetResponseDto> applications = await _applicationService.GetApplicationsByPropertyIdAsync(propertyId);
+
+			return Ok(applications);
+		}
+
+		[HttpPost]
         [Route("PostApplication")]
         public async Task<IActionResult> PostApplication(ApplicationPostRequestDto applicationPostRequestDto, CancellationToken cancellationToken)
         {

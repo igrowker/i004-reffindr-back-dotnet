@@ -36,5 +36,12 @@ namespace Reffindr.Infrastructure.Repositories.Classes
                     a.PropertyId == propertyId &&
                     !a.IsDeleted);
         }
-    }
+
+		public async Task<List<ApplicationModel>> GetApplicationsForPanelOwner(int propertyId)
+		{
+            return await _dbSet
+                .Where((a => a.PropertyId == propertyId && a.Candidate!.SelectedByTenant == true))
+                .ToListAsync();
+		}
+	}
 }
