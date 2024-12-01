@@ -47,8 +47,18 @@ public class UsersController : ControllerBase
     /// <response code="404">No se encontró el usuario especificado.</response>
     /// <response code="500">Ocurrió un error interno en el servidor.</response>
     [Authorize]
+    [HttpGet]
+    [Route("get-credentials")]
+    public async Task<IActionResult> GetUserCredential()
+    {
+        UserCredentialsResponseDto userCredentialsResponseDto = await _userService.GetUserCredentialsAsync();
+
+        return Ok(userCredentialsResponseDto);
+    }
+
+    [Authorize]
     [HttpPut]
-    [Route("UpdateUser")]
+    [Route("modify-credentials")]
     public async Task<IActionResult> UpdateUser([FromBody] UserUpdateRequestDto userUpdateRequestDto, CancellationToken cancellationToken)
     {
         UserUpdateResponseDto userResponseDto = await _userService.UpdateUserAsync(userUpdateRequestDto, cancellationToken);

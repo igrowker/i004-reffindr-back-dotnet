@@ -19,4 +19,20 @@ public static class UsersMappers
             IsProfileComplete = user.IsProfileComplete
         };
     }
+
+    public static UserCredentialsResponseDto ToUserCredentialsResponse(this User user)
+    {
+        return new UserCredentialsResponseDto
+        {
+            RoleId = user.RoleId,
+            Email = user.Email,
+            Name = user.Name,
+            LastName = user.LastName,
+            Dni = user.Dni,
+            Phone = user.Phone,
+            Address = user.Address,
+            BirthDate = user.BirthDate,
+            IsProfileComplete = user.IsProfileComplete
+        };
+    }
 }
