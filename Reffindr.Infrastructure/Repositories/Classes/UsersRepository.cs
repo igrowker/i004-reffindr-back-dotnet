@@ -15,16 +15,9 @@ public class UsersRepository : GenericRepository<User> , IUsersRepository
 
     public async Task<User> GetUserbyEmail(string email)
 	{
-        User? userDB = await _dbSet.Where(x => x.Email == email && x.RoleId==2) 
+        User? userDB = await _dbSet.Where(x => x.Email == email && x.RoleId == 2) 
             .FirstOrDefaultAsync();
 
         return userDB!;
 	}
-
-    public async Task<User> GetUserById(int userId)
-    {
-        User? userDB = await _dbSet.FindAsync(userId);
-
-        return userDB!;
-    }
 }

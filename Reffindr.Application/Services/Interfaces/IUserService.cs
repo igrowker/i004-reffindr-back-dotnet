@@ -6,4 +6,5 @@ namespace Reffindr.Application.Services.Interfaces;
 public interface IUserService
 {
     Task<UserUpdateResponseDto> UpdateUserAsync(UserUpdateRequestDto userRequestDto, CancellationToken cancellationToken);
+    Task<UserCredentialsResponseDto> GetUserCredentialsAsync();
 }
