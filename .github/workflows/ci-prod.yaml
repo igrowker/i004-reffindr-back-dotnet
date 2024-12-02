@@ -62,6 +62,6 @@ jobs:
         docker run \
           -d \
           --name reffindr-dotnet \
-          -p 8080:8080 \
-          -p 8081:8081 \
+          -p ${{ secrets.HOST_PORT }}:${{ secrets.CONTAINER_PORT }} \
+          -p ${{ secrets.HOST_PORT2 }}:${{ secrets.CONTAINER_PORT2 }} \
           ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:prod
