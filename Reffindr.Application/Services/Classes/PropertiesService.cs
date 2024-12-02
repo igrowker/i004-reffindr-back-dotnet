@@ -57,7 +57,7 @@ public class PropertiesService : IPropertiesService
     }
 
 
-    public async Task<PropertyPostResponseDto> PostPropertyAsync(PropertyPostRequestDto propertyPostRequestDto, string ownerEmail, CancellationToken cancellationToken)
+    public async Task<PropertyPostResponseDto> PostPropertyAsync(PropertyPostRequestDto propertyPostRequestDto,  CancellationToken cancellationToken)
     {
         int userId = _userContext.GetUserId();
 
@@ -71,7 +71,7 @@ public class PropertiesService : IPropertiesService
 
 		await _unitOfWork.Complete(cancellationToken);
 
-        await _NotifService.AddNotificationToUser(ownerEmail, registeredProperty.Id, NotificationType.Application, cancellationToken);
+        await _NotifService.AddNotificationToUser(propertyPostRequestDto.OwnerEmail, registeredProperty.Id, NotificationType.Application, cancellationToken);
 
         PropertyPostResponseDto propertyPostResponseDto = registeredProperty.ToPostResponse();
 
