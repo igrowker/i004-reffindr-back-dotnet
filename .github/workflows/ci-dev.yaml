@@ -1,0 +1,100 @@
+name: Develop CI/CD Pipeline
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Choose the environment to deploy'
+        required: true
+        default: 'develop'
+        type: choice
+        options:
+          - develop
+
+jobs:
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0
+
+      - name: Restore Dependencies
+        run: dotnet restore Reffindr.Api/Reffindr.Api.csproj
+
+      - name: Audit Dependencies
+        run: |
+          dotnet list Reffindr.Api/Reffindr.Api.csproj package --vulnerable
+          dotnet list Reffindr.Application/Reffindr.Application.csproj package --vulnerable
+          dotnet list Reffindr.Domain/Reffindr.Domain.csproj package --vulnerable
+          dotnet list Reffindr.Infrastructure/Reffindr.Infrastructure.csproj package --vulnerable
+          dotnet list Reffindr.Shared/Reffindr.Shared.csproj package --vulnerable
+
+      #- name: Run Linter
+      #  run: dotnet format Reffindr.Solution.sln --check
+
+      # Compilación de la solución
+      - name: Build Solution
+        run: dotnet build Reffindr.Api/Reffindr.Api.csproj --configuration Release --no-restore
+
+      #- name: Run Tests
+      #  run: dotnet test --no-restore --verbosity normal --results-directory test-results --logger trx
+
+      #- name: Publish Test Results
+      #  if: always()
+      #  uses: actions/upload-artifact@v3
+      #  with:
+      #    name: test-results
+      #    path: test-results/*.trx
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Image with Multiple Tags
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          load: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:dev
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:${{ github.sha }}
+          file: Reffindr.Api/Dockerfile
+          context: .
+          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:buildcache,mode=max
+
+      - name: Scan Docker image
+        uses: anchore/scan-action@v5
+        with:
+          image: "${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:dev"
+          fail-build: false
+          severity-cutoff: high
+          output-format: table
+
+      - name: Deploy to Render
+        uses: satak/webrequest-action@master
+        with:
+          url: ${{ secrets.RENDER_DEPLOY }}
+          method: GET
