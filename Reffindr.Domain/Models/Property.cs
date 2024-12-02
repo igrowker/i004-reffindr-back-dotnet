@@ -1,4 +1,6 @@
-﻿namespace Reffindr.Domain.Models;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Reffindr.Domain.Models;
 
 public class Property : BaseModel
 {
@@ -37,6 +39,7 @@ public class Property : BaseModel
 
 	public virtual Notification? Notification { get; set; }
 	public virtual List<ApplicationModel>? Application { get; set; }
+    public virtual List<Image>? Images { get; set; }
 
-	#endregion Navigation Properties
+    #endregion Navigation Properties
 }

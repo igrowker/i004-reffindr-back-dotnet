@@ -14,6 +14,7 @@ using Reffindr.Infrastructure.Repositories.Interfaces;
 using Reffindr.Infrastructure.UnitOfWork;
 using System.Security.Claims;
 using System.Text;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -116,6 +117,9 @@ builder.Services.AddScoped<IApplicationService, ApplicationService>();
 builder.Services.AddScoped<IUserContext, UserContext>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IApplicationValidationService, ApplicationValidationService>();
+builder.Services.AddScoped<IImageService, ImageService>();
+builder.Services.AddSingleton<MetricsService>();
+
 
 #endregion Services
 
@@ -150,9 +154,19 @@ app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseStaticFiles();
+
 // Middleware para manejar excepciones globales
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseMiddleware<TimingMiddleware>();
+
+// Middleware para m�tricas HTTP
+app.UseHttpMetrics();
+app.MapMetrics();
+app.UseMiddleware<MetricsMiddleware>();
+
+
 
 app.UseHttpsRedirection();
 

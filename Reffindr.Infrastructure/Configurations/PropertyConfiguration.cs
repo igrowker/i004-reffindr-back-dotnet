@@ -31,7 +31,12 @@ public class PropertyConfiguration : EntityTypeBaseConfiguration<Property>
 		.WithOne(x => x.Property)
 		.HasForeignKey<Notification>(x => x.PropertyId);
 
-	}
+        builder.HasMany(x => x.Images)
+            .WithOne(x => x.Property)
+            .HasForeignKey(x => x.PropertyId);
+
+
+    }
 
 	protected override void ConfigurateProperties(EntityTypeBuilder<Property> builder)
 	{

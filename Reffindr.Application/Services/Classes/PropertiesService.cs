@@ -16,21 +16,24 @@ public class PropertiesService : IPropertiesService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IAuthService _authService;
     private readonly IUserContext _userContext;
-    private readonly INotificationService _NotifService;
+    private readonly IImageService _imageService;
+    private readonly INotificationService _NotifyService;
 
     public PropertiesService
         (
              IUnitOfWork unitOfWork,
              IAuthService authService,
              IUserContext userContext,
-			 INotificationService notifService
+             IImageService imageService,
+			 INotificationService notifyService
 
 		)
     {
         _unitOfWork = unitOfWork;
         _authService = authService;
         _userContext = userContext;
-		_NotifService = notifService;
+        _imageService = imageService;
+        _NotifyService = notifyService;
     }
 
     public async Task<List<PropertyGetResponseDto>> GetOwnerPropertiesAsync()
@@ -57,7 +60,7 @@ public class PropertiesService : IPropertiesService
     }
 
 
-    public async Task<PropertyPostResponseDto> PostPropertyAsync(PropertyPostRequestDto propertyPostRequestDto, string ownerEmail, CancellationToken cancellationToken)
+    public async Task<PropertyPostResponseDto> PostPropertyAsync(PropertyPostRequestDto propertyPostRequestDto,  CancellationToken cancellationToken)
     {
         int userId = _userContext.GetUserId();
 
@@ -66,12 +69,23 @@ public class PropertiesService : IPropertiesService
         propertyToCreate.IsDeleted = true;
 
 
-		Property registeredProperty = await _unitOfWork.PropertiesRepository.Create(propertyToCreate, cancellationToken);
+        if (propertyPostRequestDto.Images != null)
+        {
+            var imageUrls = await _imageService.UploadImagesAsync(propertyPostRequestDto.Images, cancellationToken);
+
+            propertyToCreate.Images = imageUrls.Select(url => new Image
+            {
+                ImageUrl = url
+            }).ToList();
+        }
+
+        Property registeredProperty = await _unitOfWork.PropertiesRepository.Create(propertyToCreate, cancellationToken);
 
 
 		await _unitOfWork.Complete(cancellationToken);
 
-        await _NotifService.AddNotificationToUser(ownerEmail, registeredProperty.Id, NotificationType.Application, cancellationToken);
+        await _NotifyService.AddNotificationToUser(propertyPostRequestDto.OwnerEmail, registeredProperty.Id, NotificationType.Application, cancellationToken);
+
 
         PropertyPostResponseDto propertyPostResponseDto = registeredProperty.ToPostResponse();
 

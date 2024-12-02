@@ -1,4 +1,5 @@
-﻿using Reffindr.Shared.DTOs.Request.Requirement;
+﻿using Microsoft.AspNetCore.Http;
+using Reffindr.Shared.DTOs.Request.Requirement;
 
 namespace Reffindr.Shared.DTOs.Request.Property;
 
@@ -24,6 +25,8 @@ public class PropertyPostRequestDto
     public bool Elevator { get; set; }
     public bool Terrace { get; set; }
     public string Description { get; set; } = default!;
+    public List<IFormFile>? Images { get; set; } 
+    public string OwnerEmail { get; set; } = default!;
 
     public virtual RequirementPostRequestDto? RequirementPostRequestDto { get; set; }
 }
