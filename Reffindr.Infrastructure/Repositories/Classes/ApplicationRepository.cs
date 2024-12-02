@@ -37,11 +37,20 @@ namespace Reffindr.Infrastructure.Repositories.Classes
                     !a.IsDeleted);
         }
 
-		public async Task<List<ApplicationModel>> GetApplicationsForPanelOwner(int propertyId)
-		{
+        public async Task<List<ApplicationModel>> GetApplicationsSelectedCandidates(int propertyId)
+        {
             return await _dbSet
                 .Where((a => a.PropertyId == propertyId && a.Candidate!.SelectedByTenant == true))
                 .ToListAsync();
-		}
-	}
+        }
+
+        public async Task<ApplicationModel> GetApplicationCandidate(int candidateUserId, int propertyId)
+        {
+            ApplicationModel candidateData = (await _dbSet.Where(x => x.UserId == candidateUserId && x.PropertyId == propertyId).Include(x => x.Candidate).FirstOrDefaultAsync())!;
+            return candidateData!;
+        }
+
+
+
+    }
 }

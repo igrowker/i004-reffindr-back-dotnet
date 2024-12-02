@@ -63,7 +63,7 @@ public class PropertiesService : IPropertiesService
 
 		Property propertyToCreate = propertyPostRequestDto.ToModel();
         propertyToCreate.TenantId = userId;
-        propertyToCreate.IsDeleted = false; // CAMBIE A FALSE PARA PROBAR ENDPOINT DE GET PROPERTIES
+        propertyToCreate.IsDeleted = true;
 
 
 		Property registeredProperty = await _unitOfWork.PropertiesRepository.Create(propertyToCreate, cancellationToken);

@@ -19,10 +19,10 @@ namespace Reffindr.Api.Controllers
             _applicationService = applicationService;
         }
 
-        [HttpGet("User/{userId}")]
-        public async Task<IActionResult> GetApplicationsByUserIdAsync(int userId)
+        [HttpGet("User")]
+        public async Task<IActionResult> GetApplicationsByUserIdAsync()
         {
-            var result = await _applicationService.GetApplicationsByUserIdAsync(userId);
+            var result = await _applicationService.GetApplicationsByUserIdAsync();
 
             if (!result.IsSuccess)
             {
@@ -40,10 +40,10 @@ namespace Reffindr.Api.Controllers
             return Ok(applications);
         }
 
-		[HttpGet("PanelOwner/{propertyId}")]
-		public async Task<IActionResult> GetApplicationsForPanelOwner(int propertyId)
+		[HttpGet("SelectedCandidates/{propertyId}")]
+		public async Task<IActionResult> GetApplicationsSelectedCandidatesAsync(int propertyId)
 		{
-			List<ApplicationGetResponseDto> applications = await _applicationService.GetApplicationsByPropertyIdAsync(propertyId);
+			List<ApplicationGetResponseDto> applications = await _applicationService.GetApplicationsSelectedCandidatesAsync(propertyId);
 
 			return Ok(applications);
 		}
@@ -62,5 +62,39 @@ namespace Reffindr.Api.Controllers
 
             return Ok(result.Value);
         }
+
+
+        /// <summary>
+        /// Actualiza el selectedByTenant del candidato a true si el inquilino lo selecciona
+        /// </summary>
+        /// <remarks>
+        /// Este endpoint permite actualizar el selectedByTenant del candidato de  la entidad application
+        /// Se requiere autorización para acceder a este recurso.
+        /// </remarks>
+        /// <param name="candidateUserId">
+        /// </param>
+        /// <param name="propertyId">
+        /// </param>
+        /// <param name="cancellationToken">
+        /// </param>
+        /// <returns>
+        /// Si ocurre un error, se devolverá un código de estado HTTP correspondiente.
+        /// </returns>
+        /// <response code="200">El usuario fue actualizado exitosamente.</response>
+        /// <response code="400">El cuerpo de la solicitud no es válido.</response>
+        /// <response code="401">El usuario no está autorizado para realizar esta acción.</response>
+        /// <response code="404">No se encontró el usuario especificado.</response>
+        /// <response code="500">Ocurrió un error interno en el servidor.</response>
+        [HttpPut]
+        [Route("PutSelectApplicationCandidates")]
+        public async Task<IActionResult> PutSelectCandidates(int candidateUserId, int propertyId, CancellationToken cancellationToken)
+        {
+            var result = await _applicationService.PutSelectCandidatesAsync(candidateUserId, propertyId, cancellationToken);
+            return Ok((result));
+        }
+
+    
+
+
     }
 }

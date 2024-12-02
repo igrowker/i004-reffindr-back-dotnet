@@ -25,16 +25,11 @@ namespace Reffindr.Application.Services.Classes
             _applicationValidationService = applicationValidationService;
         }
 
-        public async Task<Result<List<ApplicationGetResponseDto>>> GetApplicationsByUserIdAsync(int userId)
+        public async Task<Result<List<ApplicationGetResponseDto>>> GetApplicationsByUserIdAsync()
         {
             int userCurrentId = _userContext.GetUserId();
 
-            if (userId != userCurrentId)
-            {
-                return Result<List<ApplicationGetResponseDto>>.Failure("You don't have permissions to view another user's applications.");
-            }
-
-            List<ApplicationModel> applications = await _unitOfWork.ApplicationRepository.GetApplicationsByUserIdAsync(userId);
+            List<ApplicationModel> applications = await _unitOfWork.ApplicationRepository.GetApplicationsByUserIdAsync(userCurrentId);
 
             // Mapeo
             List<ApplicationGetResponseDto> applicationDtos = applications.Select(a => a.ToGetResponse()).ToList();
@@ -47,10 +42,10 @@ namespace Reffindr.Application.Services.Classes
             // No sé si agregar una validación para que solo pueda obtener las aplicaciones el dueño de la propiedad o el inquilino saliente que la publicó
             bool userIsOwnerOrTenant = await _applicationValidationService.UserIsOwnerOrTenant(propertyId);
 
-            if (!userIsOwnerOrTenant)
-            {
-                throw new Exception("You don't have permissions to view applications for this property.");
-            }
+            //if (!userIsOwnerOrTenant)
+            //{
+            //    throw new Exception("You don't have permissions to view applications for this property.");
+            //}
 
             List<ApplicationModel> applications = await _unitOfWork.ApplicationRepository.GetApplicationsByPropertyIdAsync(propertyId);
 
@@ -60,64 +55,64 @@ namespace Reffindr.Application.Services.Classes
             return applicationDtos;
         }
 
-		public async Task<List<ApplicationGetResponseDto>> GetApplicationForPanelOwner(int propertyId)
-		{
-			// No sé si agregar una validación para que solo pueda obtener las aplicaciones el dueño de la propiedad o el inquilino saliente que la publicó
-			bool userIsOwnerOrTenant = await _applicationValidationService.UserIsOwnerOrTenant(propertyId);
-
-			if (!userIsOwnerOrTenant)
-			{
-				throw new Exception("You don't have permissions to view applications for this property.");
-			}
-
-			List<ApplicationModel> applications = await _unitOfWork.ApplicationRepository.GetApplicationsForPanelOwner(propertyId);
-
-			// Mapeo
-			List<ApplicationGetResponseDto> applicationDtos = applications.Select(a => a.ToGetResponse()).ToList();
-
-			return applicationDtos;
-		}
-
-		public async Task<Result<ApplicationPostResponseDto>> PostApplicationAsync(ApplicationPostRequestDto applicationPostRequestDto, CancellationToken cancellationToken)
+        public async Task<List<ApplicationGetResponseDto>> GetApplicationsSelectedCandidatesAsync(int propertyId)
         {
-            using IDbContextTransaction transaction = await _unitOfWork.BeginTransaction(cancellationToken); 
+            // No sé si agregar una validación para que solo pueda obtener las aplicaciones el dueño de la propiedad o el inquilino saliente que la publicó
+            //bool userIsOwnerOrTenant = await _applicationValidationService.UserIsOwnerOrTenant(propertyId);
+
+            //if (!userIsOwnerOrTenant)
+            //{
+            //    throw new Exception("You don't have permissions to view applications for this property.");
+            //}
+
+            List<ApplicationModel> applications = await _unitOfWork.ApplicationRepository.GetApplicationsSelectedCandidates(propertyId);
+
+            // Mapeo
+            List<ApplicationGetResponseDto> applicationDtos = applications.Select(a => a.ToGetResponse()).ToList();
+
+            return applicationDtos;
+        }
+
+        public async Task<Result<ApplicationPostResponseDto>> PostApplicationAsync(ApplicationPostRequestDto applicationPostRequestDto, CancellationToken cancellationToken)
+        {
+            using IDbContextTransaction transaction = await _unitOfWork.BeginTransaction(cancellationToken);
 
             int userAuthenticated = _userContext.GetUserId();
             int userRoleId = _userContext.GetRoleId();
 
             // Verificar si el usuario es inquilino
-            if (userRoleId != 1)
-            { 
-                return Result<ApplicationPostResponseDto>.Failure("Solo los inquilinos pueden aplicar a propiedades.");
-            }
+            //if (userRoleId != 1)
+            //{
+            //    return Result<ApplicationPostResponseDto>.Failure("Solo los inquilinos pueden aplicar a propiedades.");
+            //}
 
             // Verificar si la propiedad existe
-            var propertyExists = await _applicationValidationService.PropertyExists(applicationPostRequestDto.PropertyId);
-            if (!propertyExists)
-            {
-                return Result<ApplicationPostResponseDto>.Failure("La propiedad no existe");
-            }
+            //var propertyExists = await _applicationValidationService.PropertyExists(applicationPostRequestDto.PropertyId);
+            //if (!propertyExists)
+            //{
+            //    return Result<ApplicationPostResponseDto>.Failure("La propiedad no existe");
+            //}
 
             // Verificar si el usuario ya ha aplicado a esta propiedad
-            bool userHasApplied = await _applicationValidationService.UserHasNotApplied(applicationPostRequestDto.PropertyId);
-            if (!userHasApplied)
-            {
-                return Result<ApplicationPostResponseDto>.Failure("Ya has aplicado a esta propiedad.");
-            }
+            //bool userHasApplied = await _applicationValidationService.UserHasNotApplied(applicationPostRequestDto.PropertyId);
+            //if (!userHasApplied)
+            //{
+            //    return Result<ApplicationPostResponseDto>.Failure("Ya has aplicado a esta propiedad.");
+            //}
 
             // Verificar si el usuario tiene un perfil completo
-            bool userHasCompleteProfile = await _applicationValidationService.UserHasCompleteProfile();
-            if (!userHasCompleteProfile)
-            {
-                return Result<ApplicationPostResponseDto>.Failure("Debes completar tu perfil antes de aplicar a una propiedad.");
-            }
+            //bool userHasCompleteProfile = await _applicationValidationService.UserHasCompleteProfile();
+            //if (!userHasCompleteProfile)
+            //{
+            //    return Result<ApplicationPostResponseDto>.Failure("Debes completar tu perfil antes de aplicar a una propiedad.");
+            //}
 
-            // Verificar si el usuario cumple con los requisitos de la propiedad
-            var tenantInfo = await _applicationValidationService.UserMeetsRequirements(applicationPostRequestDto.PropertyId);
-            if (!tenantInfo)
-            {
-                return Result<ApplicationPostResponseDto>.Failure("El usuario no cumple con los requisitos solicitados para la propiedad.");
-            }
+            //// Verificar si el usuario cumple con los requisitos de la propiedad
+            //var tenantInfo = await _applicationValidationService.UserMeetsRequirements(applicationPostRequestDto.PropertyId);
+            //if (!tenantInfo)
+            //{
+            //    return Result<ApplicationPostResponseDto>.Failure("El usuario no cumple con los requisitos solicitados para la propiedad.");
+            //}
 
             ApplicationModel applicationToCreate = applicationPostRequestDto.ToModel();
             applicationToCreate.UserId = userAuthenticated;
@@ -138,5 +133,17 @@ namespace Reffindr.Application.Services.Classes
 
             return Result<ApplicationPostResponseDto>.Success(applicationResponse);
         }
+
+        public async Task<Candidate> PutSelectCandidatesAsync(int cantidateUserID, int propertyId, CancellationToken cancellationToken)
+        {
+            ApplicationModel userCandidateData = await _unitOfWork.ApplicationRepository.GetApplicationCandidate(cantidateUserID, propertyId);
+            userCandidateData.Candidate!.SelectedByTenant = true;
+
+           Candidate userCandidateDataUpdated = await _unitOfWork.CandidateRepository.Update(userCandidateData.Id, userCandidateData.Candidate);
+           await _unitOfWork.Complete(cancellationToken);
+
+            return userCandidateDataUpdated;
+        }
+
     }
 }
