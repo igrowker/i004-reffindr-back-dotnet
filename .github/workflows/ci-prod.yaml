@@ -64,5 +64,4 @@ jobs:
           --name reffindr-dotnet \
           -p 8080:8080 \
           -p 8081:8081 \
-          -p 443:443 \
           ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:prod
