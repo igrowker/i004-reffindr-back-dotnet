@@ -8,7 +8,6 @@ on:
   push:
     branches:
       - main
-      - develop
   workflow_dispatch:
     inputs:
       environment:
@@ -18,7 +17,6 @@ on:
         type: choice
         options:
           - main
-          - develop
 
 jobs:
   docker-build-and-push:
@@ -50,19 +48,20 @@ jobs:
 
   pull-and-deploy:
     runs-on: [self-hosted, linux, dotnet]
+    needs: docker-build-and-push
     steps:
     - name: Deploy Docker container to EC2
       run: |
         docker stop reffindr-dotnet || true
         docker rm -f reffindr-dotnet || true
-  
+    
         docker system prune -af --volumes
-  
+    
         docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:prod
-  
+    
         docker run \
-        -d \
-        --name reffindr-dotnet \
-        -e PORT=8081 \
-        -p 443:8081 \
-        ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:prod
+          -d \
+          --name reffindr-dotnet \
+          -p 8080:8080 \
+          -p 8081:8081 \
+          ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:prod

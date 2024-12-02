@@ -44,6 +44,7 @@ public static class PropertiesMappers
     {
         return new PropertyPostResponseDto
         {
+            Id = property.Id,
             CountryId = property.CountryId,
             StateId = property.StateId,
             Title = property.Title,
@@ -62,7 +63,9 @@ public static class PropertiesMappers
             Pets = property.Pets,
             Grill = property.Grill,
             Elevator = property.Elevator,
-            Terrace = property.Terrace
+            Terrace = property.Terrace,
+            Images = property.Images?.Select(image => image.ImageUrl).ToList()
+
         };
     }
 
@@ -93,7 +96,9 @@ public static class PropertiesMappers
             Elevator = property.Elevator,
             Terrace = property.Terrace,
             CountryId = property.CountryId,
-            StateId = property.StateId
+            StateId = property.StateId,
+            Images = property.Images?.Select(image => image.ImageUrl).ToList()
+
         };
     }
 }
