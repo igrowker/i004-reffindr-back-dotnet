@@ -1,5 +1,4 @@
-﻿using Reffindr.Shared.DTOs.Response.Property;
-using Reffindr.Shared.DTOs.Response.User;
+﻿using Reffindr.Shared.DTOs.Response.User;
 
 namespace Reffindr.Application.Services.Interfaces;
 

@@ -2,7 +2,6 @@
 using Reffindr.Domain.Models;
 using Reffindr.Domain.Models.UserModels;
 using System.Reflection;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Reffindr.Infrastructure.Data;
 
@@ -24,6 +23,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Rating> ratings { get; set; }
     public DbSet<Requirement> Requirements { get; set; }
     public DbSet<State> States { get; set; }
+    public DbSet<Image> Images { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,7 +1,10 @@
-﻿namespace Reffindr.Shared.DTOs.Response.Property;
+﻿using static System.Net.Mime.MediaTypeNames;
+
+namespace Reffindr.Shared.DTOs.Response.Property;
 
 public class PropertyPostResponseDto
 {
+    public int Id { get; set; }
     public int RequirementId { get; set; }
     public int CountryId { get; set; }
     public int StateId { get; set; }
@@ -23,6 +26,7 @@ public class PropertyPostResponseDto
     public bool Elevator { get; set; }
     public bool Terrace { get; set; }
     public string Description { get; set; } = default!;
+    public virtual List<string>? Images { get; set; }
 }
 
 
