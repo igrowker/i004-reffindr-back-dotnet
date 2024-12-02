@@ -1,9 +1,9 @@
 services:
   reffindr.api:
-    image: ${DOCKER_REGISTRY-}reffindrapi
+    # image: igrowker/i004-reffindr-back-dotnet:prod
     build:
       context: .
-      dockerfile: Reffindr.Api/Dockerfile
+      dockerfile: ./Reffindr.Api/Dockerfile
     ports:
-      - "5296:8080"
-      - "7220:8081"
+      - "8080:8080"
+      - "8081:8081"
