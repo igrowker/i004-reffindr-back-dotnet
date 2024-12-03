@@ -21,7 +21,9 @@ public class UnitOfWork : IUnitOfWork
     public IGenreRepository GenreRepository { get; }
     public ISalaryRepository SalaryRepository { get; }
 
-    public UnitOfWork
+	public IStateRepository StateRepository => throw new NotImplementedException();
+
+	public UnitOfWork
         (
             ApplicationDbContext dbContext,
             IAuthRepository authRepository,
