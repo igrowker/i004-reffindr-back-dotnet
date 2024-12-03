@@ -18,6 +18,9 @@ public static class UsersMappers
         existingData.Phone = userUpdateRequestDto.Phone ?? existingData.Phone;
         existingData.Address = userUpdateRequestDto.Address ?? existingData.Address;
         existingData.BirthDate = userUpdateRequestDto.BirthDate ?? existingData.BirthDate;
+        existingData.GenreId = userUpdateRequestDto.GenreId ?? existingData.GenreId;
+        existingData.SalaryId = userUpdateRequestDto.SalaryId ?? existingData.SalaryId;
+        
 
         return existingData;
     }
@@ -33,7 +36,10 @@ public static class UsersMappers
             Address = user.Address,
             BirthDate = user.BirthDate,
             IsProfileComplete = user.IsProfileComplete,
-            ImageUrl = user.Image!.ImageUrl
+            ImageUrl = user.Image!.ImageUrl,
+            SalaryId = user.SalaryId,
+            GenreId = user.GenreId
+            
         };
     }
 
@@ -49,7 +55,11 @@ public static class UsersMappers
             Phone = user.Phone,
             Address = user.Address,
             BirthDate = user.BirthDate,
-            IsProfileComplete = user.IsProfileComplete
+            IsProfileComplete = user.IsProfileComplete,
+            ImageProfileUrl = user.Image!.ImageUrl,
+            GenderId = user.GenreId,
+            SalaryId = user.SalaryId
+
         };
     }
 }

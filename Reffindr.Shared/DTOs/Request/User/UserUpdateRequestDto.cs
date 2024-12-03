@@ -14,4 +14,6 @@ public class UserUpdateRequestDto
     public string? Address { get; set; }
     public DateTime? BirthDate { get; set; }
     public IFormFile? ProfileImage { get; set; }
+    public int? GenreId { get; set; }
+    public int? SalaryId { get; set; }
 }

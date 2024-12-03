@@ -38,6 +38,13 @@ public class UserConfiguration : EntityTypeBaseConfiguration<User>
         builder.HasOne(x => x.Image)
             .WithOne(x => x.User)
             .HasForeignKey<Image>(x => x.UserId);
+
+        builder.HasOne(x => x.Genre)
+            .WithMany(x => x.Users)
+            .HasForeignKey(x => x.GenreId);
+        builder.HasOne(x => x.Salary)
+            .WithMany(x => x.Users)
+            .HasForeignKey(x => x.SalaryId);
     }
 
     protected override void ConfigurateProperties(EntityTypeBuilder<User> builder)

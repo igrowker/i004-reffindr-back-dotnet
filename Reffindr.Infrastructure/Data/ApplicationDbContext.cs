@@ -24,6 +24,9 @@ public class ApplicationDbContext : DbContext
     public DbSet<Requirement> Requirements { get; set; }
     public DbSet<State> States { get; set; }
     public DbSet<Image> Images { get; set; }
+    public DbSet<Genre> Genres { get; set; }
+    public DbSet<Salary> Salaries { get; set; }
+
     public DbSet<Favorite> Favorites { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
