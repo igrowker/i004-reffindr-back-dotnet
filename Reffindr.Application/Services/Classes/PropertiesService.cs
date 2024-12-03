@@ -66,7 +66,7 @@ public class PropertiesService : IPropertiesService
 
 		Property propertyToCreate = propertyPostRequestDto.ToModel();
         propertyToCreate.TenantId = userId;
-        propertyToCreate.IsDeleted = true;
+        propertyToCreate.IsDeleted = false;
 
 
         if (propertyPostRequestDto.Images != null)

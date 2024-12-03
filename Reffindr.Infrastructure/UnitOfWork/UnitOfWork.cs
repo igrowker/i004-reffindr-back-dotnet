@@ -19,7 +19,9 @@ public class UnitOfWork : IUnitOfWork
     public IImageRepository ImageRepository { get; }
     public IFavoriteRepository FavoriteRepository { get; }
 
-    public UnitOfWork
+	public IStateRepository StateRepository => throw new NotImplementedException();
+
+	public UnitOfWork
         (
             ApplicationDbContext dbContext,
             IAuthRepository authRepository,
