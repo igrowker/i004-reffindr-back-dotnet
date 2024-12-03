@@ -44,7 +44,7 @@ public class ImageService : IImageService
             {
                 using (var stream = image.OpenReadStream())
                 {
-                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
+                    var uniqueFileName = (Guid.NewGuid().ToString() + "_" + image.FileName).Replace(" ", "");
 
                     var imageUrl = await _blobStorageService.UploadImageAsync(stream, uniqueFileName);
                     imageUrls.Add(imageUrl);
@@ -59,7 +59,7 @@ public class ImageService : IImageService
     {
                 using (var stream = image.OpenReadStream())
                 {
-                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
+                    var uniqueFileName = (Guid.NewGuid().ToString() + "_" + image.FileName).Replace(" ", ""); ;
                     var imageUrl = await _blobStorageService.UploadImageAsync(stream, uniqueFileName);
                     return imageUrl;
                 }

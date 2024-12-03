@@ -30,6 +30,7 @@ public static class PropertiesMappers
             Grill = propertyPostRequestDto.Grill,
             Elevator = propertyPostRequestDto.Elevator,
             Terrace = propertyPostRequestDto.Terrace,
+            Price = propertyPostRequestDto.Price,
             Requirement = new Requirement
             {
                 IsWorking = propertyPostRequestDto.RequirementPostRequestDto!.IsWorking,
@@ -64,6 +65,7 @@ public static class PropertiesMappers
             Grill = property.Grill,
             Elevator = property.Elevator,
             Terrace = property.Terrace,
+            Price = property.Price,
             Images = property.Images?.Select(image => image.ImageUrl).ToList()
 
         };

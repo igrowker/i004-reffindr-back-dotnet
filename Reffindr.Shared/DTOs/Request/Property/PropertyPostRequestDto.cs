@@ -27,6 +27,7 @@ public class PropertyPostRequestDto
     public string Description { get; set; } = default!;
     public List<IFormFile>? Images { get; set; } 
     public string OwnerEmail { get; set; } = default!;
+    public decimal Price { get; set; } = default!;
 
     public virtual RequirementPostRequestDto? RequirementPostRequestDto { get; set; }
 }
