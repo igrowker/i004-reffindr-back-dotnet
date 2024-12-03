@@ -6,6 +6,10 @@ public class UserTenantInfo : BaseModel
     public bool HasWarranty { get; set; }
     public decimal RangeSalary { get; set; } = default!;
     public int UserId { get; set; }
+    public int? SalaryId { get; set; }
 
     public virtual User? User { get; set; }
+    public virtual Salary? Salary { get; set; }
+
+
 }

@@ -29,12 +29,12 @@ public class UserConfiguration : EntityTypeBaseConfiguration<User>
 
         builder.HasOne(x => x.UserOwnerInfo)
             .WithOne(x => x.User)
-            .HasForeignKey<UserOwnerInfo>(x => x.UserId);
+            .HasForeignKey<User>(x => x.UserOwnerInfoId);
 
         builder.HasOne(x => x.UserTenantInfo)
             .WithOne(x => x.User)
-            .HasForeignKey<UserTenantInfo>(x => x.UserId);
-        
+            .HasForeignKey<User>(x => x.UserTenantInfoId);
+
         builder.HasOne(x => x.Image)
             .WithOne(x => x.User)
             .HasForeignKey<Image>(x => x.UserId);
@@ -42,9 +42,7 @@ public class UserConfiguration : EntityTypeBaseConfiguration<User>
         builder.HasOne(x => x.Genre)
             .WithMany(x => x.Users)
             .HasForeignKey(x => x.GenreId);
-        builder.HasOne(x => x.Salary)
-            .WithMany(x => x.Users)
-            .HasForeignKey(x => x.SalaryId);
+      
     }
 
     protected override void ConfigurateProperties(EntityTypeBuilder<User> builder)

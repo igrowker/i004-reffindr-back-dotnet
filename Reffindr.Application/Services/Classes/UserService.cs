@@ -34,11 +34,10 @@ public class UserService : IUserService
 
         Image userImageDb = await _unitOfWork.ImageRepository.GetImage(userId);
 
-        var userDataInDb = await _unitOfWork.UsersRepository.GetById(userId);
+        User userDataInDb = await _unitOfWork.UsersRepository.GetById(userId);
+        UserTenantInfo userDataInDbTenantInfo = await _unitOfWork.UserTenantInfoRepository.GetById(userDataInDb.UserTenantInfoId);
+        userDataInDb.UserTenantInfo = userDataInDbTenantInfo;
         User userToUpdate = userUpdateRequestDto.ToModel(userDataInDb);
-
-       
-
 
         if (userUpdateRequestDto.ProfileImage is not null)
         {
@@ -69,7 +68,11 @@ public class UserService : IUserService
         int userId = _userContext.GetUserId();
         User userCredentials = await _unitOfWork.UsersRepository.GetById(userId);
         Image userImageDb = await _unitOfWork.ImageRepository.GetImage(userId);
+        UserTenantInfo userTenantInfo = await _unitOfWork.UserTenantInfoRepository.GetById(userCredentials.UserTenantInfoId);
         userCredentials.Image = userImageDb;
+
+
+        userCredentials.UserTenantInfo = userTenantInfo;
 
         UserCredentialsResponseDto userCredentialsResponse = userCredentials.ToUserCredentialsResponse();
 

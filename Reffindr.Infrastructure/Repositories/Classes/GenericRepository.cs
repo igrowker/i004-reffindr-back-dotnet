@@ -24,7 +24,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
         return await recordsQueriable.Paginate(paginationDto).ToListAsync();
     }
 
-    public async Task<T> GetById(int id)
+    public async Task<T> GetById(int? id)
     {
         var recordDb = await _dbSet.FindAsync(id);
         return recordDb!;

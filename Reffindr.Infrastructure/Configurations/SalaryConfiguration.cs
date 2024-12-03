@@ -10,7 +10,7 @@ public class SalaryConfiguration : EntityTypeBaseConfiguration<Salary>
     {
         builder.HasKey(x => x.Id);
 
-        builder.HasMany(x => x.Users).WithOne(x => x.Salary).HasForeignKey(x => x.SalaryId);
+        builder.HasMany(x => x.UsersTenantInfo).WithOne(x => x.Salary).HasForeignKey(x => x.SalaryId);
     }
 
     protected override void ConfigurateProperties(EntityTypeBuilder<Salary> builder)

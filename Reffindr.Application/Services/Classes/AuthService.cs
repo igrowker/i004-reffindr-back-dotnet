@@ -58,6 +58,7 @@ public class AuthService : IAuthService
                 User = registeredUser,
             };
             await _unitOfWork.UserTenantInfoRepository.Create(tenantInfo, cancellationToken);
+
         }
         else if (registeredUser.RoleId == 2)
         {
@@ -66,6 +67,7 @@ public class AuthService : IAuthService
                 User = registeredUser,
             };
             await _unitOfWork.UserOwnerInfoRepository.Create(userOwnerInfo, cancellationToken);
+
         }
 
         await _unitOfWork.Complete(cancellationToken);
