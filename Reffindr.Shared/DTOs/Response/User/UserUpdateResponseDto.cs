@@ -10,4 +10,5 @@ public class UserUpdateResponseDto
     public string? Address { get; set; }
     public DateTime? BirthDate { get; set; }
     public bool? IsProfileComplete { get; set; }
+    public string? ImageUrl { get; set; }
 }

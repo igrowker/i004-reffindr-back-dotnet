@@ -44,13 +44,25 @@ public class ImageService : IImageService
             {
                 using (var stream = image.OpenReadStream())
                 {
-                    var imageUrl = await _blobStorageService.UploadImageAsync(stream, image.FileName);
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
+
+                    var imageUrl = await _blobStorageService.UploadImageAsync(stream, uniqueFileName);
                     imageUrls.Add(imageUrl);
                 }
             }
         }
 
         return imageUrls;
+    }
+
+    public async Task<string> UploadImagesAsync(IFormFile image)
+    {
+                using (var stream = image.OpenReadStream())
+                {
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
+                    var imageUrl = await _blobStorageService.UploadImageAsync(stream, uniqueFileName);
+                    return imageUrl;
+                }
     }
 
 

@@ -16,7 +16,8 @@ public static class UsersMappers
             Phone = user.Phone,
             Address = user.Address,
             BirthDate = user.BirthDate,
-            IsProfileComplete = user.IsProfileComplete
+            IsProfileComplete = user.IsProfileComplete,
+            ImageUrl = user.Image!.ImageUrl
         };
     }
 

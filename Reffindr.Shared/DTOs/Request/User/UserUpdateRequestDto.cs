@@ -1,4 +1,6 @@
-﻿namespace Reffindr.Shared.DTOs.Response.User;
+﻿using Microsoft.AspNetCore.Http;
+
+namespace Reffindr.Shared.DTOs.Response.User;
 
 public class UserUpdateRequestDto
 {
@@ -9,4 +11,5 @@ public class UserUpdateRequestDto
     public string? Phone { get; set; } = default!;
     public string? Address { get; set; }
     public DateTime? BirthDate { get; set; }
+    public IFormFile? ProfileImage { get; set; }
 }
