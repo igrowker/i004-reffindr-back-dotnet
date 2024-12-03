@@ -51,7 +51,8 @@ namespace Reffindr.Application.Services.Classes
 				PropertyId = propertyId,
 			};
 			await _unitOfWork.NotificationRepository.Create(notification, cancellationToken);
-			await _hubContext.Clients.User(userRecievingId.Id.ToString()).SendAsync("ReceiveNotification", notification.Message);
+            await _unitOfWork.Complete(cancellationToken);
+            await _hubContext.Clients.User(userRecievingId.Id.ToString()).SendAsync("ReceiveNotification", notification.Message);
 		}
 
 		public async Task ConfirmPropertyfromNotification(int propertyId)
