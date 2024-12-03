@@ -68,6 +68,8 @@ public class UserService : IUserService
     {
         int userId = _userContext.GetUserId();
         User userCredentials = await _unitOfWork.UsersRepository.GetById(userId);
+        Image userImageDb = await _unitOfWork.ImageRepository.GetImage(userId);
+        userCredentials.Image = userImageDb;
 
         UserCredentialsResponseDto userCredentialsResponse = userCredentials.ToUserCredentialsResponse();
 

@@ -55,7 +55,11 @@ public static class UsersMappers
             Phone = user.Phone,
             Address = user.Address,
             BirthDate = user.BirthDate,
-            IsProfileComplete = user.IsProfileComplete
+            IsProfileComplete = user.IsProfileComplete,
+            ImageProfileUrl = user.Image!.ImageUrl,
+            GenderId = user.GenreId,
+            SalaryId = user.SalaryId
+
         };
     }
 }
