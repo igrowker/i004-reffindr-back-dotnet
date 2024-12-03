@@ -13,11 +13,13 @@ public class User : BaseModel
     public string? Phone { get; set; } = default!;
     public string? Address { get; set; } = default!;
     public DateTime? BirthDate { get; set; }
-
     [EmailAddress]
     public string Email { get; set; } = default!;
     public string Password { get; set; } = default!;
     public bool IsProfileComplete { get; set; }
+    public int? GenreId { get; set; }
+    public int? SalaryId { get; set; }
+
 
     #region NavigationProperties
 
@@ -31,6 +33,9 @@ public class User : BaseModel
     public virtual List<Rating>? RatingsGiven { get; set; }
     public virtual List<Rating>? RatingsReceived { get; set; }
     public virtual Image? Image { get; set; }
+    public virtual Salary? Salary { get; set; }
+    public virtual Genre? Genre { get; set; }
+
 
     #endregion NavigationProperties
 }

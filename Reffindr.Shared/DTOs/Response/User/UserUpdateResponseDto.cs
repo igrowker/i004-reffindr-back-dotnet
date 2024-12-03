@@ -11,4 +11,7 @@ public class UserUpdateResponseDto
     public DateTime? BirthDate { get; set; }
     public bool? IsProfileComplete { get; set; }
     public string? ImageUrl { get; set; }
+    public int? GenreId { get; set; }
+    public int? SalaryId { get; set; }
+    
 }
