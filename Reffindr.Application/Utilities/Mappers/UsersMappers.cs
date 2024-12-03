@@ -9,15 +9,15 @@ public static class UsersMappers
     public static User ToModel(this UserUpdateRequestDto userUpdateRequestDto, User existingData)
     {
 
-        userUpdateRequestDto.CountryId = existingData.CountryId;
-        userUpdateRequestDto.StateId = existingData.StateId;
-        userUpdateRequestDto.Email = existingData.Email!;
-        userUpdateRequestDto.Name = existingData.Name!;
-        userUpdateRequestDto.LastName = existingData.LastName!;
-        userUpdateRequestDto.Dni = existingData.Dni;
-        userUpdateRequestDto.Phone = existingData.Phone;
-        userUpdateRequestDto.Address = existingData.Address;
-        userUpdateRequestDto.BirthDate = existingData.BirthDate;
+        existingData.CountryId = userUpdateRequestDto.CountryId ?? existingData.CountryId;
+        existingData.StateId = userUpdateRequestDto.StateId ?? existingData.StateId;
+        existingData.Email = userUpdateRequestDto.Email! ?? existingData.Email;
+        existingData.Name = userUpdateRequestDto.Name! ?? existingData.Name;
+        existingData.LastName = userUpdateRequestDto.LastName! ?? existingData.LastName;
+        existingData.Dni = userUpdateRequestDto.Dni ?? existingData.Dni;
+        existingData.Phone = userUpdateRequestDto.Phone ?? existingData.Phone;
+        existingData.Address = userUpdateRequestDto.Address ?? existingData.Address;
+        existingData.BirthDate = userUpdateRequestDto.BirthDate ?? existingData.BirthDate;
 
         return existingData;
     }
