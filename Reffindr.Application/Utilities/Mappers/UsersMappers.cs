@@ -30,6 +30,8 @@ public static class UsersMappers
         {
             Email = user.Email,
             Name = user.Name,
+            CountryId = user.CountryId,
+            StateId = user.StateId,
             LastName = user.LastName,
             Dni = user.Dni,
             Phone = user.Phone,
@@ -48,6 +50,9 @@ public static class UsersMappers
         return new UserCredentialsResponseDto
         {
             RoleId = user.RoleId,
+            RoleName = user.Role!.RoleName,
+            CountryId = user.CountryId,
+            StateId = user.StateId,
             Email = user.Email,
             Name = user.Name,
             LastName = user.LastName,
@@ -57,9 +62,10 @@ public static class UsersMappers
             BirthDate = user.BirthDate,
             IsProfileComplete = user.IsProfileComplete,
             ImageProfileUrl = user.Image!.ImageUrl,
-            GenderId = user.GenreId,
-            SalaryId = user.UserTenantInfo!.SalaryId
-            
+            GenderId = user.GenreId ?? null,
+            GenderName = user.Genre?.GenreName ?? "Género no especificado",
+            SalaryId = user.UserTenantInfo!.SalaryId ?? null,
+            SalaryName = user.UserTenantInfo?.Salary?.SalaryName ?? "Salario no especificado"
 
         };
     }

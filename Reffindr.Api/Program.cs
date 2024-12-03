@@ -135,6 +135,9 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserTenantInfoRepository, UserTenantInfoRepository>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
 builder.Services.AddScoped<IUserOwnerInfoRepository, UserOwnerInfoRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+builder.Services.AddScoped<ISalaryRepository, SalaryRepository>();
 
 #endregion Repositories
 

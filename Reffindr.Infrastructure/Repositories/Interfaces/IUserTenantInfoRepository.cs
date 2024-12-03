@@ -1,9 +1,8 @@
 ﻿using Reffindr.Domain.Models.UserModels;
 
-namespace Reffindr.Infrastructure.Repositories.Interfaces
+namespace Reffindr.Infrastructure.Repositories.Interfaces;
+
+public interface IUserTenantInfoRepository : IGenericRepository<UserTenantInfo>
 {
-    public interface IUserTenantInfoRepository : IGenericRepository<UserTenantInfo>
-    {
-        public async Task<UserTenantInfo> GetTenantBy
-    }
+    Task<UserTenantInfo> GetTenantByUserId(int userId);
 }

@@ -25,9 +25,7 @@ public class UserTenantInfoConfiguration : EntityTypeBaseConfiguration<UserTenan
         builder.Property(x => x.HasWarranty)
          .IsRequired();
 
-        builder.Property(x => x.RangeSalary)
-         .IsRequired()
-         .HasPrecision(18,2);
+       
     }
 
     protected override void ConfigurateTableName(EntityTypeBuilder<UserTenantInfo> builder)

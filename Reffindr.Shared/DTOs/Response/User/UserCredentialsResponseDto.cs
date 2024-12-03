@@ -3,6 +3,7 @@
 public class UserCredentialsResponseDto
 {
     public int RoleId { get; set; }
+    public string? RoleName { get; set; } = default!;
     public int? CountryId { get; set; }
     public int? StateId { get; set; }
     public string Name { get; set; } = default!;
@@ -14,6 +15,8 @@ public class UserCredentialsResponseDto
     public string Email { get; set; } = default!;
     public bool IsProfileComplete { get; set; }
     public int? GenderId { get; set; }
+    public string? GenderName { get; set; }
     public int? SalaryId { get; set; }
-    public string? ImageProfileUrl { get; set; }
+    public string? SalaryName { get; set; }
+    public List<string>? ImageProfileUrl { get; set; }
 }
