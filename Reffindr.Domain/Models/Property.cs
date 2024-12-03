@@ -40,6 +40,7 @@ public class Property : BaseModel
 	public virtual Notification? Notification { get; set; }
 	public virtual List<ApplicationModel>? Application { get; set; }
     public virtual List<Image>? Images { get; set; }
+    public virtual List<Favorite>? FavoriteByUsers { get; set; }
 
     #endregion Navigation Properties
 }

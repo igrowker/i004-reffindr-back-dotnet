@@ -17,6 +17,7 @@ public class UnitOfWork : IUnitOfWork
     public IUserTenantInfoRepository UserTenantInfoRepository { get; }
     public IUserOwnerInfoRepository UserOwnerInfoRepository { get; }
     public IImageRepository ImageRepository { get; }
+    public IFavoriteRepository FavoriteRepository { get; }
 
     public UnitOfWork
         (
@@ -29,9 +30,10 @@ public class UnitOfWork : IUnitOfWork
 			      INotificationRepository notificationRepository,
             IUserTenantInfoRepository userTenantInfoRepository,
             IImageRepository imageRepository,
-            IUserOwnerInfoRepository userOwnerInfoRepository
+            IUserOwnerInfoRepository userOwnerInfoRepository,
+            IFavoriteRepository favoriteRepository
 
-		    )
+            )
 
     {
         _dbContext = dbContext;
@@ -44,6 +46,7 @@ public class UnitOfWork : IUnitOfWork
         UserTenantInfoRepository = userTenantInfoRepository;
         ImageRepository = imageRepository;
         UserOwnerInfoRepository = userOwnerInfoRepository;
+        FavoriteRepository = favoriteRepository;
 
     }
     public async Task<int> Complete(CancellationToken cancellationToken)

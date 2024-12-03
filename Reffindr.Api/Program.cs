@@ -120,7 +120,7 @@ builder.Services.AddScoped<IApplicationValidationService, ApplicationValidationS
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddSingleton<MetricsService>();
 builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
-
+builder.Services.AddScoped<IFavoriteService, FavoriteService>();
 
 #endregion Services
 
@@ -135,6 +135,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserTenantInfoRepository, UserTenantInfoRepository>();
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
 builder.Services.AddScoped<IUserOwnerInfoRepository, UserOwnerInfoRepository>();
+builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
 
 #endregion Repositories
 

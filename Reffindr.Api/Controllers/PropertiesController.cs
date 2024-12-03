@@ -12,13 +12,16 @@ namespace Reffindr.Api.Controllers;
 public class PropertiesController : ControllerBase
 {
     private readonly IPropertiesService _propertiesService;
+    private readonly IFavoriteService _favoriteService;
 
     public PropertiesController
         (
-            IPropertiesService propertiesService
+            IPropertiesService propertiesService,
+            IFavoriteService favoriteService
         ) 
     {
         _propertiesService = propertiesService;
+        _favoriteService = favoriteService;
     }
 
     [Authorize]
@@ -45,5 +48,35 @@ public class PropertiesController : ControllerBase
         if (propertyPostResponse is null) return BadRequest("No Pudo Crearse");
 
         return Ok(propertyPostResponse);
+    }
+
+    [Authorize]
+    [HttpGet]
+    [Route("GetFavoriteProperties")]
+    public async Task<IActionResult> GetFavoriteProperties(int userId)
+    {
+        List<PropertyGetResponseDto> favoriteProperties = await _favoriteService.GetFavorites(userId);
+
+        if (favoriteProperties is null) return NotFound();
+
+        return Ok(favoriteProperties);
+    }
+
+    [Authorize]
+    [HttpPost]
+    [Route("AddFavorite")]
+    public async Task<IActionResult> AddFavorite(int userId, int propertyId, CancellationToken cancellationToken)
+    {
+        await _favoriteService.AddFavorite(userId, propertyId, cancellationToken);
+        return Ok();
+    }
+
+    [Authorize]
+    [HttpPost]
+    [Route("RemoveFavorite")]
+    public async Task<IActionResult> RemoveFavorite(int userId, int propertyId, CancellationToken cancellationToken)
+    {
+        await _favoriteService.RemoveFavorite(userId, propertyId, cancellationToken);
+        return Ok();
     }
 }

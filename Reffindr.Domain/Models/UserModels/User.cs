@@ -31,6 +31,7 @@ public class User : BaseModel
     public virtual List<Rating>? RatingsGiven { get; set; }
     public virtual List<Rating>? RatingsReceived { get; set; }
     public virtual Image? Image { get; set; }
+    public virtual List<Favorite>? FavoriteProperties { get; set; }
 
     #endregion NavigationProperties
 }
