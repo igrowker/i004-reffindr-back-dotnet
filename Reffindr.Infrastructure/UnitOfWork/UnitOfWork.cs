@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore;
 using Reffindr.Infrastructure.Data;
 using Reffindr.Infrastructure.Repositories.Interfaces;
 
@@ -17,7 +16,7 @@ public class UnitOfWork : IUnitOfWork
     public INotificationRepository NotificationRepository { get; }
     public IUserTenantInfoRepository UserTenantInfoRepository { get; }
     public IUserOwnerInfoRepository UserOwnerInfoRepository { get; }
-
+    public IImageRepository ImageRepository { get; }
 
     public UnitOfWork
         (
@@ -27,11 +26,13 @@ public class UnitOfWork : IUnitOfWork
             IPropertiesRepository propertiesRepository,
             IApplicationRepository applicationRepository,
             ICandidateRepository candidateRepository,
-			INotificationRepository notificationRepository,
+			      INotificationRepository notificationRepository,
             IUserTenantInfoRepository userTenantInfoRepository,
+            IImageRepository imageRepository,
             IUserOwnerInfoRepository userOwnerInfoRepository
 
-		)
+		    )
+
     {
         _dbContext = dbContext;
         AuthRepository = authRepository;
@@ -41,7 +42,9 @@ public class UnitOfWork : IUnitOfWork
         CandidateRepository = candidateRepository;
         NotificationRepository = notificationRepository;
         UserTenantInfoRepository = userTenantInfoRepository;
+        ImageRepository = imageRepository;
         UserOwnerInfoRepository = userOwnerInfoRepository;
+
     }
     public async Task<int> Complete(CancellationToken cancellationToken)
     {

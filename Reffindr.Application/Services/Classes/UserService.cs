@@ -1,5 +1,6 @@
 ﻿using Reffindr.Application.Services.Interfaces;
 using Reffindr.Application.Utilities.Mappers;
+using Reffindr.Domain.Models;
 using Reffindr.Domain.Models.UserModels;
 using Reffindr.Infrastructure.Extensions.Claims.ServiceWrapper;
 using Reffindr.Infrastructure.Repositories.Interfaces;
@@ -12,49 +13,50 @@ public class UserService : IUserService
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IUserContext _userContext;
-    private readonly IUsersRepository _usersRepository;
+    private readonly IImageService _imageService;
 
     public UserService
         (
             IUnitOfWork unitOfWork,
             IUserContext userContext,
-            IUsersRepository usersRepository
+            IUsersRepository usersRepository,
+            IImageService imageService
         )
     {
         _unitOfWork = unitOfWork;
         _userContext = userContext;
-        _usersRepository = usersRepository;
+        _imageService = imageService;
     }
 
-    public async Task<UserUpdateResponseDto> UpdateUserAsync(UserUpdateRequestDto userRequestDto, CancellationToken cancellationToken)
+    public async Task<UserUpdateResponseDto> UpdateUserAsync(UserUpdateRequestDto userUpdateRequestDto, CancellationToken cancellationToken)
     {
         int userId = _userContext.GetUserId();
 
-        User user = await _usersRepository.GetById(userId);
+        Image userImageDb = await _unitOfWork.ImageRepository.GetImage(userId);
 
-        if (user == null)
+        var userDataInDb = await _unitOfWork.UsersRepository.GetById(userId);
+        User userToUpdate = userUpdateRequestDto.ToModel(userDataInDb);
+
+        string imageUrl = await _imageService.UploadImagesAsync(userUpdateRequestDto.ProfileImage!);
+
+        if (userUpdateRequestDto.ProfileImage is not null)
         {
-            throw new ArgumentNullException(nameof(user), "User cannot be null.");
+            userImageDb.ImageUrl = imageUrl;
+            await _unitOfWork.ImageRepository.Update(userImageDb.Id, userImageDb);
         }
+       
+        User userUpdated = await _unitOfWork.UsersRepository.Update(userId, userToUpdate);
 
-        user.Name = userRequestDto.Name ?? user.Name;
-        user.LastName = userRequestDto.LastName ?? user.LastName;
-        user.Dni = userRequestDto.Dni ?? user.Dni;
-        user.Phone = userRequestDto.Phone ?? user.Phone;
-        user.Address = userRequestDto.Address ?? user.Address;
-        user.BirthDate = userRequestDto.BirthDate ?? user.BirthDate;
-        user.UpdatedAt = DateTime.UtcNow;
-
-        user.IsProfileComplete = !string.IsNullOrWhiteSpace(user.Name) &&
-                             !string.IsNullOrWhiteSpace(user.LastName) &&
-                             !string.IsNullOrWhiteSpace(user.Dni) &&
-                             !string.IsNullOrWhiteSpace(user.Phone) &&
-                             !string.IsNullOrWhiteSpace(user.Address) &&
-                             user.BirthDate.HasValue;
+        userUpdated.IsProfileComplete = !string.IsNullOrWhiteSpace(userUpdated.Name) &&
+                             !string.IsNullOrWhiteSpace(userUpdated.LastName) &&
+                             !string.IsNullOrWhiteSpace(userUpdated.Dni) &&
+                             !string.IsNullOrWhiteSpace(userUpdated.Phone) &&
+                             !string.IsNullOrWhiteSpace(userUpdated.Address) &&
+                             userUpdated.BirthDate.HasValue;
 
         await _unitOfWork.Complete(cancellationToken);
 
-        UserUpdateResponseDto userUpdateResponseDto = user.ToResponse();
+        UserUpdateResponseDto userUpdateResponseDto = userUpdated.ToResponse();
 
         return userUpdateResponseDto;
 

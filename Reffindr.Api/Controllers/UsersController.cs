@@ -60,7 +60,7 @@ public class UsersController : ControllerBase
     [Authorize]
     [HttpPut]
     [Route("modify-credentials")]
-    public async Task<IActionResult> UpdateUser([FromBody] UserUpdateRequestDto userUpdateRequestDto, CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdateUser([FromForm] UserUpdateRequestDto userUpdateRequestDto, CancellationToken cancellationToken)
     {
         UserUpdateResponseDto userResponseDto = await _userService.UpdateUserAsync(userUpdateRequestDto, cancellationToken);
         return Ok(userResponseDto);

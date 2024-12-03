@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Reffindr.Application.Services.Interfaces;
 using Reffindr.Application.Utilities.Mappers;
+using Reffindr.Domain.Models;
 using Reffindr.Domain.Models.UserModels;
 using Reffindr.Infrastructure.UnitOfWork;
 using Reffindr.Shared.DTOs.Request.Auth;
@@ -38,7 +39,19 @@ public class AuthService : IAuthService
 
         User registeredUser = await _unitOfWork.AuthRepository.Create(userToRegister, cancellationToken);
 
-        if (registeredUser.RoleId == 1)
+
+        Image imageToCreate = new()
+        {
+            User = registeredUser,
+            CreatedAt = DateTime.UtcNow,
+        };
+
+        Image imageCreated = await _unitOfWork.ImageRepository.Create(imageToCreate, cancellationToken);
+
+        await _unitOfWork.Complete(cancellationToken); 
+
+        if (userRegisterRequestDto.RoleId == 1)
+
         {
             UserTenantInfo tenantInfo = new UserTenantInfo
             {
