@@ -6,20 +6,20 @@ namespace Reffindr.Application.Utilities.Mappers;
 
 public static class UsersMappers
 {
-    public static User ToModel(this UserUpdateRequestDto userUpdateRequestDto)
+    public static User ToModel(this UserUpdateRequestDto userUpdateRequestDto, User existingData)
     {
-        return new User
-        {
-            CountryId = userUpdateRequestDto.CountryId,
-            StateId = userUpdateRequestDto.StateId,
-            Email = userUpdateRequestDto.Email!,
-            Name = userUpdateRequestDto.Name!,
-            LastName = userUpdateRequestDto.LastName!,
-            Dni = userUpdateRequestDto.Dni,
-            Phone = userUpdateRequestDto.Phone,
-            Address = userUpdateRequestDto.Address,
-            BirthDate = userUpdateRequestDto.BirthDate,
-        };
+
+        existingData.CountryId = userUpdateRequestDto.CountryId;
+        existingData.StateId = userUpdateRequestDto.StateId;
+        existingData.Email = userUpdateRequestDto.Email!;
+        existingData.Name = userUpdateRequestDto.Name!;
+        existingData.LastName = userUpdateRequestDto.LastName!;
+        existingData.Dni = userUpdateRequestDto.Dni;
+        existingData.Phone = userUpdateRequestDto.Phone;
+        existingData.Address = userUpdateRequestDto.Address;
+        existingData.BirthDate = userUpdateRequestDto.BirthDate;
+
+        return existingData;
     }
     public static UserUpdateResponseDto ToResponse(this User user)
     {

@@ -6,5 +6,5 @@ namespace Reffindr.Infrastructure.Repositories.Interfaces;
 
 public interface IImageRepository : IGenericRepository<Image>
 {
-    Task<Image> GetImage(int userId)
+    Task<Image> GetImage(int userId);
 }
