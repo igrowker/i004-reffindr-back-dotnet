@@ -31,14 +31,17 @@ public class UserService : IUserService
     public async Task<UserUpdateResponseDto> UpdateUserAsync(UserUpdateRequestDto userUpdateRequestDto, CancellationToken cancellationToken)
     {
         int userId = _userContext.GetUserId();
-        Image userImageDb = _unitOfWork.ImageRepository.Get();
+
+        Image userImageDb = await _unitOfWork.ImageRepository.GetImage(userId);
+
         User userToUpdate = userUpdateRequestDto.ToModel();
 
         string imageUrl = await _imageService.UploadImagesAsync(userUpdateRequestDto.ProfileImage!);
 
         if (userUpdateRequestDto.ProfileImage is not null)
         {
-            userToUpdate.Image!.ImageUrl = imageUrl;
+            userImageDb.ImageUrl = imageUrl;
+            await _unitOfWork.ImageRepository.Update(userImageDb.Id, userImageDb);
         }
        
         User userUpdated = await _unitOfWork.UsersRepository.Update(userId, userToUpdate);
