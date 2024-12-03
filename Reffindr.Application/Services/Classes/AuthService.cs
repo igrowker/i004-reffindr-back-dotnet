@@ -39,6 +39,7 @@ public class AuthService : IAuthService
 
         User registeredUser = await _unitOfWork.AuthRepository.Create(userToRegister, cancellationToken);
 
+
         Image imageToCreate = new()
         {
             User = registeredUser,
@@ -50,19 +51,19 @@ public class AuthService : IAuthService
         await _unitOfWork.Complete(cancellationToken); 
 
         if (userRegisterRequestDto.RoleId == 1)
+
         {
             UserTenantInfo tenantInfo = new UserTenantInfo
             {
-                UserId = registeredUser.Id,
-               
+                User = registeredUser,
             };
             await _unitOfWork.UserTenantInfoRepository.Create(tenantInfo, cancellationToken);
         }
-        else if (userRegisterRequestDto.RoleId == 2)
+        else if (registeredUser.RoleId == 2)
         {
             UserOwnerInfo userOwnerInfo = new UserOwnerInfo
             {
-                UserId = registeredUser.Id,
+                User = registeredUser,
             };
             await _unitOfWork.UserOwnerInfoRepository.Create(userOwnerInfo, cancellationToken);
         }

@@ -26,11 +26,13 @@ public class UnitOfWork : IUnitOfWork
             IPropertiesRepository propertiesRepository,
             IApplicationRepository applicationRepository,
             ICandidateRepository candidateRepository,
-			INotificationRepository notificationRepository,
-            IUserTenantInfoRepository userTenantInfoRepository
-,
-            IImageRepository imageRepository
-        )
+			      INotificationRepository notificationRepository,
+            IUserTenantInfoRepository userTenantInfoRepository,
+            IImageRepository imageRepository,
+            IUserOwnerInfoRepository userOwnerInfoRepository
+
+		    )
+
     {
         _dbContext = dbContext;
         AuthRepository = authRepository;
@@ -41,6 +43,8 @@ public class UnitOfWork : IUnitOfWork
         NotificationRepository = notificationRepository;
         UserTenantInfoRepository = userTenantInfoRepository;
         ImageRepository = imageRepository;
+        UserOwnerInfoRepository = userOwnerInfoRepository;
+
     }
     public async Task<int> Complete(CancellationToken cancellationToken)
     {
