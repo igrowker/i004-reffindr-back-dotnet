@@ -15,6 +15,7 @@ public class UnitOfWork : IUnitOfWork
     public ICandidateRepository CandidateRepository { get; }
     public INotificationRepository NotificationRepository { get; }
     public IUserTenantInfoRepository UserTenantInfoRepository { get; }
+    public IStateRepository StateRepository { get; }
     public IUserOwnerInfoRepository UserOwnerInfoRepository { get; }
     public IImageRepository ImageRepository { get; }
 
@@ -29,6 +30,7 @@ public class UnitOfWork : IUnitOfWork
 			      INotificationRepository notificationRepository,
             IUserTenantInfoRepository userTenantInfoRepository,
             IImageRepository imageRepository,
+            IStateRepository stateRepository,
             IUserOwnerInfoRepository userOwnerInfoRepository
 
 		    )
@@ -44,6 +46,7 @@ public class UnitOfWork : IUnitOfWork
         UserTenantInfoRepository = userTenantInfoRepository;
         ImageRepository = imageRepository;
         UserOwnerInfoRepository = userOwnerInfoRepository;
+        StateRepository = stateRepository;
 
     }
     public async Task<int> Complete(CancellationToken cancellationToken)
