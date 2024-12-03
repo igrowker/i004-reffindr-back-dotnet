@@ -31,7 +31,7 @@ public class UserService : IUserService
     public async Task<UserUpdateResponseDto> UpdateUserAsync(UserUpdateRequestDto userUpdateRequestDto, CancellationToken cancellationToken)
     {
         int userId = _userContext.GetUserId();
-
+        Image userImageDb = _unitOfWork.ImageRepository.Get();
         User userToUpdate = userUpdateRequestDto.ToModel();
 
         string imageUrl = await _imageService.UploadImagesAsync(userUpdateRequestDto.ProfileImage!);
@@ -39,10 +39,8 @@ public class UserService : IUserService
         if (userUpdateRequestDto.ProfileImage is not null)
         {
             userToUpdate.Image!.ImageUrl = imageUrl;
-            userToUpdate.Image.UpdatedAt = DateTime.UtcNow;
         }
        
-        userToUpdate.CreatedAt = DateTime.UtcNow;
         User userUpdated = await _unitOfWork.UsersRepository.Update(userId, userToUpdate);
 
         userUpdated.IsProfileComplete = !string.IsNullOrWhiteSpace(userUpdated.Name) &&

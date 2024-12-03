@@ -22,7 +22,6 @@ public class ImageConfiguration : EntityTypeBaseConfiguration<Image>
     protected override void ConfigurateProperties(EntityTypeBuilder<Image> builder)
 	{
 		builder.Property(x => x.ImageUrl)
-			.IsRequired()
 			.HasMaxLength(500);
 	}
 

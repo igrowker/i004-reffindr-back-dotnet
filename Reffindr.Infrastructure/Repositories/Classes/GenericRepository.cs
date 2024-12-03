@@ -42,6 +42,8 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
 
         if (existingData is null) throw new KeyNotFoundException("No se encontro el modelo");
 
+        model.UpdatedAt = DateTime.UtcNow;
+
         _dbContext.Entry(existingData).CurrentValues.SetValues(model);
 
         return existingData;
