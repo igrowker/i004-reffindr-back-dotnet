@@ -34,7 +34,7 @@ public class UserService : IUserService
 
         Image userImageDb = await _unitOfWork.ImageRepository.GetImage(userId);
 
-        User userDataInDb = await _unitOfWork.UsersRepository.GetById(userId);
+        var userDataInDb = await _unitOfWork.UsersRepository.GetById(userId);
         User userToUpdate = userUpdateRequestDto.ToModel(userDataInDb);
 
         string imageUrl = await _imageService.UploadImagesAsync(userUpdateRequestDto.ProfileImage!);
