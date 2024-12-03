@@ -4,7 +4,9 @@ namespace Reffindr.Shared.DTOs.Response.User;
 
 public class UserUpdateRequestDto
 {
-    public string? email { get; set; } = default!;
+    public int? CountryId { get; set; }
+    public int? StateId { get; set; }
+    public string? Email { get; set; } = default!;
     public string? Name { get; set; } = default!;
     public string? LastName { get; set; } = default!;
     public string? Dni { get; set; } = default;

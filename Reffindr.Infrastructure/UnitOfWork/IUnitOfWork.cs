@@ -13,7 +13,8 @@ public interface IUnitOfWork
 	INotificationRepository NotificationRepository { get; }
 	IUserTenantInfoRepository UserTenantInfoRepository { get; }
 	IUserOwnerInfoRepository UserOwnerInfoRepository { get; }
-	Task<int> Complete(CancellationToken cancellationToken);
+    IImageRepository ImageRepository { get; }
+    Task<int> Complete(CancellationToken cancellationToken);
 	void Dispose();
 	Task<IDbContextTransaction> BeginTransaction(CancellationToken cancellationToken);
 

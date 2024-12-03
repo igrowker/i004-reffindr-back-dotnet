@@ -28,51 +28,33 @@ public class UserService : IUserService
         _imageService = imageService;
     }
 
-    public async Task<UserUpdateResponseDto> UpdateUserAsync(UserUpdateRequestDto userRequestDto, CancellationToken cancellationToken)
+    public async Task<UserUpdateResponseDto> UpdateUserAsync(UserUpdateRequestDto userUpdateRequestDto, CancellationToken cancellationToken)
     {
         int userId = _userContext.GetUserId();
 
-        User user = await _unitOfWork.UsersRepository.GetById(userId);
+        User userToUpdate = userUpdateRequestDto.ToModel();
 
-        if (user == null)
+        string imageUrl = await _imageService.UploadImagesAsync(userUpdateRequestDto.ProfileImage!);
+
+        if (userUpdateRequestDto.ProfileImage is not null)
         {
-            throw new ArgumentNullException(nameof(user), "User cannot be null.");
+            userToUpdate.Image!.ImageUrl = imageUrl;
+            userToUpdate.Image.UpdatedAt = DateTime.UtcNow;
         }
+       
+        userToUpdate.CreatedAt = DateTime.UtcNow;
+        User userUpdated = await _unitOfWork.UsersRepository.Update(userId, userToUpdate);
 
-        string imageUrl = await _imageService.UploadImagesAsync(userRequestDto.ProfileImage!);
-
-
-        user.Name = userRequestDto.Name ?? user.Name;
-        user.LastName = userRequestDto.LastName ?? user.LastName;
-        user.Dni = userRequestDto.Dni ?? user.Dni;
-        user.Phone = userRequestDto.Phone ?? user.Phone;
-        user.Address = userRequestDto.Address ?? user.Address;
-        user.BirthDate = userRequestDto.BirthDate ?? user.BirthDate;
-        user.UpdatedAt = DateTime.UtcNow;
-        if (user.Image != null)
-        {
-            user.Image.ImageUrl = imageUrl;
-            user.Image.UpdatedAt = DateTime.UtcNow;
-        }
-        else
-        {
-            user.Image = new Image
-            {
-                ImageUrl = imageUrl,
-                CreatedAt = DateTime.UtcNow
-            };
-        }
-
-        user.IsProfileComplete = !string.IsNullOrWhiteSpace(user.Name) &&
-                             !string.IsNullOrWhiteSpace(user.LastName) &&
-                             !string.IsNullOrWhiteSpace(user.Dni) &&
-                             !string.IsNullOrWhiteSpace(user.Phone) &&
-                             !string.IsNullOrWhiteSpace(user.Address) &&
-                             user.BirthDate.HasValue;
+        userUpdated.IsProfileComplete = !string.IsNullOrWhiteSpace(userUpdated.Name) &&
+                             !string.IsNullOrWhiteSpace(userUpdated.LastName) &&
+                             !string.IsNullOrWhiteSpace(userUpdated.Dni) &&
+                             !string.IsNullOrWhiteSpace(userUpdated.Phone) &&
+                             !string.IsNullOrWhiteSpace(userUpdated.Address) &&
+                             userUpdated.BirthDate.HasValue;
 
         await _unitOfWork.Complete(cancellationToken);
 
-        UserUpdateResponseDto userUpdateResponseDto = user.ToResponse();
+        UserUpdateResponseDto userUpdateResponseDto = userUpdated.ToResponse();
 
         return userUpdateResponseDto;
 
