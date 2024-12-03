@@ -72,10 +72,10 @@ public class PropertiesService : IPropertiesService
         if (propertyPostRequestDto.Images != null)
         {
             var imageUrls = await _imageService.UploadImagesAsync(propertyPostRequestDto.Images, cancellationToken);
-
             propertyToCreate.Images = imageUrls.Select(url => new Image
             {
-                ImageUrl = url
+                ImageUrl = url,
+                CreatedAt = DateTime.UtcNow
             }).ToList();
         }
 
