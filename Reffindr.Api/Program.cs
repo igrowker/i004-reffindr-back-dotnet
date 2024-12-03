@@ -127,6 +127,7 @@ builder.Services.AddScoped<ICandidateRepository, CandidateRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserTenantInfoRepository, UserTenantInfoRepository>();
+builder.Services.AddScoped<IUserOwnerInfoRepository, UserOwnerInfoRepository>();
 
 
 #endregion Repositories

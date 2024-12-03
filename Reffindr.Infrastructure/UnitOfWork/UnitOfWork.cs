@@ -28,7 +28,8 @@ public class UnitOfWork : IUnitOfWork
             IApplicationRepository applicationRepository,
             ICandidateRepository candidateRepository,
 			INotificationRepository notificationRepository,
-            IUserTenantInfoRepository userTenantInfoRepository
+            IUserTenantInfoRepository userTenantInfoRepository,
+            IUserOwnerInfoRepository userOwnerInfoRepository
 
 		)
     {
@@ -40,6 +41,7 @@ public class UnitOfWork : IUnitOfWork
         CandidateRepository = candidateRepository;
         NotificationRepository = notificationRepository;
         UserTenantInfoRepository = userTenantInfoRepository;
+        UserOwnerInfoRepository = userOwnerInfoRepository;
     }
     public async Task<int> Complete(CancellationToken cancellationToken)
     {
