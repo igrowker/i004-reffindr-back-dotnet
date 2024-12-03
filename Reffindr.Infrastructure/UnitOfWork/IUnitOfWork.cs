@@ -10,6 +10,7 @@ public interface IUnitOfWork
 	IPropertiesRepository PropertiesRepository { get; }
 	IApplicationRepository ApplicationRepository { get; }
 	ICandidateRepository CandidateRepository { get; }
+	IStateRepository StateRepository { get; }
 	INotificationRepository NotificationRepository { get; }
 	IUserTenantInfoRepository UserTenantInfoRepository { get; }
 	IUserOwnerInfoRepository UserOwnerInfoRepository { get; }
