@@ -36,7 +36,7 @@ public class UnitOfWork : IUnitOfWork
             IUserTenantInfoRepository userTenantInfoRepository,
             IImageRepository imageRepository,
             IUserOwnerInfoRepository userOwnerInfoRepository,
-            IFavoriteRepository favoriteRepository
+            IFavoriteRepository favoriteRepository,
             IRoleRepository roleRepository,
             IGenreRepository genreRepository,
             ISalaryRepository salaryRepository
