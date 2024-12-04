@@ -17,6 +17,7 @@ public class UnitOfWork : IUnitOfWork
     public IUserTenantInfoRepository UserTenantInfoRepository { get; }
     public IUserOwnerInfoRepository UserOwnerInfoRepository { get; }
     public IImageRepository ImageRepository { get; }
+    public IFavoriteRepository FavoriteRepository { get; }
     public IRoleRepository RoleRepository { get; }
     public IGenreRepository GenreRepository { get; }
     public ISalaryRepository SalaryRepository { get; }
@@ -35,10 +36,10 @@ public class UnitOfWork : IUnitOfWork
             IUserTenantInfoRepository userTenantInfoRepository,
             IImageRepository imageRepository,
             IUserOwnerInfoRepository userOwnerInfoRepository,
+            IFavoriteRepository favoriteRepository
             IRoleRepository roleRepository,
             IGenreRepository genreRepository,
             ISalaryRepository salaryRepository
-
 
             )
 
@@ -56,6 +57,7 @@ public class UnitOfWork : IUnitOfWork
         UserTenantInfoRepository = userTenantInfoRepository;
         ImageRepository = imageRepository;
         UserOwnerInfoRepository = userOwnerInfoRepository;
+        FavoriteRepository = favoriteRepository;
         RoleRepository = roleRepository;
         GenreRepository = genreRepository;
     }

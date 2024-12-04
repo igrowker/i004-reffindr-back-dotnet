@@ -95,7 +95,6 @@ public class PropertiesRepository : GenericRepository<Property>, IPropertiesRepo
             //    query = query.Where(p => p.Requirement!.RangeSalary <= tenantInfo.RangeSalary);
         }
 
-        // Ejecutar la consulta y devolver los resultados
         return await query.ToListAsync();
     }
 }

@@ -27,6 +27,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Genre> Genres { get; set; }
     public DbSet<Salary> Salaries { get; set; }
 
+    public DbSet<Favorite> Favorites { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
