@@ -88,9 +88,8 @@ public class PropertiesService : IPropertiesService
 
 		await _unitOfWork.Complete(cancellationToken);
 
-        //await _NotifyService.AddNotificationToUser(propertyPostRequestDto.OwnerEmail, registeredProperty.Id, NotificationType.Application, cancellationToken);
-
-
+        await _NotifyService.AddNotificationToUser(propertyPostRequestDto.OwnerEmail, registeredProperty.Id, NotificationType.Application, cancellationToken);
+        
         PropertyPostResponseDto propertyPostResponseDto = registeredProperty.ToPostResponse();
 
         return propertyPostResponseDto;

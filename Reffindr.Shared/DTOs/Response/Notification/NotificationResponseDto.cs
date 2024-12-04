@@ -6,4 +6,5 @@ public class NotificationResponseDto
     public string? Type { get; set; }
     public bool Read { get; set; }
     public int? UserSenderId { get; set; }
+    public int? PropertyId { get; set; }
 }

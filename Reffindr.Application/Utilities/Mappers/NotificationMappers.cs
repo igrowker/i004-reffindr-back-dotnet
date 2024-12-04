@@ -14,7 +14,10 @@ public static class NotificationMappers
             Message =  notification.Message,
             Read = notification.Read,
             Type = notification.Type,
-            UserSenderId = notification.UserSenderId
+            UserSenderId = notification.UserSenderId,
+            PropertyId = notification.PropertyId
         };
     }
+
+    
 }
