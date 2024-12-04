@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Reffindr.Application.Services.Interfaces;
+using Reffindr.Shared.DTOs.Response.State;
 
 namespace Reffindr.Api.Controllers
 {
@@ -8,16 +9,18 @@ namespace Reffindr.Api.Controllers
 	[ApiController]
 	public class StateController : ControllerBase
 	{
-		public StateController()
+		private readonly IStateServices _stateServices;
+		public StateController(IStateServices stateServices)
 		{
-			
+			_stateServices = stateServices;
 		}
 
-		[HttpGet()]
+		[HttpGet("Get-States")]
 		public async Task<IActionResult> GetStates()
 		{
-			//return await;
-		}
+			List<StateGetResponseDTO> states =await _stateServices.GetStates();
 
+			return Ok(states);
+		}
 	}
 }

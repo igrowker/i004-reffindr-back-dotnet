@@ -76,5 +76,4 @@ public class UsersController : ControllerBase
 
         return Ok(ownerProperties);
     }
-
 }

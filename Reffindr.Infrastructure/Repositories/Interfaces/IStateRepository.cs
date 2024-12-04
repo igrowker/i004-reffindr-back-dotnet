@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Reffindr.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,7 @@ namespace Reffindr.Infrastructure.Repositories.Interfaces
 {
 	public interface IStateRepository
 	{
+		Task<List<State>?> GetStates();
+		Task<State> GetStatesById(int id);
 	}
 }
