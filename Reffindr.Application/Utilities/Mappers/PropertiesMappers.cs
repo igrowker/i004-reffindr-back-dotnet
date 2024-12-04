@@ -99,7 +99,7 @@ public static class PropertiesMappers
             Terrace = property.Terrace,
             CountryId = property.CountryId,
             StateId = property.StateId,
-            Images = property.Images!.ImageUrl
+            Images = property.Images?.ImageUrl ?? new List<string>()
 
         };
     }
