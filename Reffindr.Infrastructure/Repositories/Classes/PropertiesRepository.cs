@@ -91,8 +91,8 @@ public class PropertiesRepository : GenericRepository<Property>, IPropertiesRepo
             if (tenantInfo.HasWarranty)
                 query = query.Where(p => p.Requirement!.HasWarranty == true);
 
-            if (tenantInfo.RangeSalary > 0)
-                query = query.Where(p => p.Requirement!.RangeSalary <= tenantInfo.RangeSalary);
+            //if (tenantInfo.RangeSalary > 0)
+            //    query = query.Where(p => p.Requirement!.RangeSalary <= tenantInfo.RangeSalary);
         }
 
         // Ejecutar la consulta y devolver los resultados

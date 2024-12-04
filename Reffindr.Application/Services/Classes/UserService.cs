@@ -34,16 +34,17 @@ public class UserService : IUserService
 
         Image userImageDb = await _unitOfWork.ImageRepository.GetImage(userId);
 
-        var userDataInDb = await _unitOfWork.UsersRepository.GetById(userId);
+        User userDataInDb = await _unitOfWork.UsersRepository.GetById(userId);
+        UserTenantInfo userDataInDbTenantInfo = await _unitOfWork.UserTenantInfoRepository.GetTenantByUserId(userId);
+        userDataInDb.UserTenantInfo = userDataInDbTenantInfo;
         User userToUpdate = userUpdateRequestDto.ToModel(userDataInDb);
-
-       
-
 
         if (userUpdateRequestDto.ProfileImage is not null)
         {
+            List<string> userImageProfile = new List<string>();
             string imageUrl = await _imageService.UploadImagesAsync(userUpdateRequestDto.ProfileImage!);
-            userImageDb.ImageUrl = imageUrl;
+            userImageProfile.Add(imageUrl);
+            userImageDb.ImageUrl = userImageProfile;
             await _unitOfWork.ImageRepository.Update(userImageDb.Id, userImageDb);
         }
        
@@ -69,7 +70,18 @@ public class UserService : IUserService
         int userId = _userContext.GetUserId();
         User userCredentials = await _unitOfWork.UsersRepository.GetById(userId);
         Image userImageDb = await _unitOfWork.ImageRepository.GetImage(userId);
+        UserTenantInfo userTenantInfo = await _unitOfWork.UserTenantInfoRepository.GetTenantByUserId(userId);
+        Role roleDb = await _unitOfWork.RoleRepository.GetById(userCredentials.RoleId);
+        Genre genreDb = await _unitOfWork.GenreRepository.GetById(userCredentials.GenreId);
+        Salary salaryDb = await _unitOfWork.SalaryRepository.GetById(userTenantInfo.SalaryId);
+        
         userCredentials.Image = userImageDb;
+        userCredentials.Role = roleDb;
+        userTenantInfo.Salary = salaryDb;
+        userCredentials.Genre = genreDb;
+
+
+        userCredentials.UserTenantInfo = userTenantInfo;
 
         UserCredentialsResponseDto userCredentialsResponse = userCredentials.ToUserCredentialsResponse();
 

@@ -10,7 +10,7 @@ public class SalaryConfiguration : EntityTypeBaseConfiguration<Salary>
     {
         builder.HasKey(x => x.Id);
 
-        builder.HasMany(x => x.Users).WithOne(x => x.Salary).HasForeignKey(x => x.SalaryId);
+        builder.HasMany(x => x.UsersTenantInfo).WithOne(x => x.Salary).HasForeignKey(x => x.SalaryId);
     }
 
     protected override void ConfigurateProperties(EntityTypeBuilder<Salary> builder)
@@ -31,7 +31,7 @@ public class SalaryConfiguration : EntityTypeBaseConfiguration<Salary>
             new Salary()
             {
                 Id = 1,
-                SalaryName = "0-1",
+                SalaryName = "300.000 - 600.000",
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
                 IsDeleted = false
@@ -39,7 +39,7 @@ public class SalaryConfiguration : EntityTypeBaseConfiguration<Salary>
             new Salary()
             {
                 Id = 2,
-                SalaryName = "1-2",
+                SalaryName = "600.000 - 1.000.000",
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
                 IsDeleted = false
@@ -47,7 +47,7 @@ public class SalaryConfiguration : EntityTypeBaseConfiguration<Salary>
             new Salary()
             {
                 Id = 3,
-                SalaryName = "2-3",
+                SalaryName = "1.000.000 - 3.000.000",
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
                 IsDeleted = false
@@ -55,7 +55,7 @@ public class SalaryConfiguration : EntityTypeBaseConfiguration<Salary>
             new Salary()
             {
                 Id = 4,
-                SalaryName = "3-4",
+                SalaryName = "3.000.000 +",
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
                 IsDeleted = false

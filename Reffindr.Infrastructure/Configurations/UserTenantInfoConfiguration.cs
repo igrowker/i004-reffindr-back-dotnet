@@ -11,6 +11,10 @@ public class UserTenantInfoConfiguration : EntityTypeBaseConfiguration<UserTenan
         builder.HasKey(x => x.Id);
 
         builder.HasOne(x => x.User).WithOne(x => x.UserTenantInfo).HasForeignKey<UserTenantInfo>(x => x.UserId);
+
+        builder.HasOne(x => x.Salary)
+            .WithMany(x => x.UsersTenantInfo)
+            .HasForeignKey(x => x.SalaryId);
     }
 
     protected override void ConfigurateProperties(EntityTypeBuilder<UserTenantInfo> builder)
@@ -21,9 +25,7 @@ public class UserTenantInfoConfiguration : EntityTypeBaseConfiguration<UserTenan
         builder.Property(x => x.HasWarranty)
          .IsRequired();
 
-        builder.Property(x => x.RangeSalary)
-         .IsRequired()
-         .HasPrecision(18,2);
+       
     }
 
     protected override void ConfigurateTableName(EntityTypeBuilder<UserTenantInfo> builder)
