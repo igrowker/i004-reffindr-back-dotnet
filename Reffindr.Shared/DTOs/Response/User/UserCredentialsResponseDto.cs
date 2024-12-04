@@ -18,5 +18,5 @@ public class UserCredentialsResponseDto
     public string? GenderName { get; set; }
     public int? SalaryId { get; set; }
     public string? SalaryName { get; set; }
-    public List<string>? ImageProfileUrl { get; set; }
+    public string? ImageProfileUrl { get; set; }
 }

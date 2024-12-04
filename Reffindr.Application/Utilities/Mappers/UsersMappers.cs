@@ -38,7 +38,9 @@ public static class UsersMappers
             Address = user.Address,
             BirthDate = user.BirthDate,
             IsProfileComplete = user.IsProfileComplete,
-            ImageUrl = user.Image!.ImageUrl,
+            ImageProfileUrl = user.Image != null && user.Image.ImageUrl != null && user.Image.ImageUrl.Count > 0
+                ? user.Image.ImageUrl[0]
+                : null,
             GenreId = user.GenreId,
             SalaryId = user.UserTenantInfo!.SalaryId
 
@@ -61,7 +63,9 @@ public static class UsersMappers
             Address = user.Address,
             BirthDate = user.BirthDate,
             IsProfileComplete = user.IsProfileComplete,
-            ImageProfileUrl = user.Image!.ImageUrl,
+            ImageProfileUrl = user.Image != null && user.Image.ImageUrl != null && user.Image.ImageUrl.Count > 0
+                ? user.Image.ImageUrl[0]
+                : null,
             GenderId = user.GenreId ?? null,
             GenderName = user.Genre?.GenreName ?? "Género no especificado",
             SalaryId = user.UserTenantInfo!.SalaryId ?? null,
