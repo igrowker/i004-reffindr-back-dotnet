@@ -26,7 +26,7 @@
         public bool Elevator { get; set; }
         public bool Terrace { get; set; }
         public string Description { get; set; } = default!;
-        public virtual List<string>? Images { get; set; }
+        public List<string>? Images { get; set; }
 
     }
 }
