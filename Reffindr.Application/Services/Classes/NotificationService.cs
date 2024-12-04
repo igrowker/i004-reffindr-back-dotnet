@@ -7,7 +7,6 @@ using Reffindr.Infrastructure.Extensions.Claims.ServiceWrapper;
 using Reffindr.Infrastructure.Repositories.Interfaces;
 using Reffindr.Infrastructure.UnitOfWork;
 using Reffindr.Shared.DTOs.Pagination;
-using Reffindr.Shared.DTOs.Request.Property;
 using Reffindr.Shared.DTOs.Response.Notification;
 using Reffindr.Shared.Enum;
 
@@ -17,17 +16,15 @@ namespace Reffindr.Application.Services.Classes
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IUserContext _userContext;
-        private readonly INotificationService _notificationService;
-        private readonly IUsersRepository _usersRepository;
-        private readonly IHubContext<NotificationHub> _hubContext;
+		private readonly IUsersRepository _usersRepository;
+		private readonly IHubContext<NotificationHub> _hubContext;
 
-		public NotificationService(IUnitOfWork unitOfWork, IUserContext userContext, INotificationService notificationService, IUsersRepository usersRepository, IHubContext<NotificationHub> hubContext)
+		public NotificationService(IUnitOfWork unitOfWork, IUserContext userContext,  IUsersRepository usersRepository, IHubContext<NotificationHub> hubContext)
 		{
 			_unitOfWork = unitOfWork;
 			_userContext = userContext;
-            _notificationService = notificationService;
-            _usersRepository = usersRepository;
-            _hubContext = hubContext;
+			_usersRepository = usersRepository;
+			_hubContext = hubContext;
 		}
 		
 		public async Task<List<NotificationResponseDto>> GetNotificationsAsync(PaginationDto paginationDto)
@@ -73,11 +70,11 @@ namespace Reffindr.Application.Services.Classes
 			await _unitOfWork.PropertiesRepository.Update(propertyId, property);
             await _unitOfWork.Complete(cancellationToken);
 
-            User tenantNotification = await _usersRepository.GetById(property.TenantId);
+			User tenantNotification = await _usersRepository.GetById(property.TenantId);
 
-            var notificationToTenant = await _notificationService.AddNotificationToUser(tenantNotification.Email, property.Id, NotificationType.Application, cancellationToken);
+			var notificationToTenant = await AddNotificationToUser(tenantNotification.Email, property.Id, NotificationType.Rating, cancellationToken);
 
-            return notificationToTenant;
+			return notificationToTenant;
 
         }
     }
