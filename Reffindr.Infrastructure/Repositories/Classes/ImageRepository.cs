@@ -17,7 +17,7 @@ public class ImageRepository : GenericRepository<Image> , IImageRepository
     {
         Image? imageInDb = await _dbSet.Where(x => x.UserId == userId).FirstOrDefaultAsync();
 
-        return imageInDb;
+        return imageInDb!;
     }
     
 

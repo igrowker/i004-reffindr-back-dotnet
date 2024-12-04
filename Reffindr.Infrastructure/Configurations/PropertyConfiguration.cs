@@ -31,9 +31,9 @@ public class PropertyConfiguration : EntityTypeBaseConfiguration<Property>
 		.WithOne(x => x.Property)
 		.HasForeignKey<Notification>(x => x.PropertyId);
 
-        builder.HasMany(x => x.Images)
+        builder.HasOne(x => x.Images)
             .WithOne(x => x.Property)
-            .HasForeignKey(x => x.PropertyId);
+            .HasForeignKey<Image>(x => x.PropertyId);
 
 
     }

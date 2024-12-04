@@ -71,12 +71,15 @@ public class PropertiesService : IPropertiesService
 
         if (propertyPostRequestDto.Images != null)
         {
-            var imageUrls = await _imageService.UploadImagesAsync(propertyPostRequestDto.Images, cancellationToken);
-            propertyToCreate.Images = imageUrls.Select(url => new Image
+            List<string> imageUrls = await _imageService.UploadImagesAsync(propertyPostRequestDto.Images, cancellationToken);
+            Image listImagesUpload = new Image
             {
-                ImageUrl = url,
-                CreatedAt = DateTime.UtcNow
-            }).ToList();
+                CreatedAt = DateTime.UtcNow,
+                ImageUrl = imageUrls
+            };
+            await _unitOfWork.ImageRepository.Create(listImagesUpload, cancellationToken);
+
+            propertyToCreate.Images = listImagesUpload;
         }
 
         Property registeredProperty = await _unitOfWork.PropertiesRepository.Create(propertyToCreate, cancellationToken);
@@ -84,7 +87,7 @@ public class PropertiesService : IPropertiesService
 
 		await _unitOfWork.Complete(cancellationToken);
 
-        await _NotifyService.AddNotificationToUser(propertyPostRequestDto.OwnerEmail, registeredProperty.Id, NotificationType.Application, cancellationToken);
+        //await _NotifyService.AddNotificationToUser(propertyPostRequestDto.OwnerEmail, registeredProperty.Id, NotificationType.Application, cancellationToken);
 
 
         PropertyPostResponseDto propertyPostResponseDto = registeredProperty.ToPostResponse();

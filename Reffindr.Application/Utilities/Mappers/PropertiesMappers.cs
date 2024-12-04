@@ -66,7 +66,7 @@ public static class PropertiesMappers
             Elevator = property.Elevator,
             Terrace = property.Terrace,
             Price = property.Price,
-            Images = property.Images?.Select(image => image.ImageUrl).ToList()
+            Images = property.Images!.ImageUrl
 
         };
     }
@@ -99,7 +99,7 @@ public static class PropertiesMappers
             Terrace = property.Terrace,
             CountryId = property.CountryId,
             StateId = property.StateId,
-            Images = property.Images?.Select(image => image.ImageUrl).ToList()
+            Images = property.Images!.ImageUrl
 
         };
     }

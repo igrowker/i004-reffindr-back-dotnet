@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Reffindr.Infrastructure.Data;
@@ -12,9 +13,11 @@ using Reffindr.Infrastructure.Data;
 namespace Reffindr.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241203234712_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -121,45 +124,9 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 1,
                             CountryName = "Argentina",
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 684, DateTimeKind.Utc).AddTicks(3971),
-
                             IsDeleted = false
                         });
-                });
-
-            modelBuilder.Entity("Reffindr.Domain.Models.Favorite", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<int?>("PropertyId")
-                        .IsRequired()
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int?>("UserId")
-                        .IsRequired()
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PropertyId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Favorites", (string)null);
                 });
 
             modelBuilder.Entity("Reffindr.Domain.Models.Image", b =>
@@ -472,9 +439,7 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 1,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5491),
-
                             IsDeleted = false,
                             StateName = "Buenos Aires"
                         },
@@ -482,9 +447,7 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 2,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5493),
-
                             IsDeleted = false,
                             StateName = "Catamarca"
                         },
@@ -492,9 +455,7 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 3,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5495),
-
                             IsDeleted = false,
                             StateName = "Chaco"
                         },
@@ -502,9 +463,7 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 4,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5496),
-
                             IsDeleted = false,
                             StateName = "Chubut"
                         },
@@ -512,9 +471,7 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 5,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5497),
-
                             IsDeleted = false,
                             StateName = "Córdoba"
                         },
@@ -522,9 +479,7 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 6,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5499),
-
                             IsDeleted = false,
                             StateName = "Corrientes"
                         },
@@ -532,9 +487,7 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 7,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5500),
-
                             IsDeleted = false,
                             StateName = "Entre Ríos"
                         },
@@ -542,9 +495,7 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 8,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5501),
-
                             IsDeleted = false,
                             StateName = "Formosa"
                         },
@@ -552,9 +503,7 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 9,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5502),
-
                             IsDeleted = false,
                             StateName = "Jujuy"
                         },
@@ -562,9 +511,7 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 10,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5503),
-
                             IsDeleted = false,
                             StateName = "La Pampa"
                         },
@@ -572,9 +519,7 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 11,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5505),
-
                             IsDeleted = false,
                             StateName = "La Rioja"
                         },
@@ -582,7 +527,6 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 12,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5506),
                             IsDeleted = false,
                             StateName = "Mendoza"
@@ -591,7 +535,6 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 13,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5507),
                             IsDeleted = false,
                             StateName = "Misiones"
@@ -600,7 +543,6 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 14,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5508),
                             IsDeleted = false,
                             StateName = "Neuquén"
@@ -609,9 +551,7 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 15,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5509),
-
                             IsDeleted = false,
                             StateName = "Río Negro"
                         },
@@ -619,7 +559,6 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 16,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5511),
                             IsDeleted = false,
                             StateName = "Salta"
@@ -628,7 +567,6 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 17,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5512),
                             IsDeleted = false,
                             StateName = "San Juan"
@@ -637,7 +575,6 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 18,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5513),
                             IsDeleted = false,
                             StateName = "San Luis"
@@ -646,7 +583,6 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 19,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5514),
                             IsDeleted = false,
                             StateName = "Santa Cruz"
@@ -655,7 +591,6 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 20,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5515),
                             IsDeleted = false,
                             StateName = "Santa Fe"
@@ -664,7 +599,6 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 21,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5516),
                             IsDeleted = false,
                             StateName = "Santiago del Estero"
@@ -673,7 +607,6 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 22,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5518),
                             IsDeleted = false,
                             StateName = "Tierra del Fuego"
@@ -682,7 +615,6 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 23,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5519),
                             IsDeleted = false,
                             StateName = "Tucumán"
@@ -691,7 +623,6 @@ namespace Reffindr.Infrastructure.Migrations
                         {
                             Id = 24,
                             CountryId = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(5521),
                             IsDeleted = false,
                             StateName = "Ciudad Autónoma de Buenos Aires"
@@ -728,7 +659,6 @@ namespace Reffindr.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 684, DateTimeKind.Utc).AddTicks(6411),
                             GenreName = "Male",
                             IsDeleted = false
@@ -736,7 +666,6 @@ namespace Reffindr.Infrastructure.Migrations
                         new
                         {
                             Id = 2,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 684, DateTimeKind.Utc).AddTicks(6413),
                             GenreName = "Female",
                             IsDeleted = false
@@ -744,7 +673,6 @@ namespace Reffindr.Infrastructure.Migrations
                         new
                         {
                             Id = 3,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 684, DateTimeKind.Utc).AddTicks(6414),
                             GenreName = "Non-binary",
                             IsDeleted = false
@@ -752,7 +680,6 @@ namespace Reffindr.Infrastructure.Migrations
                         new
                         {
                             Id = 4,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 684, DateTimeKind.Utc).AddTicks(6415),
                             GenreName = "Gender fluid",
                             IsDeleted = false
@@ -760,7 +687,6 @@ namespace Reffindr.Infrastructure.Migrations
                         new
                         {
                             Id = 5,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 684, DateTimeKind.Utc).AddTicks(6416),
                             GenreName = "Agender",
                             IsDeleted = false
@@ -768,7 +694,6 @@ namespace Reffindr.Infrastructure.Migrations
                         new
                         {
                             Id = 6,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 684, DateTimeKind.Utc).AddTicks(6417),
                             GenreName = "Bigender",
                             IsDeleted = false
@@ -776,7 +701,6 @@ namespace Reffindr.Infrastructure.Migrations
                         new
                         {
                             Id = 7,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 684, DateTimeKind.Utc).AddTicks(6418),
                             GenreName = "Demiboy",
                             IsDeleted = false
@@ -784,7 +708,6 @@ namespace Reffindr.Infrastructure.Migrations
                         new
                         {
                             Id = 8,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 684, DateTimeKind.Utc).AddTicks(6419),
                             GenreName = "DemiGirl",
                             IsDeleted = false
@@ -821,7 +744,6 @@ namespace Reffindr.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 689, DateTimeKind.Utc).AddTicks(9733),
                             IsDeleted = false,
                             RoleName = "Tenant"
@@ -829,7 +751,6 @@ namespace Reffindr.Infrastructure.Migrations
                         new
                         {
                             Id = 2,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 689, DateTimeKind.Utc).AddTicks(9735),
                             IsDeleted = false,
                             RoleName = "Owner"
@@ -866,7 +787,6 @@ namespace Reffindr.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(1896),
                             IsDeleted = false,
                             SalaryName = "300.000 - 600.000"
@@ -874,7 +794,6 @@ namespace Reffindr.Infrastructure.Migrations
                         new
                         {
                             Id = 2,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(1898),
                             IsDeleted = false,
                             SalaryName = "600.000 - 1.000.000"
@@ -882,7 +801,6 @@ namespace Reffindr.Infrastructure.Migrations
                         new
                         {
                             Id = 3,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(1900),
                             IsDeleted = false,
                             SalaryName = "1.000.000 - 3.000.000"
@@ -890,7 +808,6 @@ namespace Reffindr.Infrastructure.Migrations
                         new
                         {
                             Id = 4,
-
                             CreatedAt = new DateTime(2024, 12, 3, 23, 47, 12, 690, DateTimeKind.Utc).AddTicks(1901),
                             IsDeleted = false,
                             SalaryName = "3.000.000 +"
@@ -1077,25 +994,6 @@ namespace Reffindr.Infrastructure.Migrations
                     b.Navigation("Application");
                 });
 
-            modelBuilder.Entity("Reffindr.Domain.Models.Favorite", b =>
-                {
-                    b.HasOne("Reffindr.Domain.Models.Property", "Property")
-                        .WithMany("FavoriteByUsers")
-                        .HasForeignKey("PropertyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Reffindr.Domain.Models.UserModels.User", "User")
-                        .WithMany("FavoriteProperties")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Property");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Reffindr.Domain.Models.Image", b =>
                 {
                     b.HasOne("Reffindr.Domain.Models.Property", "Property")
@@ -1258,8 +1156,6 @@ namespace Reffindr.Infrastructure.Migrations
                 {
                     b.Navigation("Application");
 
-                    b.Navigation("FavoriteByUsers");
-
                     b.Navigation("Images");
 
                     b.Navigation("Notification");
@@ -1295,8 +1191,6 @@ namespace Reffindr.Infrastructure.Migrations
             modelBuilder.Entity("Reffindr.Domain.Models.UserModels.User", b =>
                 {
                     b.Navigation("Applications");
-
-                    b.Navigation("FavoriteProperties");
 
                     b.Navigation("Image");
 

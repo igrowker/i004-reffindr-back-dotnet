@@ -18,8 +18,8 @@ public class User : BaseModel
     public string Password { get; set; } = default!;
     public bool IsProfileComplete { get; set; }
     public int? GenreId { get; set; }
-    public int? SalaryId { get; set; }
-
+    public int? UserOwnerInfoId { get; set; }
+    public int? UserTenantInfoId { get; set; }
 
     #region NavigationProperties
 
@@ -33,10 +33,9 @@ public class User : BaseModel
     public virtual List<Rating>? RatingsGiven { get; set; }
     public virtual List<Rating>? RatingsReceived { get; set; }
     public virtual Image? Image { get; set; }
-    public virtual Salary? Salary { get; set; }
     public virtual Genre? Genre { get; set; }
-
     public virtual List<Favorite>? FavoriteProperties { get; set; }
+
 
     #endregion NavigationProperties
 }

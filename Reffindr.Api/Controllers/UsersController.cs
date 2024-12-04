@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Reffindr.Application.Services.Interfaces;
+using Reffindr.Domain.Models.UserModels;
+using Reffindr.Shared.DTOs.Pagination;
 using Reffindr.Shared.DTOs.Response.Property;
 using Reffindr.Shared.DTOs.Response.User;
 
@@ -74,4 +76,5 @@ public class UsersController : ControllerBase
 
         return Ok(ownerProperties);
     }
+
 }

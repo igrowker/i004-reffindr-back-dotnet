@@ -72,11 +72,11 @@ namespace Reffindr.Application.Services.Validations.Classes
                     return false;
                 }
 
-                if (property.Requirement.RangeSalary.HasValue &&
-                    tenantInfo.RangeSalary < property.Requirement.RangeSalary.Value)
-                {
-                    return false;
-                }
+                //if (property.Requirement.RangeSalary.HasValue &&
+                //    tenantInfo.RangeSalary < property.Requirement.RangeSalary.Value)
+                //{
+                //    return false;
+                //}
             }
 
             return true;

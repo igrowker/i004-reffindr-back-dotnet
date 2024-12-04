@@ -18,6 +18,9 @@ public class UnitOfWork : IUnitOfWork
     public IUserOwnerInfoRepository UserOwnerInfoRepository { get; }
     public IImageRepository ImageRepository { get; }
     public IFavoriteRepository FavoriteRepository { get; }
+    public IRoleRepository RoleRepository { get; }
+    public IGenreRepository GenreRepository { get; }
+    public ISalaryRepository SalaryRepository { get; }
 
 	public IStateRepository StateRepository => throw new NotImplementedException();
 
@@ -29,16 +32,22 @@ public class UnitOfWork : IUnitOfWork
             IPropertiesRepository propertiesRepository,
             IApplicationRepository applicationRepository,
             ICandidateRepository candidateRepository,
-			      INotificationRepository notificationRepository,
+            INotificationRepository notificationRepository,
             IUserTenantInfoRepository userTenantInfoRepository,
             IImageRepository imageRepository,
             IUserOwnerInfoRepository userOwnerInfoRepository,
             IFavoriteRepository favoriteRepository
+            IRoleRepository roleRepository,
+            IGenreRepository genreRepository,
+            ISalaryRepository salaryRepository
 
             )
 
     {
         _dbContext = dbContext;
+        GenreRepository = genreRepository;
+        SalaryRepository = salaryRepository;
+        SalaryRepository = salaryRepository;
         AuthRepository = authRepository;
         UsersRepository = usersRepository;
         PropertiesRepository = propertiesRepository;
@@ -49,7 +58,8 @@ public class UnitOfWork : IUnitOfWork
         ImageRepository = imageRepository;
         UserOwnerInfoRepository = userOwnerInfoRepository;
         FavoriteRepository = favoriteRepository;
-
+        RoleRepository = roleRepository;
+        GenreRepository = genreRepository;
     }
     public async Task<int> Complete(CancellationToken cancellationToken)
     {
