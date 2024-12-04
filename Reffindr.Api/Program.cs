@@ -121,6 +121,7 @@ builder.Services.AddScoped<IApplicationValidationService, ApplicationValidationS
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddSingleton<MetricsService>();
 builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
+builder.Services.AddScoped<ISalaryService, SalaryService>();
 
 
 #endregion Services

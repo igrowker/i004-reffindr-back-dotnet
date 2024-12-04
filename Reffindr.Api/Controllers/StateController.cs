@@ -13,11 +13,6 @@ namespace Reffindr.Api.Controllers
 			
 		}
 
-		//[HttpGet()]
-		//public async Task<IActionResult> GetStates()
-		//{
-		//	//return await;
-		//}
 
 	}
 }
