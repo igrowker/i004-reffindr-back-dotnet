@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -196,7 +197,8 @@ namespace Reffindr.Infrastructure.Migrations
                     Password = table.Column<string>(type: "text", nullable: false),
                     IsProfileComplete = table.Column<bool>(type: "boolean", nullable: false),
                     GenreId = table.Column<int>(type: "integer", nullable: true),
-                    SalaryId = table.Column<int>(type: "integer", nullable: true),
+                    UserOwnerInfoId = table.Column<int>(type: "integer", nullable: true),
+                    UserTenantInfoId = table.Column<int>(type: "integer", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
@@ -220,11 +222,6 @@ namespace Reffindr.Infrastructure.Migrations
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Users_Salaries_SalaryId",
-                        column: x => x.SalaryId,
-                        principalTable: "Salaries",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Users_States_StateId",
                         column: x => x.StateId,
@@ -263,6 +260,35 @@ namespace Reffindr.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Favorites",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    PropertyId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Favorites", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Favorites_Properties_PropertyId",
+                        column: x => x.PropertyId,
+                        principalTable: "Properties",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Favorites_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Images",
                 columns: table => new
                 {
@@ -270,7 +296,7 @@ namespace Reffindr.Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     PropertyId = table.Column<int>(type: "integer", nullable: true),
                     UserId = table.Column<int>(type: "integer", nullable: true),
-                    ImageUrl = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    ImageUrl = table.Column<List<string>>(type: "text[]", maxLength: 500, nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
@@ -384,8 +410,8 @@ namespace Reffindr.Infrastructure.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     IsWorking = table.Column<bool>(type: "boolean", nullable: false),
                     HasWarranty = table.Column<bool>(type: "boolean", nullable: false),
-                    RangeSalary = table.Column<decimal>(type: "numeric(18,2)", precision: 18, scale: 2, nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
+                    SalaryId = table.Column<int>(type: "integer", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false)
@@ -393,6 +419,11 @@ namespace Reffindr.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UsersTenantsInfo", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UsersTenantsInfo_Salaries_SalaryId",
+                        column: x => x.SalaryId,
+                        principalTable: "Salaries",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_UsersTenantsInfo_Users_UserId",
                         column: x => x.UserId,
@@ -427,21 +458,21 @@ namespace Reffindr.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Countries",
                 columns: new[] { "Id", "CountryName", "CreatedAt", "IsDeleted", "UpdatedAt" },
-                values: new object[] { 1, "Argentina", new DateTime(2024, 12, 3, 15, 39, 10, 69, DateTimeKind.Utc).AddTicks(4587), false, null });
+                values: new object[] { 1, "Argentina", new DateTime(2024, 12, 4, 12, 49, 31, 177, DateTimeKind.Utc).AddTicks(9297), false, null });
 
             migrationBuilder.InsertData(
                 table: "Genres",
                 columns: new[] { "Id", "CreatedAt", "GenreName", "IsDeleted", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 12, 3, 15, 39, 10, 69, DateTimeKind.Utc).AddTicks(6880), "Male", false, null },
-                    { 2, new DateTime(2024, 12, 3, 15, 39, 10, 69, DateTimeKind.Utc).AddTicks(6882), "Female", false, null },
-                    { 3, new DateTime(2024, 12, 3, 15, 39, 10, 69, DateTimeKind.Utc).AddTicks(6884), "Non-binary", false, null },
-                    { 4, new DateTime(2024, 12, 3, 15, 39, 10, 69, DateTimeKind.Utc).AddTicks(6885), "Gender fluid", false, null },
-                    { 5, new DateTime(2024, 12, 3, 15, 39, 10, 69, DateTimeKind.Utc).AddTicks(6886), "Agender", false, null },
-                    { 6, new DateTime(2024, 12, 3, 15, 39, 10, 69, DateTimeKind.Utc).AddTicks(6887), "Bigender", false, null },
-                    { 7, new DateTime(2024, 12, 3, 15, 39, 10, 69, DateTimeKind.Utc).AddTicks(6888), "Demiboy", false, null },
-                    { 8, new DateTime(2024, 12, 3, 15, 39, 10, 69, DateTimeKind.Utc).AddTicks(6889), "DemiGirl", false, null }
+                    { 1, new DateTime(2024, 12, 4, 12, 49, 31, 178, DateTimeKind.Utc).AddTicks(5101), "Male", false, null },
+                    { 2, new DateTime(2024, 12, 4, 12, 49, 31, 178, DateTimeKind.Utc).AddTicks(5105), "Female", false, null },
+                    { 3, new DateTime(2024, 12, 4, 12, 49, 31, 178, DateTimeKind.Utc).AddTicks(5106), "Non-binary", false, null },
+                    { 4, new DateTime(2024, 12, 4, 12, 49, 31, 178, DateTimeKind.Utc).AddTicks(5293), "Gender fluid", false, null },
+                    { 5, new DateTime(2024, 12, 4, 12, 49, 31, 178, DateTimeKind.Utc).AddTicks(5298), "Agender", false, null },
+                    { 6, new DateTime(2024, 12, 4, 12, 49, 31, 178, DateTimeKind.Utc).AddTicks(5300), "Bigender", false, null },
+                    { 7, new DateTime(2024, 12, 4, 12, 49, 31, 178, DateTimeKind.Utc).AddTicks(5301), "Demiboy", false, null },
+                    { 8, new DateTime(2024, 12, 4, 12, 49, 31, 178, DateTimeKind.Utc).AddTicks(5302), "DemiGirl", false, null }
                 });
 
             migrationBuilder.InsertData(
@@ -449,8 +480,8 @@ namespace Reffindr.Infrastructure.Migrations
                 columns: new[] { "Id", "CreatedAt", "IsDeleted", "RoleName", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 12, 3, 15, 39, 10, 73, DateTimeKind.Utc).AddTicks(7861), false, "Tenant", null },
-                    { 2, new DateTime(2024, 12, 3, 15, 39, 10, 73, DateTimeKind.Utc).AddTicks(7863), false, "Owner", null }
+                    { 1, new DateTime(2024, 12, 4, 12, 49, 31, 183, DateTimeKind.Utc).AddTicks(7363), false, "Tenant", null },
+                    { 2, new DateTime(2024, 12, 4, 12, 49, 31, 183, DateTimeKind.Utc).AddTicks(7365), false, "Owner", null }
                 });
 
             migrationBuilder.InsertData(
@@ -458,10 +489,10 @@ namespace Reffindr.Infrastructure.Migrations
                 columns: new[] { "Id", "CreatedAt", "IsDeleted", "SalaryName", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(248), false, "0-1", null },
-                    { 2, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(250), false, "1-2", null },
-                    { 3, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(252), false, "2-3", null },
-                    { 4, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(253), false, "3-4", null }
+                    { 1, new DateTime(2024, 12, 4, 12, 49, 31, 183, DateTimeKind.Utc).AddTicks(9403), false, "300.000 - 600.000", null },
+                    { 2, new DateTime(2024, 12, 4, 12, 49, 31, 183, DateTimeKind.Utc).AddTicks(9405), false, "600.000 - 1.000.000", null },
+                    { 3, new DateTime(2024, 12, 4, 12, 49, 31, 183, DateTimeKind.Utc).AddTicks(9406), false, "1.000.000 - 3.000.000", null },
+                    { 4, new DateTime(2024, 12, 4, 12, 49, 31, 183, DateTimeKind.Utc).AddTicks(9408), false, "3.000.000 +", null }
                 });
 
             migrationBuilder.InsertData(
@@ -469,30 +500,30 @@ namespace Reffindr.Infrastructure.Migrations
                 columns: new[] { "Id", "CountryId", "CreatedAt", "IsDeleted", "StateName", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2761), false, "Buenos Aires", null },
-                    { 2, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2763), false, "Catamarca", null },
-                    { 3, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2764), false, "Chaco", null },
-                    { 4, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2766), false, "Chubut", null },
-                    { 5, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2767), false, "Córdoba", null },
-                    { 6, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2768), false, "Corrientes", null },
-                    { 7, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2769), false, "Entre Ríos", null },
-                    { 8, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2770), false, "Formosa", null },
-                    { 9, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2772), false, "Jujuy", null },
-                    { 10, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2774), false, "La Pampa", null },
-                    { 11, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2776), false, "La Rioja", null },
-                    { 12, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2777), false, "Mendoza", null },
-                    { 13, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2778), false, "Misiones", null },
-                    { 14, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2779), false, "Neuquén", null },
-                    { 15, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2782), false, "Río Negro", null },
-                    { 16, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2784), false, "Salta", null },
-                    { 17, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2787), false, "San Juan", null },
-                    { 18, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2788), false, "San Luis", null },
-                    { 19, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2789), false, "Santa Cruz", null },
-                    { 20, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2790), false, "Santa Fe", null },
-                    { 21, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2791), false, "Santiago del Estero", null },
-                    { 22, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2793), false, "Tierra del Fuego", null },
-                    { 23, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2795), false, "Tucumán", null },
-                    { 24, 1, new DateTime(2024, 12, 3, 15, 39, 10, 74, DateTimeKind.Utc).AddTicks(2797), false, "Ciudad Autónoma de Buenos Aires", null }
+                    { 1, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2632), false, "Buenos Aires", null },
+                    { 2, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2634), false, "Catamarca", null },
+                    { 3, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2635), false, "Chaco", null },
+                    { 4, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2636), false, "Chubut", null },
+                    { 5, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2637), false, "Córdoba", null },
+                    { 6, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2638), false, "Corrientes", null },
+                    { 7, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2639), false, "Entre Ríos", null },
+                    { 8, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2641), false, "Formosa", null },
+                    { 9, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2642), false, "Jujuy", null },
+                    { 10, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2643), false, "La Pampa", null },
+                    { 11, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2644), false, "La Rioja", null },
+                    { 12, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2645), false, "Mendoza", null },
+                    { 13, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2646), false, "Misiones", null },
+                    { 14, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2647), false, "Neuquén", null },
+                    { 15, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2648), false, "Río Negro", null },
+                    { 16, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2649), false, "Salta", null },
+                    { 17, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2650), false, "San Juan", null },
+                    { 18, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2651), false, "San Luis", null },
+                    { 19, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2652), false, "Santa Cruz", null },
+                    { 20, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2653), false, "Santa Fe", null },
+                    { 21, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2654), false, "Santiago del Estero", null },
+                    { 22, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2654), false, "Tierra del Fuego", null },
+                    { 23, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2655), false, "Tucumán", null },
+                    { 24, 1, new DateTime(2024, 12, 4, 12, 49, 31, 184, DateTimeKind.Utc).AddTicks(2656), false, "Ciudad Autónoma de Buenos Aires", null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -512,9 +543,20 @@ namespace Reffindr.Infrastructure.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Favorites_PropertyId",
+                table: "Favorites",
+                column: "PropertyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Favorites_UserId",
+                table: "Favorites",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Images_PropertyId",
                 table: "Images",
-                column: "PropertyId");
+                column: "PropertyId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Images_UserId",
@@ -580,11 +622,6 @@ namespace Reffindr.Infrastructure.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_SalaryId",
-                table: "Users",
-                column: "SalaryId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Users_StateId",
                 table: "Users",
                 column: "StateId");
@@ -594,6 +631,11 @@ namespace Reffindr.Infrastructure.Migrations
                 table: "UsersOwnersInfo",
                 column: "UserId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsersTenantsInfo_SalaryId",
+                table: "UsersTenantsInfo",
+                column: "SalaryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UsersTenantsInfo_UserId",
@@ -607,6 +649,9 @@ namespace Reffindr.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Candidates");
+
+            migrationBuilder.DropTable(
+                name: "Favorites");
 
             migrationBuilder.DropTable(
                 name: "Images");
@@ -627,6 +672,9 @@ namespace Reffindr.Infrastructure.Migrations
                 name: "Applications");
 
             migrationBuilder.DropTable(
+                name: "Salaries");
+
+            migrationBuilder.DropTable(
                 name: "Properties");
 
             migrationBuilder.DropTable(
@@ -640,9 +688,6 @@ namespace Reffindr.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Roles");
-
-            migrationBuilder.DropTable(
-                name: "Salaries");
 
             migrationBuilder.DropTable(
                 name: "States");

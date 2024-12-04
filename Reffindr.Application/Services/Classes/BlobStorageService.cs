@@ -6,8 +6,8 @@ using Reffindr.Application.Services.Interfaces;
 
 public class BlobStorageService : IBlobStorageService
 {
-    private readonly string _connectionString;
-    private readonly string _containerName;
+    private readonly string? _connectionString;
+    private readonly string? _containerName;
 
     public BlobStorageService(IConfiguration configuration)
     {

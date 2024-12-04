@@ -5,6 +5,6 @@ public class Salary : BaseModel
     public string SalaryName { get; set; } = default!;
 
     #region Navigation Properties
-    public virtual List<User>? Users { get; set; }
+    public virtual List<UserTenantInfo>? UsersTenantInfo { get; set; }
     #endregion Navigation Properties
 }

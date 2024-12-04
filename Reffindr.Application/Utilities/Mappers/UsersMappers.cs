@@ -19,7 +19,7 @@ public static class UsersMappers
         existingData.Address = userUpdateRequestDto.Address ?? existingData.Address;
         existingData.BirthDate = userUpdateRequestDto.BirthDate ?? existingData.BirthDate;
         existingData.GenreId = userUpdateRequestDto.GenreId ?? existingData.GenreId;
-        existingData.SalaryId = userUpdateRequestDto.SalaryId ?? existingData.SalaryId;
+        existingData.UserTenantInfo!.SalaryId = userUpdateRequestDto.SalaryId ?? existingData.UserTenantInfo.SalaryId;
         
 
         return existingData;
@@ -30,16 +30,20 @@ public static class UsersMappers
         {
             Email = user.Email,
             Name = user.Name,
+            CountryId = user.CountryId,
+            StateId = user.StateId,
             LastName = user.LastName,
             Dni = user.Dni,
             Phone = user.Phone,
             Address = user.Address,
             BirthDate = user.BirthDate,
             IsProfileComplete = user.IsProfileComplete,
-            ImageUrl = user.Image!.ImageUrl,
-            SalaryId = user.SalaryId,
-            GenreId = user.GenreId
-            
+            ImageProfileUrl = user.Image != null && user.Image.ImageUrl != null && user.Image.ImageUrl.Count > 0
+                ? user.Image.ImageUrl[0]
+                : null,
+            GenreId = user.GenreId,
+            SalaryId = user.UserTenantInfo!.SalaryId
+
         };
     }
 
@@ -48,6 +52,9 @@ public static class UsersMappers
         return new UserCredentialsResponseDto
         {
             RoleId = user.RoleId,
+            RoleName = user.Role!.RoleName,
+            CountryId = user.CountryId,
+            StateId = user.StateId,
             Email = user.Email,
             Name = user.Name,
             LastName = user.LastName,
@@ -56,9 +63,13 @@ public static class UsersMappers
             Address = user.Address,
             BirthDate = user.BirthDate,
             IsProfileComplete = user.IsProfileComplete,
-            ImageProfileUrl = user.Image!.ImageUrl,
-            GenderId = user.GenreId,
-            SalaryId = user.SalaryId
+            ImageProfileUrl = user.Image != null && user.Image.ImageUrl != null && user.Image.ImageUrl.Count > 0
+                ? user.Image.ImageUrl[0]
+                : null,
+            GenderId = user.GenreId ?? null,
+            GenderName = user.Genre?.GenreName ?? "Género no especificado",
+            SalaryId = user.UserTenantInfo!.SalaryId ?? null,
+            SalaryName = user.UserTenantInfo?.Salary?.SalaryName ?? "Salario no especificado"
 
         };
     }
