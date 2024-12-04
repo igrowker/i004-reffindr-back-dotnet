@@ -76,7 +76,6 @@ public class UserService : IUserService
         Role roleDb = await _unitOfWork.RoleRepository.GetById(userCredentials.RoleId);
         Genre genreDb = await _unitOfWork.GenreRepository.GetById(userCredentials.GenreId);
         Salary salaryDb = await _unitOfWork.SalaryRepository.GetById(userTenantInfo.SalaryId);
-
         userCredentials.Image = userImageDb;
         userCredentials.Role = roleDb;
         userTenantInfo.Salary = salaryDb;
