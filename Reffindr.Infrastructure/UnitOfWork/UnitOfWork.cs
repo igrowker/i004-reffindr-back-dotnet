@@ -21,8 +21,8 @@ public class UnitOfWork : IUnitOfWork
     public IRoleRepository RoleRepository { get; }
     public IGenreRepository GenreRepository { get; }
     public ISalaryRepository SalaryRepository { get; }
+    public IStateRepository StateRepository { get; }
 
-	public IStateRepository StateRepository => throw new NotImplementedException();
 
 	public UnitOfWork
         (
@@ -39,7 +39,8 @@ public class UnitOfWork : IUnitOfWork
             IFavoriteRepository favoriteRepository,
             IRoleRepository roleRepository,
             IGenreRepository genreRepository,
-            ISalaryRepository salaryRepository
+            ISalaryRepository salaryRepository,
+            IStateRepository stateRepository
 
             )
 
@@ -60,6 +61,7 @@ public class UnitOfWork : IUnitOfWork
         FavoriteRepository = favoriteRepository;
         RoleRepository = roleRepository;
         GenreRepository = genreRepository;
+        StateRepository = stateRepository;
     }
     public async Task<int> Complete(CancellationToken cancellationToken)
     {
