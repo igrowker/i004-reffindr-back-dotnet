@@ -6,6 +6,6 @@ namespace Reffindr.Infrastructure.Repositories.Interfaces
 	public interface INotificationRepository : IGenericRepository<Notification>
 	{
         Task<List<Notification>> GetNotifications(int userId, PaginationDto paginationDto);
-
+        Task<Notification> GetNotificationByOwnerPropertyId(int propertyId);
     }
 }

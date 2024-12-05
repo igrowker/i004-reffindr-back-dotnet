@@ -4,6 +4,7 @@ using Reffindr.Application.Utilities.Mappers;
 using Reffindr.Domain.Models;
 using Reffindr.Domain.Models.UserModels;
 using Reffindr.Infrastructure.Extensions.Claims.ServiceWrapper;
+using Reffindr.Infrastructure.Repositories.Interfaces;
 using Reffindr.Infrastructure.UnitOfWork;
 using Reffindr.Shared.DTOs.Pagination;
 using Reffindr.Shared.DTOs.Response.Notification;
@@ -15,12 +16,14 @@ namespace Reffindr.Application.Services.Classes
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IUserContext _userContext;
+		private readonly IUsersRepository _usersRepository;
 		private readonly IHubContext<NotificationHub> _hubContext;
 
-		public NotificationService(IUnitOfWork unitOfWork, IUserContext userContext, IHubContext<NotificationHub> hubContext)
+		public NotificationService(IUnitOfWork unitOfWork, IUserContext userContext,  IUsersRepository usersRepository, IHubContext<NotificationHub> hubContext)
 		{
 			_unitOfWork = unitOfWork;
 			_userContext = userContext;
+			_usersRepository = usersRepository;
 			_hubContext = hubContext;
 		}
 		
@@ -35,7 +38,7 @@ namespace Reffindr.Application.Services.Classes
 			return notificationsResponse;
 		}
 
-		public async Task AddNotificationToUser(string userRecievingEmail,int propertyId, NotificationType Type, CancellationToken cancellationToken)
+		public async Task <NotificationResponseDto>AddNotificationToUser(string userRecievingEmail,int propertyId, NotificationType Type, CancellationToken cancellationToken)
 		{
 			int userSenderId = _userContext.GetUserId();
 			var userRecievingId = await _unitOfWork.UsersRepository.GetUserbyEmail(userRecievingEmail);
@@ -45,7 +48,7 @@ namespace Reffindr.Application.Services.Classes
 			{
 				UserReceivingId = userRecievingId.Id,
 				Message = $"Tiene nueva notificacion de tipo {Type}",
-				Type = Type.ToString(),
+				Type = NotificationType.Application,
 				Read = false,
 				UserSenderId = userSenderId,
 				PropertyId = propertyId,
@@ -53,16 +56,32 @@ namespace Reffindr.Application.Services.Classes
 			await _unitOfWork.NotificationRepository.Create(notification, cancellationToken);
             await _unitOfWork.Complete(cancellationToken);
             await _hubContext.Clients.User(userRecievingId.Id.ToString()).SendAsync("ReceiveNotification", notification.Message);
-		}
 
-		public async Task ConfirmPropertyfromNotification(int propertyId)
+            NotificationResponseDto notificationResponseDto = notification.ToResponse();
+            return notificationResponseDto;
+        }
+
+		public async Task<NotificationResponseDto> ConfirmPropertyfromNotification(int propertyId, CancellationToken cancellationToken)
 		{
-
 			Property? property = await _unitOfWork.PropertiesRepository.GetById(propertyId);
-			property.IsDeleted = false;
+            int userOwner = _userContext.GetUserId();
+            property.IsDeleted = false;
 			property.UpdatedAt = DateTime.UtcNow;
 			await _unitOfWork.PropertiesRepository.Update(propertyId, property);
-		}
-	}
+
+            Notification notification = await _unitOfWork.NotificationRepository.GetNotificationByOwnerPropertyId(propertyId);
+            notification.Read = true;
+            await _unitOfWork.NotificationRepository.Update(notification.Id, notification);
+            
+            await _unitOfWork.Complete(cancellationToken);
+
+			User tenantNotification = await _usersRepository.GetById(property.TenantId);
+
+			var notificationToTenant = await AddNotificationToUser(tenantNotification.Email, property.Id, NotificationType.Rating, cancellationToken);
+
+			return notificationToTenant;
+
+        }
+    }
 
 }

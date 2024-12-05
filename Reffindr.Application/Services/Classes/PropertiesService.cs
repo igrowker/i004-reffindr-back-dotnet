@@ -1,9 +1,11 @@
 ﻿using Reffindr.Application.Services.Interfaces;
 using Reffindr.Application.Utilities.Mappers;
 using Reffindr.Domain.Models;
+using Reffindr.Domain.Models.UserModels;
 using Reffindr.Infrastructure.Extensions.Claims.ServiceWrapper;
 using Reffindr.Infrastructure.UnitOfWork;
 using Reffindr.Shared.DTOs.Filter;
+using Reffindr.Shared.DTOs.Pagination;
 using Reffindr.Shared.DTOs.Request.Property;
 using Reffindr.Shared.DTOs.Response.Property;
 using Reffindr.Shared.Enum;
@@ -45,20 +47,19 @@ public class PropertiesService : IPropertiesService
         return ownerPropertiesResponse;
     }
 
-    public async Task<Result<IEnumerable<PropertyGetResponseDto>>> GetPropertiesAsync(PropertyFilterDto filter)
+    public async Task<List<PropertyGetResponseDto>> GetPropertiesAsync(PropertyFilterDto filter, PaginationDto paginationDto)
     {
-        int userId = _userContext.GetUserId();
+        //int userId = _userContext.GetUserId();
 
         // Validar los filtros, utilizaré fluent validation
         // var validationResult = new PropertyFilterDtoValidator().Validate(filter);
 
-        var properties = await _unitOfWork.PropertiesRepository.GetPropertiesAsync(filter, userId);
+        var properties = await _unitOfWork.PropertiesRepository.GetPropertiesAsync(filter);
 
-        IEnumerable<PropertyGetResponseDto> propertyDtos = properties.Select(p => p.ToResponse());
+        List<PropertyGetResponseDto> propertyDtos = properties.Select(x => x.ToResponse()).ToList();
 
-        return Result<IEnumerable<PropertyGetResponseDto>>.Success(propertyDtos);
+        return propertyDtos;
     }
-
 
     public async Task<PropertyPostResponseDto> PostPropertyAsync(PropertyPostRequestDto propertyPostRequestDto,  CancellationToken cancellationToken)
     {
@@ -83,12 +84,10 @@ public class PropertiesService : IPropertiesService
         }
 
         Property registeredProperty = await _unitOfWork.PropertiesRepository.Create(propertyToCreate, cancellationToken);
-
-
-		await _unitOfWork.Complete(cancellationToken);
-
-        //await _NotifyService.AddNotificationToUser(propertyPostRequestDto.OwnerEmail, registeredProperty.Id, NotificationType.Application, cancellationToken);
-
+        var notificationToOwner =await _NotifyService.AddNotificationToUser(propertyPostRequestDto.OwnerEmail, registeredProperty.Id, NotificationType.Application, cancellationToken);
+        propertyToCreate.NotificationId = notificationToOwner.PropertyId;
+        await _unitOfWork.PropertiesRepository.Update(registeredProperty.Id, registeredProperty);
+        await _unitOfWork.Complete(cancellationToken);
 
         PropertyPostResponseDto propertyPostResponseDto = registeredProperty.ToPostResponse();
 

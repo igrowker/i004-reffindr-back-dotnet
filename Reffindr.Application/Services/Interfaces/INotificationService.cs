@@ -6,8 +6,8 @@ namespace Reffindr.Application.Services.Interfaces
 {
     public interface INotificationService
 	{
-		Task AddNotificationToUser(string userReceivingEmail, int PropertyId, NotificationType status, CancellationToken cancellationToken);
-		Task ConfirmPropertyfromNotification(int propertyId);
+		Task<NotificationResponseDto> AddNotificationToUser(string userReceivingEmail, int PropertyId, NotificationType status, CancellationToken cancellationToken);
+		Task<NotificationResponseDto> ConfirmPropertyfromNotification(int propertyId, CancellationToken cancellationToken);
         Task<List<NotificationResponseDto>> GetNotificationsAsync(PaginationDto paginationDto);
     }
 }

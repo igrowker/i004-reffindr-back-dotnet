@@ -9,6 +9,9 @@ using System.Transactions;
 using Microsoft.EntityFrameworkCore.Storage;
 using Reffindr.Application.Utilities.Mappers;
 using Reffindr.Application.Services.Validations.Interfaces;
+using Reffindr.Domain.Models.UserModels;
+using Reffindr.Shared.DTOs.Request.Property;
+using Reffindr.Shared.Enum;
 
 namespace Reffindr.Application.Services.Classes
 {
@@ -17,12 +20,14 @@ namespace Reffindr.Application.Services.Classes
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserContext _userContext;
         private readonly IApplicationValidationService _applicationValidationService;
+        private readonly INotificationService _notificationService;
 
-        public ApplicationService(IUnitOfWork unitOfWork, IUserContext userContext, IApplicationValidationService applicationValidationService)
+        public ApplicationService(IUnitOfWork unitOfWork, IUserContext userContext, IApplicationValidationService applicationValidationService, INotificationService notificationService)
         {
             _unitOfWork = unitOfWork;
             _userContext = userContext;
             _applicationValidationService = applicationValidationService;
+            _notificationService = notificationService;
         }
 
         public async Task<Result<List<ApplicationGetResponseDto>>> GetApplicationsByUserIdAsync()
@@ -130,6 +135,11 @@ namespace Reffindr.Application.Services.Classes
 
             await _unitOfWork.Complete(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
+
+            Property propertyInDb = await _unitOfWork.PropertiesRepository.GetById(applicationPostRequestDto.PropertyId);
+            User userInDb = await _unitOfWork.UsersRepository.GetById(propertyInDb.TenantId);
+
+            await _notificationService.AddNotificationToUser(userInDb.Email, applicationPostRequestDto.PropertyId, NotificationType.Application, cancellationToken);
 
             return Result<ApplicationPostResponseDto>.Success(applicationResponse);
         }

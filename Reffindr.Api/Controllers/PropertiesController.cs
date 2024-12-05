@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Reffindr.Application.Services.Interfaces;
 using Reffindr.Shared.DTOs.Filter;
+using Reffindr.Shared.DTOs.Pagination;
 using Reffindr.Shared.DTOs.Request.Property;
 using Reffindr.Shared.DTOs.Response.Property;
 
@@ -24,18 +25,14 @@ public class PropertiesController : ControllerBase
         _favoriteService = favoriteService;
     }
 
-    [Authorize]
     [HttpGet]
-    public async Task<IActionResult> GetProperties([FromQuery] PropertyFilterDto filter)
+    [Route("GetProperty")]
+
+    public async Task<IActionResult> GetProperties([FromQuery] PropertyFilterDto filter, [FromQuery] PaginationDto paginationDto)
     {
-        var result = await _propertiesService.GetPropertiesAsync(filter);
+        var result = await _propertiesService.GetPropertiesAsync(filter, paginationDto);
 
-        if (!result.IsSuccess)
-        {
-            return NotFound(new { Message = result.Error });
-        }
-
-        return Ok(result.Value);
+        return Ok(result);
     }
 
     [Authorize]

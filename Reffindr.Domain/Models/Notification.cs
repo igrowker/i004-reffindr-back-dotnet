@@ -1,4 +1,5 @@
 ﻿using Reffindr.Domain.Models.UserModels;
+using Reffindr.Shared.Enum;
 
 namespace Reffindr.Domain.Models;
 
@@ -8,7 +9,7 @@ public class Notification : BaseModel
 
 	public string? Message { get; set; }
 
-	public string? Type { get; set; }
+	public NotificationType? Type { get; set; }
 
 	public int PropertyId { get; set; }
 

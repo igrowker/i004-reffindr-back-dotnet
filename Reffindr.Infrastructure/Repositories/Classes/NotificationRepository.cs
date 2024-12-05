@@ -20,5 +20,14 @@ namespace Reffindr.Infrastructure.Repositories.Classes
 
             return await recordsQueriable.Paginate(paginationDto).Where(x => x.UserReceivingId == userId).ToListAsync();
         }
+
+        public async Task<Notification> GetNotificationByOwnerPropertyId(int propertyId)
+        {
+            var foundnNotification = await  _dbSet.Where(x => x.PropertyId == propertyId).OrderByDescending(x => x.CreatedAt).FirstOrDefaultAsync();
+
+            return foundnNotification;
+        }
+
+
     }
 }
