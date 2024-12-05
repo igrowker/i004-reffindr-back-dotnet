@@ -27,9 +27,9 @@ public class PropertiesService : IPropertiesService
              IAuthService authService,
              IUserContext userContext,
              IImageService imageService,
-			 INotificationService notifyService
+             INotificationService notifyService
 
-		)
+        )
     {
         _unitOfWork = unitOfWork;
         _authService = authService;
@@ -61,11 +61,11 @@ public class PropertiesService : IPropertiesService
         return propertyDtos;
     }
 
-    public async Task<PropertyPostResponseDto> PostPropertyAsync(PropertyPostRequestDto propertyPostRequestDto,  CancellationToken cancellationToken)
+    public async Task<PropertyPostResponseDto> PostPropertyAsync(PropertyPostRequestDto propertyPostRequestDto, CancellationToken cancellationToken)
     {
         int userId = _userContext.GetUserId();
 
-		Property propertyToCreate = propertyPostRequestDto.ToModel();
+        Property propertyToCreate = propertyPostRequestDto.ToModel();
         propertyToCreate.TenantId = userId;
         propertyToCreate.IsDeleted = false;
 
@@ -84,13 +84,19 @@ public class PropertiesService : IPropertiesService
         }
 
         Property registeredProperty = await _unitOfWork.PropertiesRepository.Create(propertyToCreate, cancellationToken);
-        var notificationToOwner =await _NotifyService.AddNotificationToUser(propertyPostRequestDto.OwnerEmail, registeredProperty.Id, NotificationType.Application, cancellationToken);
-        propertyToCreate.NotificationId = notificationToOwner.PropertyId;
-        await _unitOfWork.PropertiesRepository.Update(registeredProperty.Id, registeredProperty);
+
+        //propertyToCreate.NotificationId = notificationToOwner.PropertyId;
+        //await _unitOfWork.PropertiesRepository.Update(registeredProperty.Id, registeredProperty);
         await _unitOfWork.Complete(cancellationToken);
+
+        await _NotifyService.AddNotificationToUser(propertyPostRequestDto.OwnerEmail, registeredProperty.Id, NotificationType.Application, cancellationToken);
 
         PropertyPostResponseDto propertyPostResponseDto = registeredProperty.ToPostResponse();
 
         return propertyPostResponseDto;
     }
+
+
+
+
 }
