@@ -84,12 +84,11 @@ public class PropertiesService : IPropertiesService
         }
 
         Property registeredProperty = await _unitOfWork.PropertiesRepository.Create(propertyToCreate, cancellationToken);
+        var notificationToOwner =await _NotifyService.AddNotificationToUser(propertyPostRequestDto.OwnerEmail, registeredProperty.Id, NotificationType.Application, cancellationToken);
+        propertyToCreate.NotificationId = notificationToOwner.PropertyId;
+        await _unitOfWork.PropertiesRepository.Update(registeredProperty.Id, registeredProperty);
+        await _unitOfWork.Complete(cancellationToken);
 
-
-		await _unitOfWork.Complete(cancellationToken);
-
-        await _NotifyService.AddNotificationToUser(propertyPostRequestDto.OwnerEmail, registeredProperty.Id, NotificationType.Application, cancellationToken);
-        
         PropertyPostResponseDto propertyPostResponseDto = registeredProperty.ToPostResponse();
 
         return propertyPostResponseDto;

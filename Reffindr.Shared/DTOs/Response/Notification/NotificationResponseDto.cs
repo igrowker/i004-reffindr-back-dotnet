@@ -1,4 +1,6 @@
-﻿namespace Reffindr.Shared.DTOs.Response.Notification;
+﻿using Reffindr.Shared.Enum;
+
+namespace Reffindr.Shared.DTOs.Response.Notification;
 
 public class NotificationResponseDto
 {

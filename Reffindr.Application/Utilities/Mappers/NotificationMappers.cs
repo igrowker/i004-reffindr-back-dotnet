@@ -13,7 +13,7 @@ public static class NotificationMappers
         {
             Message =  notification.Message,
             Read = notification.Read,
-            Type = notification.Type,
+            Type = notification.Type.ToString(),
             UserSenderId = notification.UserSenderId,
             PropertyId = notification.PropertyId
         };

@@ -48,7 +48,7 @@ namespace Reffindr.Application.Services.Classes
 			{
 				UserReceivingId = userRecievingId.Id,
 				Message = $"Tiene nueva notificacion de tipo {Type}",
-				Type = Type.ToString(),
+				Type = NotificationType.Application,
 				Read = false,
 				UserSenderId = userSenderId,
 				PropertyId = propertyId,
@@ -68,6 +68,11 @@ namespace Reffindr.Application.Services.Classes
             property.IsDeleted = false;
 			property.UpdatedAt = DateTime.UtcNow;
 			await _unitOfWork.PropertiesRepository.Update(propertyId, property);
+
+            Notification notification = await _unitOfWork.NotificationRepository.GetNotificationByOwnerPropertyId(propertyId);
+            notification.Read = true;
+            await _unitOfWork.NotificationRepository.Update(notification.Id, notification);
+            
             await _unitOfWork.Complete(cancellationToken);
 
 			User tenantNotification = await _usersRepository.GetById(property.TenantId);
