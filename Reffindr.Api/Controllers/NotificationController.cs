@@ -21,11 +21,10 @@ namespace Reffindr.Api.Controllers
 		[Authorize]
 		[HttpPut]
 		[Route("ConfirmProperty/{propertyId:int}")]
-
-		public async Task<IActionResult> ConfirmPropertyFromNotification(int propertyId)
+		public async Task<IActionResult> ConfirmPropertyFromNotification(int propertyId, CancellationToken cancellationToken)
 		{
-			await _notificationService.ConfirmPropertyfromNotification(propertyId);
-			return Ok();
+			var notificationToTenant = await _notificationService.ConfirmPropertyfromNotification(propertyId, cancellationToken);
+			return Ok(notificationToTenant);
 		}
 
 		[HttpGet]
