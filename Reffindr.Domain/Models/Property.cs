@@ -28,7 +28,6 @@ public class Property : BaseModel
     public bool Elevator { get; set; }
     public bool Terrace { get; set; }
 	  public bool IsHistoric { get; set; }
-    public int? NotificationId { get; set; }
 	  public string Description { get; set; } = default!;
 
     #region Navigation Properties
