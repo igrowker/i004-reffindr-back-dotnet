@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Reffindr.Application.Services.Interfaces;
+using Reffindr.Domain.Models;
 using Reffindr.Shared.DTOs.Request.Application;
 using Reffindr.Shared.DTOs.Response.Application;
 using Reffindr.Shared.Result;
@@ -35,7 +36,7 @@ namespace Reffindr.Api.Controllers
         [HttpGet("Property/{propertyId}")]
         public async Task<IActionResult> GetApplicationsByPropertyIdAsync(int propertyId)
         {
-            List<ApplicationGetResponseDto> applications = await _applicationService.GetApplicationsByPropertyIdAsync(propertyId);
+            List<ApplicationsWithUserGetResponseDto> applications = await _applicationService.GetApplicationsByPropertyIdAsync(propertyId);
 
             return Ok(applications);
         }
@@ -93,8 +94,12 @@ namespace Reffindr.Api.Controllers
             return Ok((result));
         }
 
-    
+        [HttpPut("PutSelectCandidate")]
+        public async Task<IActionResult> PutSelectNewTenant(int userId, CancellationToken cancellationToken)
+        {
+            ApplicationModel selectedCandidateResponse = await _applicationService.PutSelectNewTenantAsync(userId, cancellationToken);
 
-
+            return Ok(selectedCandidateResponse);
+        }
     }
 }
