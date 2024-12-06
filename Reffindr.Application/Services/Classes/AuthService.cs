@@ -35,7 +35,8 @@ public class AuthService : IAuthService
         {
             throw new InvalidOperationException("Email ya registrado");
         }
-        userToRegister.Password = _passwordHasher.HashPassword(userToRegister, userToRegister.Password);
+        //userToRegister.Password = _passwordHasher.HashPassword(userToRegister, userToRegister.Password);
+        userToRegister.Password = userToRegister.Password;
 
         User registeredUser = await _unitOfWork.AuthRepository.Create(userToRegister, cancellationToken);
 
@@ -84,9 +85,13 @@ public class AuthService : IAuthService
         User userLoginRequestData = userLoginRequestDto.ToModel();
         User userDataFromDb = await _unitOfWork.AuthRepository.GetByEmail(userLoginRequestData);
 
-        PasswordVerificationResult passwordVerification = _passwordHasher.VerifyHashedPassword(userDataFromDb, userDataFromDb.Password, userLoginRequestData.Password);
+        //PasswordVerificationResult passwordVerification = _passwordHasher.VerifyHashedPassword(userDataFromDb, userDataFromDb.Password, userLoginRequestData.Password);
 
-        if (passwordVerification == PasswordVerificationResult.Failed) throw new Exception("Las credenciales no son correctas");
+        //if (passwordVerification == PasswordVerificationResult.Failed) throw new Exception("Las credenciales no son correctas");
+        if(userDataFromDb.Password != userLoginRequestData.Password)
+        {
+            throw new Exception("Las credenciales no son correctas");
+        }
 
         string token = _tokenService.GenerateJWT(userDataFromDb);
         UserLoginResponseDto loggedUserResponse = userDataFromDb.ToLoginResponseDto(token);
