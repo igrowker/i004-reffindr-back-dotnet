@@ -13,6 +13,14 @@ namespace Reffindr.Infrastructure.Repositories.Classes
         {
         }
 
+        public async Task<ApplicationModel> GetUserToSelect(int userId)
+        {
+            return await _dbSet
+                .Where(a => a.UserId == userId)
+                .Include(a => a.User)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<List<ApplicationModel>> GetApplicationsByUserIdAsync(int userId)
         {
             return await _dbSet

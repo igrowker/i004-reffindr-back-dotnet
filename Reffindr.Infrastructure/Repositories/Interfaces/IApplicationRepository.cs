@@ -9,5 +9,6 @@ namespace Reffindr.Infrastructure.Repositories.Interfaces
         Task<List<ApplicationModel>> GetApplicationsSelectedCandidates(int propertyId);
         Task<bool> ExistsAsync(int userId, int propertyId);
         Task<ApplicationModel> GetApplicationCandidate(int candidateUserId, int propertyId);
+        Task<ApplicationModel> GetUserToSelect(int userId);
     }
 }

@@ -12,6 +12,7 @@ using Reffindr.Application.Services.Validations.Interfaces;
 using Reffindr.Domain.Models.UserModels;
 using Reffindr.Shared.DTOs.Request.Property;
 using Reffindr.Shared.Enum;
+using System.Threading;
 
 namespace Reffindr.Application.Services.Classes
 {
@@ -42,10 +43,10 @@ namespace Reffindr.Application.Services.Classes
             return Result<List<ApplicationGetResponseDto>>.Success(applicationDtos);
         }
 
-        public async Task<List<ApplicationGetResponseDto>> GetApplicationsByPropertyIdAsync(int propertyId)
+        public async Task<List<ApplicationsWithUserGetResponseDto>> GetApplicationsByPropertyIdAsync(int propertyId)
         {
             // No sé si agregar una validación para que solo pueda obtener las aplicaciones el dueño de la propiedad o el inquilino saliente que la publicó
-            bool userIsOwnerOrTenant = await _applicationValidationService.UserIsOwnerOrTenant(propertyId);
+            //bool userIsOwnerOrTenant = await _applicationValidationService.UserIsOwnerOrTenant(propertyId);
 
             //if (!userIsOwnerOrTenant)
             //{
@@ -55,9 +56,9 @@ namespace Reffindr.Application.Services.Classes
             List<ApplicationModel> applications = await _unitOfWork.ApplicationRepository.GetApplicationsByPropertyIdAsync(propertyId);
 
             // Mapeo
-            List<ApplicationGetResponseDto> applicationDtos = applications.Select(a => a.ToGetResponse()).ToList();
+            List<ApplicationsWithUserGetResponseDto> applicationResponse = applications.Select(a => a.ToApplicationsWithUserResponse()).ToList();
 
-            return applicationDtos;
+            return applicationResponse;
         }
 
         public async Task<List<ApplicationGetResponseDto>> GetApplicationsSelectedCandidatesAsync(int propertyId)
@@ -155,5 +156,16 @@ namespace Reffindr.Application.Services.Classes
             return userCandidateDataUpdated;
         }
 
+        public async Task<ApplicationModel> PutSelectNewTenantAsync(int userId, CancellationToken cancellationToken)
+        {
+            //User selectedUser = await _unitOfWork.UsersRepository.GetById(userId);
+            ApplicationModel selectedUser =  await _unitOfWork.ApplicationRepository.GetUserToSelect(userId);
+            selectedUser.IsDeleted = true;
+            await _unitOfWork.ApplicationRepository.Update(selectedUser.Id, selectedUser);
+
+            await _unitOfWork.Complete(cancellationToken);
+
+            return selectedUser;
+        }
     }
 }
