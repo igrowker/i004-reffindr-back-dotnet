@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace Reffindr.Domain.Models.UserModels;
-
 public class User : BaseModel
 {
     public int RoleId { get; set; }
@@ -22,7 +21,6 @@ public class User : BaseModel
     public int? UserTenantInfoId { get; set; }
 
     #region NavigationProperties
-
     public virtual Role? Role { get; set; }
     public virtual Country? Country { get; set; }
     public virtual State? State { get; set; }
@@ -35,7 +33,5 @@ public class User : BaseModel
     public virtual Image? Image { get; set; }
     public virtual Genre? Genre { get; set; }
     public virtual List<Favorite>? FavoriteProperties { get; set; }
-
-
     #endregion NavigationProperties
 }
