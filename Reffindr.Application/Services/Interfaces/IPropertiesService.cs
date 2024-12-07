@@ -11,5 +11,5 @@ public interface IPropertiesService
     Task<List<PropertyGetResponseDto>> GetPropertiesAsync(PropertyFilterDto filter, PaginationDto paginationDto);
     Task<PropertyPostResponseDto> PostPropertyAsync(PropertyPostRequestDto propertyPostRequestDto, CancellationToken cancellationToken);
     Task<List<PropertyGetResponseDto>> GetOwnerPropertiesAsync();
-    
+    Task<PropertyGetResponseDto> GetPropertyAsync(int id);
 }
