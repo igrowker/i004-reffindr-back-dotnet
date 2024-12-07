@@ -38,7 +38,7 @@ public static class UsersMappers
         existingData.Address = userUpdateRequestDto.Address ?? existingData.Address;
         existingData.BirthDate = userUpdateRequestDto.BirthDate ?? existingData.BirthDate;
         existingData.GenreId = userUpdateRequestDto.GenreId ?? existingData.GenreId;
-        existingData.UserOwnerInfo = userUpdateRequestDto.
+        //existingData.UserOwnerInfo = userUpdateRequestDto.
         return existingData;
     }
     public static UserUpdateResponseDto ToResponse(this User user)
