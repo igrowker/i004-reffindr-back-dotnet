@@ -12,4 +12,5 @@ public interface IPropertiesService
     Task<PropertyPostResponseDto> PostPropertyAsync(PropertyPostRequestDto propertyPostRequestDto, CancellationToken cancellationToken);
     Task<List<PropertyGetResponseDto>> GetOwnerPropertiesAsync();
     Task<PropertyGetResponseDto> GetPropertyAsync(int id);
+    Task<List<PropertyGetResponseDto>> GetTenantAnnounceAsync();
 }
