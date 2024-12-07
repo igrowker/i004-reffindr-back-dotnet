@@ -32,7 +32,7 @@ public class UsersController : ControllerBase
     [Route("get-credentials")]
     public async Task<IActionResult> GetUserCredential()
     {
-        User userCredentialsResponseDto = await _userService.GetUserCredentialsAsync();
+        UserCredentialsResponseDto userCredentialsResponseDto = await _userService.GetUserCredentialsAsync();
 
         return Ok(userCredentialsResponseDto);
     }
