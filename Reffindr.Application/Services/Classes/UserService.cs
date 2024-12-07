@@ -65,7 +65,7 @@ public class UserService : IUserService
         return userUpdateResponseDto;
     }
 
-    public async Task<User> GetUserCredentialsAsync()
+    public async Task<UserCredentialsResponseDto> GetUserCredentialsAsync()
     {
         int userId = _userContext.GetUserId();
         User userCredentials = await _unitOfWork.UsersRepository.GetById(userId);
@@ -91,7 +91,7 @@ public class UserService : IUserService
             userCredentials.UserOwnerInfo = userOwnerInfo;
         }
 
-        //UserCredentialsResponseDto userCredentialsResponse = userCredentials.ToUserCredentialsResponse();
-        return userCredentials;
+        UserCredentialsResponseDto userCredentialsResponse = userCredentials.ToUserCredentialsResponse();
+        return userCredentialsResponse;
     }
 }
