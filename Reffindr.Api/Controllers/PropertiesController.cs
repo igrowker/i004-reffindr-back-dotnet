@@ -26,13 +26,21 @@ public class PropertiesController : ControllerBase
     }
 
     [HttpGet]
-    [Route("GetProperty")]
-
+    [Route("GetProperties")]
     public async Task<IActionResult> GetProperties([FromQuery] PropertyFilterDto filter, [FromQuery] PaginationDto paginationDto)
     {
         var result = await _propertiesService.GetPropertiesAsync(filter, paginationDto);
 
         return Ok(result);
+    }
+
+    [HttpGet]
+    [Route("GetProperty/{id:int}")]
+    public async Task<IActionResult> GetProperty(int id)
+    {
+        PropertyGetResponseDto propertyResponse = await _propertiesService.GetPropertyAsync(id);
+
+        return Ok(propertyResponse);
     }
 
     [Authorize]

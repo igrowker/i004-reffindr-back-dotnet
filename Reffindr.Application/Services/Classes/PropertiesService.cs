@@ -61,6 +61,14 @@ public class PropertiesService : IPropertiesService
         return propertyDtos;
     }
 
+    public async Task<PropertyGetResponseDto> GetPropertyAsync(int id)
+    {
+        Property propertyInDb = await _unitOfWork.PropertiesRepository.GetById(id);
+        PropertyGetResponseDto propertyResponse = propertyInDb.ToResponse();
+
+        return propertyResponse;
+    }
+
     public async Task<PropertyPostResponseDto> PostPropertyAsync(PropertyPostRequestDto propertyPostRequestDto, CancellationToken cancellationToken)
     {
         int userId = _userContext.GetUserId();
