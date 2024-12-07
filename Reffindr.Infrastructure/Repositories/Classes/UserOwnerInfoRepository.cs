@@ -1,4 +1,5 @@
-﻿using Reffindr.Domain.Models.UserModels;
+﻿using Microsoft.EntityFrameworkCore;
+using Reffindr.Domain.Models.UserModels;
 using Reffindr.Infrastructure.Data;
 using Reffindr.Infrastructure.Repositories.Interfaces;
 
@@ -8,6 +9,14 @@ public class UserOwnerInfoRepository : GenericRepository<UserOwnerInfo>, IUserOw
 {
     public UserOwnerInfoRepository(ApplicationDbContext options) : base(options)
     {
+    }
+
+    public async Task<UserOwnerInfo> GetOwnerInfoByUserId(int userId)
+    {
+        UserOwnerInfo? userOwnerInfoDb = await _dbSet.Where(x => x.UserId == userId)
+            .FirstOrDefaultAsync();
+
+        return userOwnerInfoDb!;
     }
 }
 
