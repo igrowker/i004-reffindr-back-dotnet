@@ -73,4 +73,29 @@ public static class UsersMappers
 
         };
     }
+
+    public static UserCredentialsResponseDto ToUserCredentialsOwnerResponse(this User user)
+    {
+        return new UserCredentialsResponseDto
+        {
+            RoleId = user.RoleId,
+            RoleName = user.Role!.RoleName,
+            CountryId = user.CountryId,
+            StateId = user.StateId,
+            Email = user.Email,
+            Name = user.Name,
+            LastName = user.LastName,
+            Dni = user.Dni,
+            Phone = user.Phone,
+            Address = user.Address,
+            BirthDate = user.BirthDate,
+            IsProfileComplete = user.IsProfileComplete,
+            ImageProfileUrl = user.Image != null && user.Image.ImageUrl != null && user.Image.ImageUrl.Count > 0
+                ? user.Image.ImageUrl[0]
+                : null,
+            GenderId = user.GenreId ?? null,
+            GenderName = user.Genre?.GenreName ?? "Género no especificado",
+            
+        };
+    }
 }

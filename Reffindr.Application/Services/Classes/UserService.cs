@@ -83,20 +83,24 @@ public class UserService : IUserService
         }
         userCredentials.Image = userImageDb;
         userCredentials.Role = roleDb;
+
+        UserCredentialsResponseDto userCredentialsResponse = new UserCredentialsResponseDto();
         if (userCredentials.RoleId == 1)
         {
             UserTenantInfo userTenantInfo = await _unitOfWork.UserTenantInfoRepository.GetTenantByUserId(userId);
             Salary salaryDb = await _unitOfWork.SalaryRepository.GetById(userTenantInfo.SalaryId);
             userTenantInfo.Salary = salaryDb;
             userCredentials.UserTenantInfo = userTenantInfo;
+            userCredentialsResponse = userCredentials.ToUserCredentialsResponse();
+
         }
         if (userCredentials.RoleId == 2)
         {
             UserOwnerInfo userOwnerInfo = await _unitOfWork.UserOwnerInfoRepository.GetOwnerInfoByUserId(userId);
             userCredentials.UserOwnerInfo = userOwnerInfo;
+            userCredentialsResponse = userCredentials.ToUserCredentialsOwnerResponse();
         }
 
-        UserCredentialsResponseDto userCredentialsResponse = userCredentials.ToUserCredentialsResponse();
         return userCredentialsResponse;
     }
 }
