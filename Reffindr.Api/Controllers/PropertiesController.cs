@@ -50,9 +50,9 @@ public class PropertiesController : ControllerBase
     [Authorize]
     [HttpGet]
     [Route("GetFavoriteProperties")]
-    public async Task<IActionResult> GetFavoriteProperties(int userId)
+    public async Task<IActionResult> GetFavoriteProperties()
     {
-        List<PropertyGetResponseDto> favoriteProperties = await _favoriteService.GetFavorites(userId);
+        List<PropertyGetResponseDto> favoriteProperties = await _favoriteService.GetFavorites();
 
         if (favoriteProperties is null) return NotFound();
 
@@ -62,18 +62,18 @@ public class PropertiesController : ControllerBase
     [Authorize]
     [HttpPost]
     [Route("AddFavorite")]
-    public async Task<IActionResult> AddFavorite(int userId, int propertyId, CancellationToken cancellationToken)
+    public async Task<IActionResult> AddFavorite(int propertyId, CancellationToken cancellationToken)
     {
-        await _favoriteService.AddFavorite(userId, propertyId, cancellationToken);
+        await _favoriteService.AddFavorite(propertyId, cancellationToken);
         return Ok();
     }
 
     [Authorize]
     [HttpPost]
     [Route("RemoveFavorite")]
-    public async Task<IActionResult> RemoveFavorite(int userId, int propertyId, CancellationToken cancellationToken)
+    public async Task<IActionResult> RemoveFavorite(int propertyId, CancellationToken cancellationToken)
     {
-        await _favoriteService.RemoveFavorite(userId, propertyId, cancellationToken);
+        await _favoriteService.RemoveFavorite(propertyId, cancellationToken);
         return Ok();
     }
 }
