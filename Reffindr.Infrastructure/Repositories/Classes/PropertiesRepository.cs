@@ -9,10 +9,8 @@ namespace Reffindr.Infrastructure.Repositories.Classes;
 
 public class PropertiesRepository : GenericRepository<Property>, IPropertiesRepository
 {
-    private readonly IUserTenantInfoRepository _userTenantInfoRepository;
-    public PropertiesRepository(ApplicationDbContext options, IUserTenantInfoRepository userTenantInfoRepository) : base(options)
+    public PropertiesRepository(ApplicationDbContext options) : base(options)
     {
-        _userTenantInfoRepository = userTenantInfoRepository;
     }
 
     public async Task<List<Property>?> GetOwnerProperties(int ownerUserId)
@@ -30,12 +28,6 @@ public class PropertiesRepository : GenericRepository<Property>, IPropertiesRepo
             .Include(x => x.Images)
             .Where(x => x.TenantId == tenantUserId)
             .ToListAsync();
-        return ownerProperties;
-    }
-
-    public async Task<List<Property>?> GetTenantAnnounce(int tenantUserId)
-    {
-        List<Property>? ownerProperties = await _dbSet.Where(x => x.TenantId == tenantUserId).ToListAsync();
         return ownerProperties;
     }
 
