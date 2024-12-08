@@ -48,6 +48,15 @@ public class PropertiesService : IPropertiesService
         return ownerPropertiesResponse;
     }
 
+    public async Task<List<PropertyGetResponseDto>> GetTenantAnnounceAsync()
+    {
+        int userTenantId = _userContext.GetUserId();
+        List<Property>? tenantAnnounces = await _unitOfWork.PropertiesRepository.GetTenantAnnounce(userTenantId);
+
+        List<PropertyGetResponseDto>? tenantAnnouncesResponse = tenantAnnounces!.Select(x => x.ToResponse()).ToList();
+        return tenantAnnouncesResponse;
+    }
+
     public async Task<List<PropertyGetResponseDto>> GetPropertiesAsync(PropertyFilterDto filter, PaginationDto paginationDto)
     {
         //int userId = _userContext.GetUserId();

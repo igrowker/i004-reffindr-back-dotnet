@@ -49,7 +49,7 @@ public class AuthService : IAuthService
 
         Image imageCreated = await _unitOfWork.ImageRepository.Create(imageToCreate, cancellationToken);
 
-        await _unitOfWork.Complete(cancellationToken); 
+        //await _unitOfWork.Complete(cancellationToken); 
 
         if (userRegisterRequestDto.RoleId == 1)
 

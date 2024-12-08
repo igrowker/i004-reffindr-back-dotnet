@@ -37,8 +37,13 @@ public class UserService : IUserService
         Image userImageDb = await _unitOfWork.ImageRepository.GetImage(userId);
 
         User userDataInDb = await _unitOfWork.UsersRepository.GetById(userId);
-        UserTenantInfo userDataInDbTenantInfo = await _unitOfWork.UserTenantInfoRepository.GetTenantByUserId(userId);
-        userDataInDb.UserTenantInfo = userDataInDbTenantInfo;
+
+        if(userDataInDb.RoleId == 1)
+        {
+            UserTenantInfo userDataInDbTenantInfo = await _unitOfWork.UserTenantInfoRepository.GetTenantByUserId(userId);
+            userDataInDb.UserTenantInfo = userDataInDbTenantInfo;
+
+        }
         User userToUpdate = userUpdateRequestDto.ToModel(userDataInDb);
 
         if (userUpdateRequestDto.ProfileImage is not null)
@@ -60,11 +65,9 @@ public class UserService : IUserService
                                         userUpdated.BirthDate.HasValue;
 
         await _unitOfWork.Complete(cancellationToken);
-
         UserUpdateResponseDto userUpdateResponseDto = userUpdated.ToResponse();
 
         return userUpdateResponseDto;
-
     }
 
     public async Task<UserCredentialsResponseDto> GetUserCredentialsAsync()
@@ -72,24 +75,32 @@ public class UserService : IUserService
         int userId = _userContext.GetUserId();
         User userCredentials = await _unitOfWork.UsersRepository.GetById(userId);
         Image userImageDb = await _unitOfWork.ImageRepository.GetImage(userId);
-        UserTenantInfo userTenantInfo = await _unitOfWork.UserTenantInfoRepository.GetTenantByUserId(userId);
         Role roleDb = await _unitOfWork.RoleRepository.GetById(userCredentials.RoleId);
-        Genre genreDb = await _unitOfWork.GenreRepository.GetById(userCredentials.GenreId);
-        Salary salaryDb = await _unitOfWork.SalaryRepository.GetById(userTenantInfo.SalaryId);
+        if(userCredentials.GenreId is not null)
+        {
+            Genre genreDb = await _unitOfWork.GenreRepository.GetById(userCredentials.GenreId);
+            userCredentials.Genre = genreDb;
+        }
         userCredentials.Image = userImageDb;
         userCredentials.Role = roleDb;
-        userTenantInfo.Salary = salaryDb;
-        userCredentials.Genre = genreDb;
 
+        UserCredentialsResponseDto userCredentialsResponse = new UserCredentialsResponseDto();
+        if (userCredentials.RoleId == 1)
+        {
+            UserTenantInfo userTenantInfo = await _unitOfWork.UserTenantInfoRepository.GetTenantByUserId(userId);
+            Salary salaryDb = await _unitOfWork.SalaryRepository.GetById(userTenantInfo.SalaryId);
+            userTenantInfo.Salary = salaryDb;
+            userCredentials.UserTenantInfo = userTenantInfo;
+            userCredentialsResponse = userCredentials.ToUserCredentialsResponse();
 
-        userCredentials.UserTenantInfo = userTenantInfo;
-
-        UserCredentialsResponseDto userCredentialsResponse = userCredentials.ToUserCredentialsResponse();
+        }
+        if (userCredentials.RoleId == 2)
+        {
+            UserOwnerInfo userOwnerInfo = await _unitOfWork.UserOwnerInfoRepository.GetOwnerInfoByUserId(userId);
+            userCredentials.UserOwnerInfo = userOwnerInfo;
+            userCredentialsResponse = userCredentials.ToUserCredentialsOwnerResponse();
+        }
 
         return userCredentialsResponse;
     }
-
-  
-
-
 }

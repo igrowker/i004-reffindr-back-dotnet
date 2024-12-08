@@ -12,6 +12,7 @@ public interface IPropertiesService
     Task<PropertyPostResponseDto> PostPropertyAsync(PropertyPostRequestDto propertyPostRequestDto, CancellationToken cancellationToken);
     Task<List<PropertyGetResponseDto>> GetOwnerPropertiesAsync();
     Task<PropertyGetResponseDto> GetPropertyAsync(int id);
+    Task<List<PropertyGetResponseDto>> GetTenantAnnounceAsync();
     Task<PropertyDeleteResponseDto> DeletePropertyAsync(int id, CancellationToken cancellationToken);
 
 }

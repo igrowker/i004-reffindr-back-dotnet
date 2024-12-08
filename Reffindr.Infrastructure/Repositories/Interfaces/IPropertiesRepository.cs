@@ -11,4 +11,5 @@ public interface IPropertiesRepository : IGenericRepository<Property>
     Task<Property?> GetByIdWithRequirementsAsync(int propertyId);
     Task<List<Property>?> GetOwnerProperties(int ownerUserId);
     IQueryable<Property> GetPropertiesAsQueryable();
+    Task<List<Property>?> GetTenantAnnounce(int tenantUserId);
 }
