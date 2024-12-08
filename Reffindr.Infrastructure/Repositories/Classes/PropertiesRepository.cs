@@ -2,6 +2,7 @@
 using Reffindr.Infrastructure.Data;
 using Reffindr.Infrastructure.Repositories.Interfaces;
 using Reffindr.Shared.DTOs.Filter;
+using Reffindr.Shared.DTOs.Response.Property;
 using System.Threading;
 using Property = Reffindr.Domain.Models.Property;
 

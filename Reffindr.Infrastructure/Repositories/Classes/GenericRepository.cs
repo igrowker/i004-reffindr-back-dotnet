@@ -60,5 +60,16 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
 
         return recordToDelete;
     }
+
+    public async Task<T> Delete (int id)
+    {
+        var recordToDelete = await GetById(id);
+
+		if (recordToDelete is null) throw new Exception("El registro no se encontro");
+
+        _dbContext.Remove(recordToDelete);
+
+        return recordToDelete;
+	}
 }
 

@@ -1,4 +1,5 @@
 ﻿using Reffindr.Shared.DTOs.Filter;
+using Reffindr.Shared.DTOs.Response.Property;
 using Property = Reffindr.Domain.Models.Property;
 
 namespace Reffindr.Infrastructure.Repositories.Interfaces;

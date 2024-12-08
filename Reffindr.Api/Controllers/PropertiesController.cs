@@ -84,4 +84,13 @@ public class PropertiesController : ControllerBase
         await _favoriteService.RemoveFavorite(propertyId, cancellationToken);
         return Ok();
     }
+	[Authorize]
+	[HttpDelete]
+	[Route("DeleteProperty")]
+	public async Task<IActionResult> DeleteProperty(int propertyId, CancellationToken cancellationToken)
+	{
+		await _favoriteService.RemoveFavorite(propertyId, cancellationToken);
+		return Ok();
+	}
+
 }

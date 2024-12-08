@@ -38,7 +38,7 @@ public class PropertiesService : IPropertiesService
         _NotifyService = notifyService;
     }
 
-    public async Task<List<PropertyGetResponseDto>> GetOwnerPropertiesAsync()
+	public async Task<List<PropertyGetResponseDto>> GetOwnerPropertiesAsync()
     {
         int userOwnerId = _userContext.GetUserId();
         List<Property>? ownerProperties = await _unitOfWork.PropertiesRepository.GetOwnerProperties(userOwnerId);
@@ -104,7 +104,13 @@ public class PropertiesService : IPropertiesService
         return propertyPostResponseDto;
     }
 
+	public Task<PropertyDeleteResponseDto> DeletePropertyAsync(int id)
+	{
+		int userId = _userContext.GetUserId();
 
 
+
+
+	}
 
 }
