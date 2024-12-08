@@ -13,4 +13,6 @@ public interface IPropertiesService
     Task<List<PropertyGetResponseDto>> GetOwnerPropertiesAsync();
     Task<PropertyGetResponseDto> GetPropertyAsync(int id);
     Task<List<PropertyGetResponseDto>> GetTenantAnnounceAsync();
+    Task<PropertyPatchResponseDto> ConfirmProperty(PropertyPatchRequestDto propertyConfirmPatchRequestDto,
+        CancellationToken cancellationToken);
 }

@@ -18,15 +18,6 @@ namespace Reffindr.Api.Controllers
 			_notificationService = notificationService;
 		}
 
-		[Authorize]
-		[HttpPut]
-		[Route("ConfirmProperty/{propertyId:int}")]
-		public async Task<IActionResult> ConfirmPropertyFromNotification(int propertyId, CancellationToken cancellationToken)
-		{
-			var notificationToTenant = await _notificationService.ConfirmPropertyfromNotification(propertyId, cancellationToken);
-			return Ok(notificationToTenant);
-		}
-
 		[HttpGet]
 		public async Task<IActionResult> GetUserNotifications([FromQuery] PaginationDto paginationDto)
 		{

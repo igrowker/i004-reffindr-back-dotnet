@@ -43,6 +43,9 @@ public class PropertiesController : ControllerBase
         return Ok(propertyResponse);
     }
 
+    /// <summary>
+    /// IInquilo Saliente Crea Propiedad y Envia Notificacion al Owner
+    /// </summary>
     [Authorize]
     [HttpPost]
     [Route("PostProperty")]
@@ -83,5 +86,18 @@ public class PropertiesController : ControllerBase
     {
         await _favoriteService.RemoveFavorite(propertyId, cancellationToken);
         return Ok();
+    }
+
+
+    /// <summary>
+    /// Owner Acepta Propiedad y envia Notificacion a Inquilino Saliente
+    /// </summary>
+    [Authorize]
+    [HttpPatch]
+    [Route("ConfirmProperty")]
+    public async Task<IActionResult> ConfirmProperty(PropertyPatchRequestDto propertyPatchRequestDto, CancellationToken cancellationToken)
+    {
+        var response = await  _propertiesService.ConfirmProperty(propertyPatchRequestDto, cancellationToken);
+        return Ok(response);
     }
 }

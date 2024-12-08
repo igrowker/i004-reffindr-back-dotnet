@@ -22,6 +22,8 @@ public class UnitOfWork : IUnitOfWork
     public IGenreRepository GenreRepository { get; }
     public ISalaryRepository SalaryRepository { get; }
     public IStateRepository StateRepository { get; }
+    public ICountryRepository CountryRepository { get; }
+
 
 
 	public UnitOfWork
@@ -40,7 +42,8 @@ public class UnitOfWork : IUnitOfWork
             IRoleRepository roleRepository,
             IGenreRepository genreRepository,
             ISalaryRepository salaryRepository,
-            IStateRepository stateRepository
+            IStateRepository stateRepository,
+            ICountryRepository countryRepository
 
             )
 
@@ -62,6 +65,7 @@ public class UnitOfWork : IUnitOfWork
         RoleRepository = roleRepository;
         GenreRepository = genreRepository;
         StateRepository = stateRepository;
+        CountryRepository = countryRepository;
     }
     public async Task<int> Complete(CancellationToken cancellationToken)
     {

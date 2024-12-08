@@ -102,5 +102,16 @@ public static class PropertiesMappers
             Images = property.Images?.ImageUrl ?? new List<string>()
 
         };
+    } 
+    
+    public static PropertyPatchResponseDto ToPatchResponse(this Property property)
+    {
+        return new PropertyPatchResponseDto
+        {
+             PropertyId = property.Id,
+             TenantId = property.TenantId,
+             OwnerId = property.OwnerId
+
+        };
     }
 }

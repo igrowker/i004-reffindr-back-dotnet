@@ -10,10 +10,6 @@ namespace Reffindr.Infrastructure.Configurations
         {
             builder.HasKey(x => x.Id);
 
-            builder.HasOne(x => x.UserReceiving)
-                .WithMany(x => x.Notifications)
-                .HasForeignKey(x => x.UserReceivingId);
-
             builder.HasOne(x => x.Property)
                 .WithOne()
                 .HasForeignKey<Notification>(x => x.PropertyId);
