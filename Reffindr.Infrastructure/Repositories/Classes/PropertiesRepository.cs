@@ -17,13 +17,19 @@ public class PropertiesRepository : GenericRepository<Property>, IPropertiesRepo
 
     public async Task<List<Property>?> GetOwnerProperties(int ownerUserId)
     {
-        List<Property>? ownerProperties = await _dbSet.Where(x => x.OwnerId == ownerUserId).ToListAsync();
+        List<Property>? ownerProperties = await _dbSet
+            .Include(x => x.Images)
+            .Where(x => x.OwnerId == ownerUserId)
+            .ToListAsync();
         return ownerProperties;
     }
 
     public async Task<List<Property>?> GetTenantAnnounce(int tenantUserId)
     {
-        List<Property>? ownerProperties = await _dbSet.Where(x => x.TenantId == tenantUserId).ToListAsync();
+        List<Property>? ownerProperties = await _dbSet
+            .Include(x => x.Images)
+            .Where(x => x.TenantId == tenantUserId)
+            .ToListAsync();
         return ownerProperties;
     }
 
