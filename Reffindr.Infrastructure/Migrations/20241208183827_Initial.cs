@@ -15,8 +15,12 @@ namespace Reffindr.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "ReffindrDBSchema");
+
             migrationBuilder.CreateTable(
                 name: "Countries",
+                schema: "ReffindrDBSchema",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -33,6 +37,7 @@ namespace Reffindr.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Genres",
+                schema: "ReffindrDBSchema",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -49,6 +54,7 @@ namespace Reffindr.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Requirements",
+                schema: "ReffindrDBSchema",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -67,6 +73,7 @@ namespace Reffindr.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Roles",
+                schema: "ReffindrDBSchema",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -83,6 +90,7 @@ namespace Reffindr.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Salaries",
+                schema: "ReffindrDBSchema",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -99,6 +107,7 @@ namespace Reffindr.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "States",
+                schema: "ReffindrDBSchema",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -115,6 +124,7 @@ namespace Reffindr.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_States_Countries_CountryId",
                         column: x => x.CountryId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "Countries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -122,6 +132,7 @@ namespace Reffindr.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Properties",
+                schema: "ReffindrDBSchema",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -161,17 +172,20 @@ namespace Reffindr.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Properties_Countries_CountryId",
                         column: x => x.CountryId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "Countries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Properties_Requirements_RequirementId",
                         column: x => x.RequirementId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "Requirements",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Properties_States_StateId",
                         column: x => x.StateId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "States",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -179,6 +193,7 @@ namespace Reffindr.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Users",
+                schema: "ReffindrDBSchema",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -208,28 +223,33 @@ namespace Reffindr.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Users_Countries_CountryId",
                         column: x => x.CountryId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "Countries",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Users_Genres_GenreId",
                         column: x => x.GenreId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "Genres",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Users_Roles_RoleId",
                         column: x => x.RoleId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Users_States_StateId",
                         column: x => x.StateId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "States",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Applications",
+                schema: "ReffindrDBSchema",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -247,12 +267,14 @@ namespace Reffindr.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Applications_Properties_PropertyId",
                         column: x => x.PropertyId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "Properties",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Applications_Users_UserId",
                         column: x => x.UserId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -260,6 +282,7 @@ namespace Reffindr.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Favorites",
+                schema: "ReffindrDBSchema",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -276,12 +299,14 @@ namespace Reffindr.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Favorites_Properties_PropertyId",
                         column: x => x.PropertyId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "Properties",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Favorites_Users_UserId",
                         column: x => x.UserId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -289,6 +314,7 @@ namespace Reffindr.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Images",
+                schema: "ReffindrDBSchema",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -306,17 +332,20 @@ namespace Reffindr.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Images_Properties_PropertyId",
                         column: x => x.PropertyId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "Properties",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Images_Users_UserId",
                         column: x => x.UserId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Notifications",
+                schema: "ReffindrDBSchema",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -339,17 +368,20 @@ namespace Reffindr.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Notifications_Properties_PropertyId",
                         column: x => x.PropertyId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "Properties",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Notifications_Users_UserId",
                         column: x => x.UserId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Ratings",
+                schema: "ReffindrDBSchema",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -368,12 +400,14 @@ namespace Reffindr.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Ratings_Users_RatedByUserId",
                         column: x => x.RatedByUserId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Ratings_Users_RatedUserId",
                         column: x => x.RatedUserId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -381,6 +415,7 @@ namespace Reffindr.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "UsersOwnersInfo",
+                schema: "ReffindrDBSchema",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -397,6 +432,7 @@ namespace Reffindr.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_UsersOwnersInfo_Users_UserId",
                         column: x => x.UserId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -404,6 +440,7 @@ namespace Reffindr.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "UsersTenantsInfo",
+                schema: "ReffindrDBSchema",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -422,11 +459,13 @@ namespace Reffindr.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_UsersTenantsInfo_Salaries_SalaryId",
                         column: x => x.SalaryId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "Salaries",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_UsersTenantsInfo_Users_UserId",
                         column: x => x.UserId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -434,6 +473,7 @@ namespace Reffindr.Infrastructure.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Candidates",
+                schema: "ReffindrDBSchema",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -450,194 +490,222 @@ namespace Reffindr.Infrastructure.Migrations
                     table.ForeignKey(
                         name: "FK_Candidates_Applications_ApplicationId",
                         column: x => x.ApplicationId,
+                        principalSchema: "ReffindrDBSchema",
                         principalTable: "Applications",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
+                schema: "ReffindrDBSchema",
                 table: "Countries",
                 columns: new[] { "Id", "CountryName", "CreatedAt", "IsDeleted", "UpdatedAt" },
-                values: new object[] { 1, "Argentina", new DateTime(2024, 12, 7, 21, 5, 4, 615, DateTimeKind.Utc).AddTicks(2832), false, null });
+                values: new object[] { 1, "Argentina", new DateTime(2024, 12, 8, 18, 38, 26, 642, DateTimeKind.Utc).AddTicks(337), false, null });
 
             migrationBuilder.InsertData(
+                schema: "ReffindrDBSchema",
                 table: "Genres",
                 columns: new[] { "Id", "CreatedAt", "GenreName", "IsDeleted", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 12, 7, 21, 5, 4, 615, DateTimeKind.Utc).AddTicks(9837), "Male", false, null },
-                    { 2, new DateTime(2024, 12, 7, 21, 5, 4, 615, DateTimeKind.Utc).AddTicks(9839), "Female", false, null },
-                    { 3, new DateTime(2024, 12, 7, 21, 5, 4, 615, DateTimeKind.Utc).AddTicks(9840), "Non-binary", false, null },
-                    { 4, new DateTime(2024, 12, 7, 21, 5, 4, 615, DateTimeKind.Utc).AddTicks(9841), "Gender fluid", false, null },
-                    { 5, new DateTime(2024, 12, 7, 21, 5, 4, 615, DateTimeKind.Utc).AddTicks(9843), "Agender", false, null },
-                    { 6, new DateTime(2024, 12, 7, 21, 5, 4, 615, DateTimeKind.Utc).AddTicks(9844), "Bigender", false, null },
-                    { 7, new DateTime(2024, 12, 7, 21, 5, 4, 615, DateTimeKind.Utc).AddTicks(9845), "Demiboy", false, null },
-                    { 8, new DateTime(2024, 12, 7, 21, 5, 4, 615, DateTimeKind.Utc).AddTicks(9846), "DemiGirl", false, null }
+                    { 1, new DateTime(2024, 12, 8, 18, 38, 26, 642, DateTimeKind.Utc).AddTicks(6950), "Male", false, null },
+                    { 2, new DateTime(2024, 12, 8, 18, 38, 26, 642, DateTimeKind.Utc).AddTicks(6953), "Female", false, null },
+                    { 3, new DateTime(2024, 12, 8, 18, 38, 26, 642, DateTimeKind.Utc).AddTicks(6955), "Non-binary", false, null },
+                    { 4, new DateTime(2024, 12, 8, 18, 38, 26, 642, DateTimeKind.Utc).AddTicks(6956), "Gender fluid", false, null },
+                    { 5, new DateTime(2024, 12, 8, 18, 38, 26, 642, DateTimeKind.Utc).AddTicks(6957), "Agender", false, null },
+                    { 6, new DateTime(2024, 12, 8, 18, 38, 26, 642, DateTimeKind.Utc).AddTicks(6958), "Bigender", false, null },
+                    { 7, new DateTime(2024, 12, 8, 18, 38, 26, 642, DateTimeKind.Utc).AddTicks(6959), "Demiboy", false, null },
+                    { 8, new DateTime(2024, 12, 8, 18, 38, 26, 642, DateTimeKind.Utc).AddTicks(6960), "DemiGirl", false, null }
                 });
 
             migrationBuilder.InsertData(
+                schema: "ReffindrDBSchema",
                 table: "Roles",
                 columns: new[] { "Id", "CreatedAt", "IsDeleted", "RoleName", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 12, 7, 21, 5, 4, 620, DateTimeKind.Utc).AddTicks(8437), false, "Tenant", null },
-                    { 2, new DateTime(2024, 12, 7, 21, 5, 4, 620, DateTimeKind.Utc).AddTicks(8440), false, "Owner", null }
+                    { 1, new DateTime(2024, 12, 8, 18, 38, 26, 647, DateTimeKind.Utc).AddTicks(5854), false, "Tenant", null },
+                    { 2, new DateTime(2024, 12, 8, 18, 38, 26, 647, DateTimeKind.Utc).AddTicks(5857), false, "Owner", null }
                 });
 
             migrationBuilder.InsertData(
+                schema: "ReffindrDBSchema",
                 table: "Salaries",
                 columns: new[] { "Id", "CreatedAt", "IsDeleted", "SalaryName", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(492), false, "300.000 - 600.000", null },
-                    { 2, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(495), false, "600.000 - 1.000.000", null },
-                    { 3, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(496), false, "1.000.000 - 3.000.000", null },
-                    { 4, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(497), false, "3.000.000 +", null }
+                    { 1, new DateTime(2024, 12, 8, 18, 38, 26, 647, DateTimeKind.Utc).AddTicks(8018), false, "300.000 - 600.000", null },
+                    { 2, new DateTime(2024, 12, 8, 18, 38, 26, 647, DateTimeKind.Utc).AddTicks(8044), false, "600.000 - 1.000.000", null },
+                    { 3, new DateTime(2024, 12, 8, 18, 38, 26, 647, DateTimeKind.Utc).AddTicks(8045), false, "1.000.000 - 3.000.000", null },
+                    { 4, new DateTime(2024, 12, 8, 18, 38, 26, 647, DateTimeKind.Utc).AddTicks(8047), false, "3.000.000 +", null }
                 });
 
             migrationBuilder.InsertData(
+                schema: "ReffindrDBSchema",
                 table: "States",
                 columns: new[] { "Id", "CountryId", "CreatedAt", "IsDeleted", "StateName", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5804), false, "Buenos Aires", null },
-                    { 2, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5808), false, "Catamarca", null },
-                    { 3, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5810), false, "Chaco", null },
-                    { 4, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5811), false, "Chubut", null },
-                    { 5, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5812), false, "Córdoba", null },
-                    { 6, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5813), false, "Corrientes", null },
-                    { 7, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5815), false, "Entre Ríos", null },
-                    { 8, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5816), false, "Formosa", null },
-                    { 9, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5817), false, "Jujuy", null },
-                    { 10, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5818), false, "La Pampa", null },
-                    { 11, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5819), false, "La Rioja", null },
-                    { 12, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5820), false, "Mendoza", null },
-                    { 13, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5822), false, "Misiones", null },
-                    { 14, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5823), false, "Neuquén", null },
-                    { 15, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5824), false, "Río Negro", null },
-                    { 16, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5825), false, "Salta", null },
-                    { 17, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5826), false, "San Juan", null },
-                    { 18, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5827), false, "San Luis", null },
-                    { 19, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5829), false, "Santa Cruz", null },
-                    { 20, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5830), false, "Santa Fe", null },
-                    { 21, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5831), false, "Santiago del Estero", null },
-                    { 22, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5832), false, "Tierra del Fuego", null },
-                    { 23, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5833), false, "Tucumán", null },
-                    { 24, 1, new DateTime(2024, 12, 7, 21, 5, 4, 621, DateTimeKind.Utc).AddTicks(5834), false, "Ciudad Autónoma de Buenos Aires", null }
+                    { 1, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1091), false, "Buenos Aires", null },
+                    { 2, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1093), false, "Catamarca", null },
+                    { 3, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1095), false, "Chaco", null },
+                    { 4, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1096), false, "Chubut", null },
+                    { 5, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1097), false, "Córdoba", null },
+                    { 6, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1098), false, "Corrientes", null },
+                    { 7, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1099), false, "Entre Ríos", null },
+                    { 8, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1101), false, "Formosa", null },
+                    { 9, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1102), false, "Jujuy", null },
+                    { 10, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1103), false, "La Pampa", null },
+                    { 11, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1104), false, "La Rioja", null },
+                    { 12, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1137), false, "Mendoza", null },
+                    { 13, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1139), false, "Misiones", null },
+                    { 14, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1140), false, "Neuquén", null },
+                    { 15, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1141), false, "Río Negro", null },
+                    { 16, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1142), false, "Salta", null },
+                    { 17, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1143), false, "San Juan", null },
+                    { 18, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1145), false, "San Luis", null },
+                    { 19, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1146), false, "Santa Cruz", null },
+                    { 20, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1147), false, "Santa Fe", null },
+                    { 21, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1148), false, "Santiago del Estero", null },
+                    { 22, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1149), false, "Tierra del Fuego", null },
+                    { 23, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1150), false, "Tucumán", null },
+                    { 24, 1, new DateTime(2024, 12, 8, 18, 38, 26, 648, DateTimeKind.Utc).AddTicks(1151), false, "Ciudad Autónoma de Buenos Aires", null }
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Applications_PropertyId",
+                schema: "ReffindrDBSchema",
                 table: "Applications",
                 column: "PropertyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Applications_UserId",
+                schema: "ReffindrDBSchema",
                 table: "Applications",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Candidates_ApplicationId",
+                schema: "ReffindrDBSchema",
                 table: "Candidates",
                 column: "ApplicationId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Favorites_PropertyId",
+                schema: "ReffindrDBSchema",
                 table: "Favorites",
                 column: "PropertyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Favorites_UserId",
+                schema: "ReffindrDBSchema",
                 table: "Favorites",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Images_PropertyId",
+                schema: "ReffindrDBSchema",
                 table: "Images",
                 column: "PropertyId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Images_UserId",
+                schema: "ReffindrDBSchema",
                 table: "Images",
                 column: "UserId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Notifications_PropertyId",
+                schema: "ReffindrDBSchema",
                 table: "Notifications",
                 column: "PropertyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Notifications_UserId",
+                schema: "ReffindrDBSchema",
                 table: "Notifications",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Properties_CountryId",
+                schema: "ReffindrDBSchema",
                 table: "Properties",
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Properties_RequirementId",
+                schema: "ReffindrDBSchema",
                 table: "Properties",
                 column: "RequirementId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Properties_StateId",
+                schema: "ReffindrDBSchema",
                 table: "Properties",
                 column: "StateId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ratings_RatedByUserId",
+                schema: "ReffindrDBSchema",
                 table: "Ratings",
                 column: "RatedByUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ratings_RatedUserId",
+                schema: "ReffindrDBSchema",
                 table: "Ratings",
                 column: "RatedUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_States_CountryId",
+                schema: "ReffindrDBSchema",
                 table: "States",
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_CountryId",
+                schema: "ReffindrDBSchema",
                 table: "Users",
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_GenreId",
+                schema: "ReffindrDBSchema",
                 table: "Users",
                 column: "GenreId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",
+                schema: "ReffindrDBSchema",
                 table: "Users",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_StateId",
+                schema: "ReffindrDBSchema",
                 table: "Users",
                 column: "StateId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UsersOwnersInfo_UserId",
+                schema: "ReffindrDBSchema",
                 table: "UsersOwnersInfo",
                 column: "UserId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_UsersTenantsInfo_SalaryId",
+                schema: "ReffindrDBSchema",
                 table: "UsersTenantsInfo",
                 column: "SalaryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UsersTenantsInfo_UserId",
+                schema: "ReffindrDBSchema",
                 table: "UsersTenantsInfo",
                 column: "UserId",
                 unique: true);
@@ -647,52 +715,68 @@ namespace Reffindr.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Candidates");
+                name: "Candidates",
+                schema: "ReffindrDBSchema");
 
             migrationBuilder.DropTable(
-                name: "Favorites");
+                name: "Favorites",
+                schema: "ReffindrDBSchema");
 
             migrationBuilder.DropTable(
-                name: "Images");
+                name: "Images",
+                schema: "ReffindrDBSchema");
 
             migrationBuilder.DropTable(
-                name: "Notifications");
+                name: "Notifications",
+                schema: "ReffindrDBSchema");
 
             migrationBuilder.DropTable(
-                name: "Ratings");
+                name: "Ratings",
+                schema: "ReffindrDBSchema");
 
             migrationBuilder.DropTable(
-                name: "UsersOwnersInfo");
+                name: "UsersOwnersInfo",
+                schema: "ReffindrDBSchema");
 
             migrationBuilder.DropTable(
-                name: "UsersTenantsInfo");
+                name: "UsersTenantsInfo",
+                schema: "ReffindrDBSchema");
 
             migrationBuilder.DropTable(
-                name: "Applications");
+                name: "Applications",
+                schema: "ReffindrDBSchema");
 
             migrationBuilder.DropTable(
-                name: "Salaries");
+                name: "Salaries",
+                schema: "ReffindrDBSchema");
 
             migrationBuilder.DropTable(
-                name: "Properties");
+                name: "Properties",
+                schema: "ReffindrDBSchema");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Users",
+                schema: "ReffindrDBSchema");
 
             migrationBuilder.DropTable(
-                name: "Requirements");
+                name: "Requirements",
+                schema: "ReffindrDBSchema");
 
             migrationBuilder.DropTable(
-                name: "Genres");
+                name: "Genres",
+                schema: "ReffindrDBSchema");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Roles",
+                schema: "ReffindrDBSchema");
 
             migrationBuilder.DropTable(
-                name: "States");
+                name: "States",
+                schema: "ReffindrDBSchema");
 
             migrationBuilder.DropTable(
-                name: "Countries");
+                name: "Countries",
+                schema: "ReffindrDBSchema");
         }
     }
 }
