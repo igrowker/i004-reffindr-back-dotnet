@@ -1,4 +1,5 @@
-﻿using Reffindr.Application.Services.Interfaces;
+﻿using MimeKit.Cryptography;
+using Reffindr.Application.Services.Interfaces;
 using Reffindr.Application.Utilities.Mappers;
 using Reffindr.Domain.Models;
 using Reffindr.Domain.Models.UserModels;
@@ -104,13 +105,23 @@ public class PropertiesService : IPropertiesService
         return propertyPostResponseDto;
     }
 
-	public Task<PropertyDeleteResponseDto> DeletePropertyAsync(int id)
+	public async Task<PropertyDeleteResponseDto> DeletePropertyAsync(int id, CancellationToken cancellationToken)
 	{
 		int userId = _userContext.GetUserId();
+		Property property = await _unitOfWork.PropertiesRepository.GetById(id);
 
+		var response = new PropertyDeleteResponseDto
+		{
+			PropertyId = id,
+			PropertyMatchesOwner = userId == property.OwnerId || userId == property.TenantId
+		};
 
+		if (response.PropertyMatchesOwner)
+		{
+			await _unitOfWork.PropertiesRepository.Delete(id);
+            await _unitOfWork.Complete(cancellationToken);
+		}
 
-
+		return response;
 	}
-
 }

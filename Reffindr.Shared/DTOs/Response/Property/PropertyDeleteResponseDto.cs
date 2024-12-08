@@ -10,6 +10,6 @@ namespace Reffindr.Shared.DTOs.Response.Property
 	public class PropertyDeleteResponseDto
 	{
 		public int PropertyId { get; set; }
-		public bool? PropertyMatchesOwner { get; set; }
+		public bool PropertyMatchesOwner { get; set; }
 	}
 }

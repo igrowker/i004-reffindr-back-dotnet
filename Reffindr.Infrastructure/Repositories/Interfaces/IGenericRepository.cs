@@ -10,4 +10,5 @@ public interface IGenericRepository<T> where T : BaseModel
     Task<T> Create(T model, CancellationToken cancellationToken);
     Task<T> Update(int id, T model);
     Task<T> SoftDelete(int id);
+    Task<T> Delete(int id);
 }
