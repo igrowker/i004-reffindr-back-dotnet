@@ -78,7 +78,8 @@ public class PropertiesService : IPropertiesService
         Property propertyInDb = await _unitOfWork.PropertiesRepository.GetById(id);
         Country countryProperty = await _unitOfWork.CountryRepository.GetById(propertyInDb.CountryId);
         propertyInDb.Country = countryProperty;
-
+        State stateProperty = await _unitOfWork.StateRepository.GetById(propertyInDb.CountryId);
+        propertyInDb.State = stateProperty;
         PropertyGetResponseDto propertyResponse = propertyInDb.ToResponse();
 
         return propertyResponse;
