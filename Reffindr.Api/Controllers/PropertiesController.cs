@@ -100,4 +100,13 @@ public class PropertiesController : ControllerBase
         var response = await  _propertiesService.ConfirmProperty(propertyPatchRequestDto, cancellationToken);
         return Ok(response);
     }
+	[Authorize]
+	[HttpDelete]
+	[Route("DeleteProperty")]
+	public async Task<IActionResult> DeleteProperty(int propertyId, CancellationToken cancellationToken)
+	{
+		PropertyDeleteResponseDto response = await _propertiesService.DeletePropertyAsync(propertyId, cancellationToken);
+		return Ok(response);
+	}
+
 }

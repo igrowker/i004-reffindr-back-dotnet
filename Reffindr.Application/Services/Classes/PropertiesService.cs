@@ -1,4 +1,5 @@
-﻿using Reffindr.Application.Services.Interfaces;
+﻿using MimeKit.Cryptography;
+using Reffindr.Application.Services.Interfaces;
 using Reffindr.Application.Utilities.Mappers;
 using Reffindr.Domain.Models;
 using Reffindr.Domain.Models.UserModels;
@@ -40,7 +41,7 @@ public class PropertiesService : IPropertiesService
         _NotifyService = notifyService;
     }
 
-    public async Task<List<PropertyGetResponseDto>> GetOwnerPropertiesAsync()
+	public async Task<List<PropertyGetResponseDto>> GetOwnerPropertiesAsync()
     {
         int userOwnerId = _userContext.GetUserId();
         List<Property>? ownerProperties = await _unitOfWork.PropertiesRepository.GetOwnerProperties(userOwnerId);
@@ -159,7 +160,26 @@ public class PropertiesService : IPropertiesService
         return propertyPatchResponse;
 
     }
+	public async Task<PropertyDeleteResponseDto> DeletePropertyAsync(int id, CancellationToken cancellationToken)
+	{
+		int userId = _userContext.GetUserId();
 
+		Property? property = await _unitOfWork.PropertiesRepository.GetByIdWithIncludeAsync(id);
 
+		var response = new PropertyDeleteResponseDto
+		{
+			PropertyId = id,
+			PropertyMatchesOwner = userId == property!.OwnerId || userId == property.TenantId
+		};
 
+		if (response.PropertyMatchesOwner)
+		{
+			await _unitOfWork.PropertiesRepository.SoftDelete(id);
+            await _unitOfWork.ImageRepository.SoftDelete(property.Images!.Id);
+            await _unitOfWork.RequimentsRepository.SoftDelete(property.Requirement!.Id);
+            await _unitOfWork.Complete(cancellationToken);
+		}
+
+		return response;
+	}
 }
