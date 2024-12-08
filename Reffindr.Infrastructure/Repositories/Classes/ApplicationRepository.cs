@@ -32,7 +32,7 @@ namespace Reffindr.Infrastructure.Repositories.Classes
         public async Task<List<ApplicationModel>> GetApplicationsByPropertyIdAsync(int propertyId)
         {
             return await _dbSet
-                .Where(a => a.PropertyId == propertyId && !a.IsDeleted)
+                .Where(a => a.PropertyId == propertyId)
                 .Include(a => a.User)
                 .ToListAsync();
         }

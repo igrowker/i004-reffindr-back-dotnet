@@ -13,6 +13,7 @@ using Reffindr.Domain.Models.UserModels;
 using Reffindr.Shared.DTOs.Request.Property;
 using Reffindr.Shared.Enum;
 using System.Threading;
+using Reffindr.Shared.DTOs.Response.Notification;
 
 namespace Reffindr.Application.Services.Classes
 {
@@ -84,7 +85,9 @@ namespace Reffindr.Application.Services.Classes
             using IDbContextTransaction transaction = await _unitOfWork.BeginTransaction(cancellationToken);
 
             int userAuthenticated = _userContext.GetUserId();
-            int userRoleId = _userContext.GetRoleId();
+            User userInconmingInDb = await _unitOfWork.UsersRepository.GetById(userAuthenticated);
+
+            //int userRoleId = _userContext.GetRoleId();
 
             // Verificar si el usuario es inquilino
             //if (userRoleId != 1)
@@ -138,9 +141,17 @@ namespace Reffindr.Application.Services.Classes
             await transaction.CommitAsync(cancellationToken);
 
             Property propertyInDb = await _unitOfWork.PropertiesRepository.GetById(applicationPostRequestDto.PropertyId);
-            User userInDb = await _unitOfWork.UsersRepository.GetById(propertyInDb.TenantId);
+            User userTenantOutgoingDb = await _unitOfWork.UsersRepository.GetById(propertyInDb.TenantId);
 
-            await _notificationService.AddNotificationToUser(userInDb.Email, applicationPostRequestDto.PropertyId, NotificationType.Application, cancellationToken);
+
+            NotificationRequestDto notificationRequest = new NotificationRequestDto
+            {
+                Message = $"Hola , {userInconmingInDb.Name} {userInconmingInDb.LastName} ha enviado una nueva solicitud para la propiedad: {propertyInDb.Title}. El Equipo de Reffindr",
+                UserToSendNotification = userTenantOutgoingDb.Email,
+                Type = NotificationType.ApplicationReceived,
+                PropertyId = propertyInDb.Id
+            };
+            await _notificationService.SendNotification(notificationRequest, cancellationToken);
 
             return Result<ApplicationPostResponseDto>.Success(applicationResponse);
         }

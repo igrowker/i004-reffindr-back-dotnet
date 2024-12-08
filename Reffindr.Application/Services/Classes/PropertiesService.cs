@@ -7,6 +7,7 @@ using Reffindr.Infrastructure.UnitOfWork;
 using Reffindr.Shared.DTOs.Filter;
 using Reffindr.Shared.DTOs.Pagination;
 using Reffindr.Shared.DTOs.Request.Property;
+using Reffindr.Shared.DTOs.Response.Notification;
 using Reffindr.Shared.DTOs.Response.Property;
 using Reffindr.Shared.Enum;
 using Reffindr.Shared.Result;
@@ -72,11 +73,12 @@ public class PropertiesService : IPropertiesService
     public async Task<PropertyPostResponseDto> PostPropertyAsync(PropertyPostRequestDto propertyPostRequestDto, CancellationToken cancellationToken)
     {
         int userId = _userContext.GetUserId();
-
+        User  userInDb = await _unitOfWork.UsersRepository.GetById(userId);
         Property propertyToCreate = propertyPostRequestDto.ToModel();
+
+        Country countryProperty = await _unitOfWork.C
         propertyToCreate.TenantId = userId;
         propertyToCreate.IsDeleted = false;
-
 
         if (propertyPostRequestDto.Images != null)
         {
@@ -92,18 +94,58 @@ public class PropertiesService : IPropertiesService
         }
 
         Property registeredProperty = await _unitOfWork.PropertiesRepository.Create(propertyToCreate, cancellationToken);
-
-        //propertyToCreate.NotificationId = notificationToOwner.PropertyId;
-        //await _unitOfWork.PropertiesRepository.Update(registeredProperty.Id, registeredProperty);
         await _unitOfWork.Complete(cancellationToken);
 
-        await _NotifyService.AddNotificationToUser(propertyPostRequestDto.OwnerEmail, registeredProperty.Id, NotificationType.Application, cancellationToken);
+        NotificationRequestDto notificationRequestDto = new NotificationRequestDto
+        {
+            Message = $"Hola , {userInDb.Name} {userInDb.LastName} ha creado una nueva propiedad {registeredProperty.Title} y la ha asignado a ti como propietario. Por favor, revisa esta propiedad y acepta o rechaza la asignación. Gracias El Equipo de Reffindr",
+            UserToSendNotification = propertyPostRequestDto.OwnerEmail,
+            Type = NotificationType.PropertyAssigned,
+            PropertyId = registeredProperty.Id
+
+        };
+        await _NotifyService.SendNotification(notificationRequestDto, cancellationToken);
 
         PropertyPostResponseDto propertyPostResponseDto = registeredProperty.ToPostResponse();
 
         return propertyPostResponseDto;
     }
 
+    public async Task<PropertyPatchResponseDto> ConfirmProperty(PropertyPatchRequestDto propertyConfirmPatchRequestDto, CancellationToken cancellationToken)
+    {
+        int userOwnerId = _userContext.GetUserId();
+        User userOwnerInDb = await _unitOfWork.UsersRepository.GetById(userOwnerId);
+        Property? property = await _unitOfWork.PropertiesRepository.GetById(propertyConfirmPatchRequestDto.PropertyId);
+        User userTenatInDb = await _unitOfWork.UsersRepository.GetById(property.TenantId);
+
+        property.OwnerId = userOwnerId;
+        property.IsDeleted = false;
+        property.UpdatedAt = DateTime.UtcNow;
+
+        await _unitOfWork.PropertiesRepository.Update(propertyConfirmPatchRequestDto.PropertyId, property);
+
+        List<Notification> updateNotification = await _unitOfWork.NotificationRepository.GetNotificationsByType(NotificationType.PropertyAssigned, cancellationToken);
+        updateNotification.ForEach(notification => notification.IsRead = true);
+
+        await _unitOfWork.NotificationRepository.UpdateList(updateNotification);
+        await _unitOfWork.Complete(cancellationToken);
+
+
+        NotificationRequestDto notificationRequest = new NotificationRequestDto
+        {
+            Message = $"Hola , El Propietario{userOwnerInDb.Name} {userOwnerInDb.LastName} ha aceptado tu solicitud de la propiedad {property.Title} . Gracias El Equipo de Reffindr",
+            UserToSendNotification = userTenatInDb.Email,
+            Type = NotificationType.PropertyAccepted,
+            PropertyId = property.Id
+        };
+        await _NotifyService.SendNotification(notificationRequest, cancellationToken);
+
+
+        PropertyPatchResponseDto propertyPatchResponse = property.ToPatchResponse();
+
+        return propertyPatchResponse;
+
+    }
 
 
 
