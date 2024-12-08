@@ -11,6 +11,7 @@ using Reffindr.Shared.DTOs.Response.Notification;
 using Reffindr.Shared.DTOs.Response.Property;
 using Reffindr.Shared.Enum;
 using Reffindr.Shared.Result;
+using System.Reflection;
 
 namespace Reffindr.Application.Services.Classes;
 
@@ -65,7 +66,7 @@ public class PropertiesService : IPropertiesService
         // var validationResult = new PropertyFilterDtoValidator().Validate(filter);
 
         var properties = await _unitOfWork.PropertiesRepository.GetPropertiesAsync(filter);
-
+       
         List<PropertyGetResponseDto> propertyDtos = properties.Select(x => x.ToResponse()).ToList();
 
         return propertyDtos;
@@ -74,6 +75,9 @@ public class PropertiesService : IPropertiesService
     public async Task<PropertyGetResponseDto> GetPropertyAsync(int id)
     {
         Property propertyInDb = await _unitOfWork.PropertiesRepository.GetById(id);
+        Country countryProperty = await _unitOfWork.CountryRepository.GetById(propertyInDb.CountryId);
+        propertyInDb.Country = countryProperty;
+
         PropertyGetResponseDto propertyResponse = propertyInDb.ToResponse();
 
         return propertyResponse;
@@ -85,7 +89,6 @@ public class PropertiesService : IPropertiesService
         User  userInDb = await _unitOfWork.UsersRepository.GetById(userId);
         Property propertyToCreate = propertyPostRequestDto.ToModel();
 
-        Country countryProperty = await _unitOfWork.C
         propertyToCreate.TenantId = userId;
         propertyToCreate.IsDeleted = false;
 

@@ -20,6 +20,7 @@ public interface IUnitOfWork
   IGenreRepository GenreRepository { get; }
   ISalaryRepository SalaryRepository { get; }
 	IStateRepository StateRepository { get; }
+    ICountryRepository CountryRepository { get; }
 
 
     Task<int> Complete(CancellationToken cancellationToken);
