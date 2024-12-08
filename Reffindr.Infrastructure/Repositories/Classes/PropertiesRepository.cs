@@ -36,8 +36,19 @@ public class PropertiesRepository : GenericRepository<Property>, IPropertiesRepo
 
         return property;
     }
+	public async Task<Property?> GetByIdWithIncludeAsync(int propertyId)
+	{
+		Property? property = await _dbSet
+			.Include(p => p.Requirement)
+			.Include(p => p.Images)
+            .Include(p=>p.Application)
+			.FirstOrDefaultAsync(p => p.Id == propertyId);
 
-    public async Task<Tuple<int?, int?>> GetOwnerIdAndTenantId(int propertyId)
+		return property;
+	}
+
+
+	public async Task<Tuple<int?, int?>> GetOwnerIdAndTenantId(int propertyId)
     {
         // Obtener solo el id del propietario y el inquilino de la propiedad
         var ids = await _dbSet

@@ -20,9 +20,11 @@ public interface IUnitOfWork
   IGenreRepository GenreRepository { get; }
   ISalaryRepository SalaryRepository { get; }
 	IStateRepository StateRepository { get; }
+	 IRequirement RequimentsRepository { get; }
 
 
-    Task<int> Complete(CancellationToken cancellationToken);
+
+	Task<int> Complete(CancellationToken cancellationToken);
 	void Dispose();
 	Task<IDbContextTransaction> BeginTransaction(CancellationToken cancellationToken);
 

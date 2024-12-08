@@ -117,17 +117,20 @@ public class PropertiesService : IPropertiesService
 	public async Task<PropertyDeleteResponseDto> DeletePropertyAsync(int id, CancellationToken cancellationToken)
 	{
 		int userId = _userContext.GetUserId();
-		Property property = await _unitOfWork.PropertiesRepository.GetById(id);
+
+		Property? property = await _unitOfWork.PropertiesRepository.GetByIdWithIncludeAsync(id);
 
 		var response = new PropertyDeleteResponseDto
 		{
 			PropertyId = id,
-			PropertyMatchesOwner = userId == property.OwnerId || userId == property.TenantId
+			PropertyMatchesOwner = userId == property!.OwnerId || userId == property.TenantId
 		};
 
 		if (response.PropertyMatchesOwner)
 		{
-			await _unitOfWork.PropertiesRepository.Delete(id);
+			await _unitOfWork.PropertiesRepository.SoftDelete(id);
+            await _unitOfWork.ImageRepository.SoftDelete(property.Images!.Id);
+            await _unitOfWork.RequimentsRepository.SoftDelete(property.Requirement!.Id);
             await _unitOfWork.Complete(cancellationToken);
 		}
 
