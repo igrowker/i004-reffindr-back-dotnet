@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Reffindr.Infrastructure.Repositories.Interfaces
 {
-	public interface IStateRepository
-	{
+	public interface IStateRepository : IGenericRepository<State>
+    {
 		Task<List<State>?> GetStates();
 		Task<State> GetStatesById(int id);
 	}
