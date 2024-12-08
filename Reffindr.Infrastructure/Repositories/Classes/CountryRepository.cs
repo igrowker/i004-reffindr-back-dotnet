@@ -4,9 +4,9 @@ using Reffindr.Infrastructure.Repositories.Interfaces;
 
 namespace Reffindr.Infrastructure.Repositories.Classes;
 
-public class CountryRepository : GenericRepository<Country>, ICountryRepository
+public class CandidateRepository : GenericRepository<Candidate>, ICandidateRepository
 {
-    public CountryRepository(ApplicationDbContext dbContext) : base(dbContext)   
+    public CandidateRepository(ApplicationDbContext dbContext) : base(dbContext)   
     {
         
     }

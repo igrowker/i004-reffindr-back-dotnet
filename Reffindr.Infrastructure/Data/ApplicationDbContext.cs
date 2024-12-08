@@ -31,11 +31,8 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-
-        base.OnModelCreating(modelBuilder);
-
-        //modelBuilder.Entity<User>().ToTable("Usuarios", schema: "auth");
-
+        modelBuilder.HasDefaultSchema("ReffindrDBSchema");
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        base.OnModelCreating(modelBuilder);
     }
 }

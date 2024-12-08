@@ -8,9 +8,8 @@ namespace Reffindr.Shared.Enum
 {
 	public enum NotificationType
 	{
-		Application,
-		Selection,
-		Rating,
-		PropertyPost
+        PropertyAssigned,
+        PropertyAccepted,
+        ApplicationReceived,
 	}
 }

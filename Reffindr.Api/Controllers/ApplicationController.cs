@@ -20,6 +20,9 @@ namespace Reffindr.Api.Controllers
             _applicationService = applicationService;
         }
 
+        /// <summary>
+        /// Obtiene las aplicaciones hechas por del usuario actual
+        /// </summary>
         [HttpGet("User")]
         public async Task<IActionResult> GetApplicationsByUserIdAsync()
         {
@@ -33,6 +36,9 @@ namespace Reffindr.Api.Controllers
             return Ok(result.Value);
         }
 
+        /// <summary>
+        /// Obtiene las aplicaciones de una propiedad
+        /// </summary>
         [HttpGet("Property/{propertyId}")]
         public async Task<IActionResult> GetApplicationsByPropertyIdAsync(int propertyId)
         {
@@ -41,7 +47,10 @@ namespace Reffindr.Api.Controllers
             return Ok(applications);
         }
 
-		[HttpGet("SelectedCandidates/{propertyId}")]
+        /// <summary>
+        /// Obtiene el candidato seleccionado por el tenant saliente
+        /// </summary>
+        [HttpGet("SelectedCandidates/{propertyId}")]
 		public async Task<IActionResult> GetApplicationsSelectedCandidatesAsync(int propertyId)
 		{
 			List<ApplicationGetResponseDto> applications = await _applicationService.GetApplicationsSelectedCandidatesAsync(propertyId);
@@ -49,7 +58,10 @@ namespace Reffindr.Api.Controllers
 			return Ok(applications);
 		}
 
-		[HttpPost]
+        /// <summary>
+        /// Usuario inquilino entrante aplica a una propiedad y envia notificacion al usuario inquilino saliente
+        /// </summary>
+        [HttpPost]
         [Route("PostApplication")]
         public async Task<IActionResult> PostApplication(ApplicationPostRequestDto applicationPostRequestDto, CancellationToken cancellationToken)
         {
@@ -68,24 +80,6 @@ namespace Reffindr.Api.Controllers
         /// <summary>
         /// Actualiza el selectedByTenant del candidato a true si el inquilino lo selecciona
         /// </summary>
-        /// <remarks>
-        /// Este endpoint permite actualizar el selectedByTenant del candidato de  la entidad application
-        /// Se requiere autorización para acceder a este recurso.
-        /// </remarks>
-        /// <param name="candidateUserId">
-        /// </param>
-        /// <param name="propertyId">
-        /// </param>
-        /// <param name="cancellationToken">
-        /// </param>
-        /// <returns>
-        /// Si ocurre un error, se devolverá un código de estado HTTP correspondiente.
-        /// </returns>
-        /// <response code="200">El usuario fue actualizado exitosamente.</response>
-        /// <response code="400">El cuerpo de la solicitud no es válido.</response>
-        /// <response code="401">El usuario no está autorizado para realizar esta acción.</response>
-        /// <response code="404">No se encontró el usuario especificado.</response>
-        /// <response code="500">Ocurrió un error interno en el servidor.</response>
         [HttpPut]
         [Route("PutSelectApplicationCandidates")]
         public async Task<IActionResult> PutSelectCandidates(int candidateUserId, int propertyId, CancellationToken cancellationToken)
@@ -94,6 +88,9 @@ namespace Reffindr.Api.Controllers
             return Ok((result));
         }
 
+        /// <summary>
+        /// Selecciona a un inquilo
+        /// </summary>
         [HttpPut("PutSelectCandidate")]
         public async Task<IActionResult> PutSelectNewTenant(int userId, CancellationToken cancellationToken)
         {

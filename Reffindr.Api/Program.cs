@@ -29,6 +29,9 @@ builder.Services.AddControllers().AddJsonOptions(options => { options.JsonSerial
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseNpgsql(connectionString);
+
+    options.UseNpgsql(connectionString,
+        options => options.MigrationsHistoryTable("__EFMigrationsHistory", "ReffindrDBSchema"));
 });
 
 
@@ -143,6 +146,7 @@ builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddScoped<ISalaryRepository, SalaryRepository>();
 builder.Services.AddScoped<IStateRepository, StateRepository>();
+builder.Services.AddScoped<ICountryRepository, CountryRepository>();
 builder.Services.AddScoped<IRequirement, RequirementRepository>();
 
 #endregion Repositories

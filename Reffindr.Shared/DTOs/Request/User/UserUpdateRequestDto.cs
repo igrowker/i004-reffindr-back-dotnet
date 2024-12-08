@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Reffindr.Shared.DTOs.Response.Auth;
 
 namespace Reffindr.Shared.DTOs.Response.User;
 
@@ -16,4 +17,6 @@ public class UserUpdateRequestDto
     public IFormFile? ProfileImage { get; set; }
     public int? GenreId { get; set; }
     public int? SalaryId { get; set; }
+
+    
 }

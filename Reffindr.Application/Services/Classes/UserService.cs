@@ -36,15 +36,8 @@ public class UserService : IUserService
 
         Image userImageDb = await _unitOfWork.ImageRepository.GetImage(userId);
 
+        User userToUpdate = null;
         User userDataInDb = await _unitOfWork.UsersRepository.GetById(userId);
-
-        if(userDataInDb.RoleId == 1)
-        {
-            UserTenantInfo userDataInDbTenantInfo = await _unitOfWork.UserTenantInfoRepository.GetTenantByUserId(userId);
-            userDataInDb.UserTenantInfo = userDataInDbTenantInfo;
-
-        }
-        User userToUpdate = userUpdateRequestDto.ToModel(userDataInDb);
 
         if (userUpdateRequestDto.ProfileImage is not null)
         {
@@ -53,6 +46,22 @@ public class UserService : IUserService
             userImageProfile.Add(imageUrl);
             userImageDb.ImageUrl = userImageProfile;
             await _unitOfWork.ImageRepository.Update(userImageDb.Id, userImageDb);
+        }
+
+        if (userDataInDb.RoleId == 1)
+        {
+            UserTenantInfo userDataInDbTenantInfo = await _unitOfWork.UserTenantInfoRepository.GetTenantByUserId(userId);
+            userDataInDb.UserTenantInfo = userDataInDbTenantInfo;
+            userToUpdate = userUpdateRequestDto.ToModel(userDataInDb);
+
+        }
+
+        if (userDataInDb.RoleId == 2)
+        {
+            UserOwnerInfo userOwnerInfo = await _unitOfWork.UserOwnerInfoRepository.GetOwnerInfoByUserId(userId);
+            userDataInDb.UserOwnerInfo = userOwnerInfo;
+            userToUpdate = userUpdateRequestDto.ToModel(userDataInDb);
+
         }
 
         User userUpdated = await _unitOfWork.UsersRepository.Update(userId, userToUpdate);

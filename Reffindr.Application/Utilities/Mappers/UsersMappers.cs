@@ -24,6 +24,23 @@ public static class UsersMappers
 
         return existingData;
     }
+
+    public static User ToModelOwner(this UserUpdateRequestDto userUpdateRequestDto, User existingData)
+    {
+
+        existingData.CountryId = userUpdateRequestDto.CountryId ?? existingData.CountryId;
+        existingData.StateId = userUpdateRequestDto.StateId ?? existingData.StateId;
+        existingData.Email = userUpdateRequestDto.Email! ?? existingData.Email;
+        existingData.Name = userUpdateRequestDto.Name! ?? existingData.Name;
+        existingData.LastName = userUpdateRequestDto.LastName! ?? existingData.LastName;
+        existingData.Dni = userUpdateRequestDto.Dni ?? existingData.Dni;
+        existingData.Phone = userUpdateRequestDto.Phone ?? existingData.Phone;
+        existingData.Address = userUpdateRequestDto.Address ?? existingData.Address;
+        existingData.BirthDate = userUpdateRequestDto.BirthDate ?? existingData.BirthDate;
+        existingData.GenreId = userUpdateRequestDto.GenreId ?? existingData.GenreId;
+        //existingData.UserOwnerInfo = userUpdateRequestDto.
+        return existingData;
+    }
     public static UserUpdateResponseDto ToResponse(this User user)
     {
         return new UserUpdateResponseDto
