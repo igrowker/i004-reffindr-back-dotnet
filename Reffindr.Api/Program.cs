@@ -29,6 +29,9 @@ builder.Services.AddControllers().AddJsonOptions(options => { options.JsonSerial
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseNpgsql(connectionString);
+
+    options.UseNpgsql(connectionString,
+        options => options.MigrationsHistoryTable("__EFMigrationsHistory", "ReffindrDBSchema"));
 });
 
 
