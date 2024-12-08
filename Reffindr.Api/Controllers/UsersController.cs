@@ -77,12 +77,12 @@ public class UsersController : ControllerBase
         return Ok(ownerProperties);
     }
 
-    [Authorize]
-    [HttpGet("get-tenantAnnounce")]
-    public async Task<IActionResult> GetTenantAnnounce()
-    {
-        List<PropertyGetResponseDto> ownerProperties = await _propertiesService.GetTenantAnnounceAsync();
+    //[Authorize]
+    //[HttpGet("get-tenantAnnounce")]
+    //public async Task<IActionResult> GetTenantAnnounce()
+    //{
+    //    List<PropertyGetResponseDto> ownerProperties = await _propertiesService.GetTenantAnnounceAsync();
 
-        return Ok(ownerProperties);
-    }
+    //    return Ok(ownerProperties);
+    //}
 }
