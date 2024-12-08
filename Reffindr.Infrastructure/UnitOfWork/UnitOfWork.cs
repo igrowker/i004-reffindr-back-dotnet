@@ -44,8 +44,7 @@ public class UnitOfWork : IUnitOfWork
             IGenreRepository genreRepository,
             ISalaryRepository salaryRepository,
             IStateRepository stateRepository,
-            IRequirement requerimentsRepository
-            IStateRepository stateRepository,
+            IRequirement requerimentsRepository,
             ICountryRepository countryRepository
 
             )
