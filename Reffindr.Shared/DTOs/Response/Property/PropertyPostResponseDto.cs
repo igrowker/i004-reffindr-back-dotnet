@@ -27,6 +27,7 @@ public class PropertyPostResponseDto
     public bool Terrace { get; set; }
     public string Description { get; set; } = default!;
     public virtual List<string>? Images { get; set; }
+    public decimal Price { get; set; }
 }
 
 

@@ -10,4 +10,11 @@ public class UserUpdateResponseDto
     public string? Address { get; set; }
     public DateTime? BirthDate { get; set; }
     public bool? IsProfileComplete { get; set; }
+    public string? ImageProfileUrl { get; set; }
+    public int? GenreId { get; set; }
+    public int? SalaryId { get; set; }
+    public int? CountryId { get; set; }
+    public int? StateId { get; set; }
+    
+    
 }

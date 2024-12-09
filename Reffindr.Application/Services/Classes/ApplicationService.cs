@@ -9,6 +9,11 @@ using System.Transactions;
 using Microsoft.EntityFrameworkCore.Storage;
 using Reffindr.Application.Utilities.Mappers;
 using Reffindr.Application.Services.Validations.Interfaces;
+using Reffindr.Domain.Models.UserModels;
+using Reffindr.Shared.DTOs.Request.Property;
+using Reffindr.Shared.Enum;
+using System.Threading;
+using Reffindr.Shared.DTOs.Response.Notification;
 
 namespace Reffindr.Application.Services.Classes
 {
@@ -17,12 +22,14 @@ namespace Reffindr.Application.Services.Classes
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserContext _userContext;
         private readonly IApplicationValidationService _applicationValidationService;
+        private readonly INotificationService _notificationService;
 
-        public ApplicationService(IUnitOfWork unitOfWork, IUserContext userContext, IApplicationValidationService applicationValidationService)
+        public ApplicationService(IUnitOfWork unitOfWork, IUserContext userContext, IApplicationValidationService applicationValidationService, INotificationService notificationService)
         {
             _unitOfWork = unitOfWork;
             _userContext = userContext;
             _applicationValidationService = applicationValidationService;
+            _notificationService = notificationService;
         }
 
         public async Task<Result<List<ApplicationGetResponseDto>>> GetApplicationsByUserIdAsync()
@@ -37,10 +44,10 @@ namespace Reffindr.Application.Services.Classes
             return Result<List<ApplicationGetResponseDto>>.Success(applicationDtos);
         }
 
-        public async Task<List<ApplicationGetResponseDto>> GetApplicationsByPropertyIdAsync(int propertyId)
+        public async Task<List<ApplicationsWithUserGetResponseDto>> GetApplicationsByPropertyIdAsync(int propertyId)
         {
             // No sé si agregar una validación para que solo pueda obtener las aplicaciones el dueño de la propiedad o el inquilino saliente que la publicó
-            bool userIsOwnerOrTenant = await _applicationValidationService.UserIsOwnerOrTenant(propertyId);
+            //bool userIsOwnerOrTenant = await _applicationValidationService.UserIsOwnerOrTenant(propertyId);
 
             //if (!userIsOwnerOrTenant)
             //{
@@ -50,9 +57,9 @@ namespace Reffindr.Application.Services.Classes
             List<ApplicationModel> applications = await _unitOfWork.ApplicationRepository.GetApplicationsByPropertyIdAsync(propertyId);
 
             // Mapeo
-            List<ApplicationGetResponseDto> applicationDtos = applications.Select(a => a.ToGetResponse()).ToList();
+            List<ApplicationsWithUserGetResponseDto> applicationResponse = applications.Select(a => a.ToApplicationsWithUserResponse()).ToList();
 
-            return applicationDtos;
+            return applicationResponse;
         }
 
         public async Task<List<ApplicationGetResponseDto>> GetApplicationsSelectedCandidatesAsync(int propertyId)
@@ -78,7 +85,9 @@ namespace Reffindr.Application.Services.Classes
             using IDbContextTransaction transaction = await _unitOfWork.BeginTransaction(cancellationToken);
 
             int userAuthenticated = _userContext.GetUserId();
-            int userRoleId = _userContext.GetRoleId();
+            User userInconmingInDb = await _unitOfWork.UsersRepository.GetById(userAuthenticated);
+
+            //int userRoleId = _userContext.GetRoleId();
 
             // Verificar si el usuario es inquilino
             //if (userRoleId != 1)
@@ -131,6 +140,19 @@ namespace Reffindr.Application.Services.Classes
             await _unitOfWork.Complete(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
 
+            Property propertyInDb = await _unitOfWork.PropertiesRepository.GetById(applicationPostRequestDto.PropertyId);
+            User userTenantOutgoingDb = await _unitOfWork.UsersRepository.GetById(propertyInDb.TenantId);
+
+
+            NotificationRequestDto notificationRequest = new NotificationRequestDto
+            {
+                Message = $"Hola , {userInconmingInDb.Name} {userInconmingInDb.LastName} ha enviado una nueva solicitud para la propiedad: {propertyInDb.Title}. El Equipo de Reffindr",
+                UserToSendNotification = userTenantOutgoingDb.Email,
+                Type = NotificationType.ApplicationReceived,
+                PropertyId = propertyInDb.Id
+            };
+            await _notificationService.SendNotification(notificationRequest, cancellationToken);
+
             return Result<ApplicationPostResponseDto>.Success(applicationResponse);
         }
 
@@ -145,5 +167,16 @@ namespace Reffindr.Application.Services.Classes
             return userCandidateDataUpdated;
         }
 
+        public async Task<ApplicationModel> PutSelectNewTenantAsync(int userId, CancellationToken cancellationToken)
+        {
+            //User selectedUser = await _unitOfWork.UsersRepository.GetById(userId);
+            ApplicationModel selectedUser =  await _unitOfWork.ApplicationRepository.GetUserToSelect(userId);
+            selectedUser.IsDeleted = true;
+            await _unitOfWork.ApplicationRepository.Update(selectedUser.Id, selectedUser);
+
+            await _unitOfWork.Complete(cancellationToken);
+
+            return selectedUser;
+        }
     }
 }

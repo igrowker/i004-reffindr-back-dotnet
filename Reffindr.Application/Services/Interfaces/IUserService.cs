@@ -1,4 +1,6 @@
-﻿using Reffindr.Shared.DTOs.Response.User;
+﻿using Reffindr.Domain.Models.UserModels;
+using Reffindr.Shared.DTOs.Pagination;
+using Reffindr.Shared.DTOs.Response.User;
 
 namespace Reffindr.Application.Services.Interfaces;
 

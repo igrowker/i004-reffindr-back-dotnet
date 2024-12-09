@@ -29,6 +29,9 @@ builder.Services.AddControllers().AddJsonOptions(options => { options.JsonSerial
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseNpgsql(connectionString);
+
+    options.UseNpgsql(connectionString,
+        options => options.MigrationsHistoryTable("__EFMigrationsHistory", "ReffindrDBSchema"));
 });
 
 
@@ -113,12 +116,16 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IPropertiesService, PropertiesService>();
+builder.Services.AddScoped<IStateServices,StateServices>();
 builder.Services.AddScoped<IApplicationService, ApplicationService>();
 builder.Services.AddScoped<IUserContext, UserContext>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IApplicationValidationService, ApplicationValidationService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddSingleton<MetricsService>();
+builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
+builder.Services.AddScoped<IFavoriteService, FavoriteService>();
+builder.Services.AddScoped<ISalaryService, SalaryService>();
 
 
 #endregion Services
@@ -132,7 +139,15 @@ builder.Services.AddScoped<ICandidateRepository, CandidateRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserTenantInfoRepository, UserTenantInfoRepository>();
-
+builder.Services.AddScoped<IImageRepository, ImageRepository>();
+builder.Services.AddScoped<IUserOwnerInfoRepository, UserOwnerInfoRepository>();
+builder.Services.AddScoped<IFavoriteRepository, FavoriteRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IGenreRepository, GenreRepository>();
+builder.Services.AddScoped<ISalaryRepository, SalaryRepository>();
+builder.Services.AddScoped<IStateRepository, StateRepository>();
+builder.Services.AddScoped<ICountryRepository, CountryRepository>();
+builder.Services.AddScoped<IRequirement, RequirementRepository>();
 
 #endregion Repositories
 

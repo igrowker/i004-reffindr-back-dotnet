@@ -13,4 +13,12 @@ public class ImageRepository : GenericRepository<Image> , IImageRepository
         
     }
 
+    public async Task<Image> GetImage(int userId)
+    {
+        Image? imageInDb = await _dbSet.Where(x => x.UserId == userId).FirstOrDefaultAsync();
+
+        return imageInDb!;
+    }
+    
+
 }

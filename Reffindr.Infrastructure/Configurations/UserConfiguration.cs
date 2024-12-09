@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Reffindr.Domain.Models;
 using Reffindr.Domain.Models.UserModels;
 
 namespace Reffindr.Infrastructure.Configurations;
@@ -28,11 +29,20 @@ public class UserConfiguration : EntityTypeBaseConfiguration<User>
 
         builder.HasOne(x => x.UserOwnerInfo)
             .WithOne(x => x.User)
-            .HasForeignKey<UserOwnerInfo>(x => x.UserId);
+            .HasForeignKey<User>(x => x.UserOwnerInfoId);
 
         builder.HasOne(x => x.UserTenantInfo)
             .WithOne(x => x.User)
-            .HasForeignKey<UserTenantInfo>(x => x.UserId);
+            .HasForeignKey<User>(x => x.UserTenantInfoId);
+
+        builder.HasOne(x => x.Image)
+            .WithOne(x => x.User)
+            .HasForeignKey<Image>(x => x.UserId);
+
+        builder.HasOne(x => x.Genre)
+            .WithMany(x => x.Users)
+            .HasForeignKey(x => x.GenreId);
+      
     }
 
     protected override void ConfigurateProperties(EntityTypeBuilder<User> builder)

@@ -24,7 +24,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
         return await recordsQueriable.Paginate(paginationDto).ToListAsync();
     }
 
-    public async Task<T> GetById(int id)
+    public async Task<T> GetById(int? id)
     {
         var recordDb = await _dbSet.FindAsync(id);
         return recordDb!;
@@ -42,10 +42,29 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
 
         if (existingData is null) throw new KeyNotFoundException("No se encontro el modelo");
 
+        model.UpdatedAt = DateTime.UtcNow;
+
         _dbContext.Entry(existingData).CurrentValues.SetValues(model);
 
         return existingData;
     }
+
+    public virtual async Task<List<T>> UpdateList(List<T> models)
+    {
+        foreach (var model in models)
+        {
+            var existingData = await _dbSet.FindAsync(model.Id);
+
+            if (existingData == null) throw new KeyNotFoundException($"No se encontró el modelo con ID {model.Id}");
+
+            model.UpdatedAt = DateTime.UtcNow;
+
+            _dbContext.Entry(existingData).CurrentValues.SetValues(model);
+        }
+
+        return models;
+    }
+
 
     public async Task<T> SoftDelete(int id)
     {
@@ -58,5 +77,16 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseModel
 
         return recordToDelete;
     }
+
+    public async Task<T> Delete (int id)
+    {
+        var recordToDelete = await GetById(id);
+
+		if (recordToDelete is null) throw new Exception("El registro no se encontro");
+
+        _dbContext.Remove(recordToDelete);
+
+        return recordToDelete;
+	}
 }
 

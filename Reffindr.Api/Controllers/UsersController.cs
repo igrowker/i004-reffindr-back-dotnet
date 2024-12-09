@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Reffindr.Application.Services.Interfaces;
+using Reffindr.Domain.Models.UserModels;
+using Reffindr.Shared.DTOs.Pagination;
 using Reffindr.Shared.DTOs.Response.Property;
 using Reffindr.Shared.DTOs.Response.User;
 
@@ -60,7 +62,7 @@ public class UsersController : ControllerBase
     [Authorize]
     [HttpPut]
     [Route("modify-credentials")]
-    public async Task<IActionResult> UpdateUser([FromBody] UserUpdateRequestDto userUpdateRequestDto, CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdateUser([FromForm] UserUpdateRequestDto userUpdateRequestDto, CancellationToken cancellationToken)
     {
         UserUpdateResponseDto userResponseDto = await _userService.UpdateUserAsync(userUpdateRequestDto, cancellationToken);
         return Ok(userResponseDto);
@@ -71,6 +73,15 @@ public class UsersController : ControllerBase
     public async Task<IActionResult> GetOwnerProperties()
     {
         List<PropertyGetResponseDto> ownerProperties = await _propertiesService.GetOwnerPropertiesAsync();
+
+        return Ok(ownerProperties);
+    }
+
+    [Authorize]
+    [HttpGet("get-tenantAnnounce")]
+    public async Task<IActionResult> GetTenantAnnounce()
+    {
+        List<PropertyGetResponseDto> ownerProperties = await _propertiesService.GetTenantAnnounceAsync();
 
         return Ok(ownerProperties);
     }

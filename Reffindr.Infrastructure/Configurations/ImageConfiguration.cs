@@ -11,14 +11,17 @@ public class ImageConfiguration : EntityTypeBaseConfiguration<Image>
 		builder.HasKey(x => x.Id);
 
 		builder.HasOne(x => x.Property)
-				.WithMany(x => x.Images)
-				.HasForeignKey(x => x.PropertyId);
+				.WithOne(x => x.Images)
+				.HasForeignKey<Image>(x => x.PropertyId);
+
+        builder.HasOne(x => x.User)
+            .WithOne(x => x.Image)
+            .HasForeignKey<Image>(x => x.UserId);
     }
 
-	protected override void ConfigurateProperties(EntityTypeBuilder<Image> builder)
+    protected override void ConfigurateProperties(EntityTypeBuilder<Image> builder)
 	{
 		builder.Property(x => x.ImageUrl)
-			.IsRequired()
 			.HasMaxLength(500);
 	}
 

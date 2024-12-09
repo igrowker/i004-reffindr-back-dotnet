@@ -2,6 +2,6 @@
 
 namespace Reffindr.Infrastructure.Repositories.Interfaces;
 
-public interface ICandidateRepository : IGenericRepository<Candidate>
+public interface ICountryRepository : IGenericRepository<Country>
 {
 }

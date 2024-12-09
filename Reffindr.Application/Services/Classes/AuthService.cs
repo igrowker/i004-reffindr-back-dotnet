@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Reffindr.Application.Services.Interfaces;
 using Reffindr.Application.Utilities.Mappers;
+using Reffindr.Domain.Models;
 using Reffindr.Domain.Models.UserModels;
 using Reffindr.Infrastructure.UnitOfWork;
 using Reffindr.Shared.DTOs.Request.Auth;
@@ -34,28 +35,40 @@ public class AuthService : IAuthService
         {
             throw new InvalidOperationException("Email ya registrado");
         }
-        userToRegister.Password = _passwordHasher.HashPassword(userToRegister, userToRegister.Password);
+        //userToRegister.Password = _passwordHasher.HashPassword(userToRegister, userToRegister.Password);
+        userToRegister.Password = userToRegister.Password;
 
         User registeredUser = await _unitOfWork.AuthRepository.Create(userToRegister, cancellationToken);
 
-        await _unitOfWork.Complete(cancellationToken); 
+
+        Image imageToCreate = new()
+        {
+            User = registeredUser,
+            CreatedAt = DateTime.UtcNow,
+        };
+
+        Image imageCreated = await _unitOfWork.ImageRepository.Create(imageToCreate, cancellationToken);
+
+        //await _unitOfWork.Complete(cancellationToken); 
 
         if (userRegisterRequestDto.RoleId == 1)
+
         {
             UserTenantInfo tenantInfo = new UserTenantInfo
             {
-                UserId = registeredUser.Id,
-               
+                User = registeredUser,
             };
             await _unitOfWork.UserTenantInfoRepository.Create(tenantInfo, cancellationToken);
+
         }
-        else if (userRegisterRequestDto.RoleId == 2)
+        else if (registeredUser.RoleId == 2)
         {
             UserOwnerInfo userOwnerInfo = new UserOwnerInfo
             {
-                UserId = registeredUser.Id,
+                User = registeredUser,
             };
             await _unitOfWork.UserOwnerInfoRepository.Create(userOwnerInfo, cancellationToken);
+
         }
 
         await _unitOfWork.Complete(cancellationToken);
@@ -72,9 +85,13 @@ public class AuthService : IAuthService
         User userLoginRequestData = userLoginRequestDto.ToModel();
         User userDataFromDb = await _unitOfWork.AuthRepository.GetByEmail(userLoginRequestData);
 
-        PasswordVerificationResult passwordVerification = _passwordHasher.VerifyHashedPassword(userDataFromDb, userDataFromDb.Password, userLoginRequestData.Password);
+        //PasswordVerificationResult passwordVerification = _passwordHasher.VerifyHashedPassword(userDataFromDb, userDataFromDb.Password, userLoginRequestData.Password);
 
-        if (passwordVerification == PasswordVerificationResult.Failed) throw new Exception("Las credenciales no son correctas");
+        //if (passwordVerification == PasswordVerificationResult.Failed) throw new Exception("Las credenciales no son correctas");
+        if(userDataFromDb.Password != userLoginRequestData.Password)
+        {
+            throw new Exception("Las credenciales no son correctas");
+        }
 
         string token = _tokenService.GenerateJWT(userDataFromDb);
         UserLoginResponseDto loggedUserResponse = userDataFromDb.ToLoginResponseDto(token);

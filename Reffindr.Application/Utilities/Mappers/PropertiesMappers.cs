@@ -30,6 +30,7 @@ public static class PropertiesMappers
             Grill = propertyPostRequestDto.Grill,
             Elevator = propertyPostRequestDto.Elevator,
             Terrace = propertyPostRequestDto.Terrace,
+            Price = propertyPostRequestDto.Price,
             Requirement = new Requirement
             {
                 IsWorking = propertyPostRequestDto.RequirementPostRequestDto!.IsWorking,
@@ -64,7 +65,8 @@ public static class PropertiesMappers
             Grill = property.Grill,
             Elevator = property.Elevator,
             Terrace = property.Terrace,
-            Images = property.Images?.Select(image => image.ImageUrl).ToList()
+            Price = property.Price,
+            Images = property.Images!.ImageUrl
 
         };
     }
@@ -97,7 +99,18 @@ public static class PropertiesMappers
             Terrace = property.Terrace,
             CountryId = property.CountryId,
             StateId = property.StateId,
-            Images = property.Images?.Select(image => image.ImageUrl).ToList()
+            Images = property.Images?.ImageUrl ?? new List<string>()
+
+        };
+    } 
+    
+    public static PropertyPatchResponseDto ToPatchResponse(this Property property)
+    {
+        return new PropertyPatchResponseDto
+        {
+             PropertyId = property.Id,
+             TenantId = property.TenantId,
+             OwnerId = property.OwnerId
 
         };
     }

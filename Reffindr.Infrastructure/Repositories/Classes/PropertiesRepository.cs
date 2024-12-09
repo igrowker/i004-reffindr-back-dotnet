@@ -2,6 +2,7 @@
 using Reffindr.Infrastructure.Data;
 using Reffindr.Infrastructure.Repositories.Interfaces;
 using Reffindr.Shared.DTOs.Filter;
+using Reffindr.Shared.DTOs.Response.Property;
 using System.Threading;
 using Property = Reffindr.Domain.Models.Property;
 
@@ -9,15 +10,25 @@ namespace Reffindr.Infrastructure.Repositories.Classes;
 
 public class PropertiesRepository : GenericRepository<Property>, IPropertiesRepository
 {
-    private readonly IUserTenantInfoRepository _userTenantInfoRepository;
-    public PropertiesRepository(ApplicationDbContext options, IUserTenantInfoRepository userTenantInfoRepository) : base(options)
+    public PropertiesRepository(ApplicationDbContext options) : base(options)
     {
-        _userTenantInfoRepository = userTenantInfoRepository;
     }
 
     public async Task<List<Property>?> GetOwnerProperties(int ownerUserId)
     {
-        List<Property>? ownerProperties = await _dbSet.Where(x => x.OwnerId == ownerUserId).ToListAsync();
+        List<Property>? ownerProperties = await _dbSet
+            .Include(x => x.Images)
+            .Where(x => x.OwnerId == ownerUserId)
+            .ToListAsync();
+        return ownerProperties;
+    }
+
+    public async Task<List<Property>?> GetTenantAnnounce(int tenantUserId)
+    {
+        List<Property>? ownerProperties = await _dbSet
+            .Include(x => x.Images)
+            .Where(x => x.TenantId == tenantUserId)
+            .ToListAsync();
         return ownerProperties;
     }
 
@@ -29,8 +40,19 @@ public class PropertiesRepository : GenericRepository<Property>, IPropertiesRepo
 
         return property;
     }
+	public async Task<Property?> GetByIdWithIncludeAsync(int propertyId)
+	{
+		Property? property = await _dbSet
+			.Include(p => p.Requirement)
+			.Include(p => p.Images)
+            .Include(p=>p.Application)
+			.FirstOrDefaultAsync(p => p.Id == propertyId);
 
-    public async Task<Tuple<int?, int?>> GetOwnerIdAndTenantId(int propertyId)
+		return property;
+	}
+
+
+	public async Task<Tuple<int?, int?>> GetOwnerIdAndTenantId(int propertyId)
     {
         // Obtener solo el id del propietario y el inquilino de la propiedad
         var ids = await _dbSet
@@ -41,13 +63,14 @@ public class PropertiesRepository : GenericRepository<Property>, IPropertiesRepo
         return new Tuple<int?, int?>(ids?.OwnerId, ids?.TenantId);
     }
 
-    public async Task<IEnumerable<Property>> GetPropertiesAsync(PropertyFilterDto filter, int userId)
+    public async Task<List<Property>> GetPropertiesAsync(PropertyFilterDto filter)
     {
         var query = _dbSet
             .Include(p => p.Country)
             .Include(p => p.State)
             .Include(p => p.Requirement)
-            .Where(p => !p.IsDeleted);
+            .Include(p => p.Images)
+            .Where(p => p.IsDeleted == false);
 
         // Aplicar filtros basados en los parámetros proporcionados
         if (filter.CountryId.HasValue)
@@ -80,22 +103,26 @@ public class PropertiesRepository : GenericRepository<Property>, IPropertiesRepo
             query = query.Where(p => p.Requirement!.RangeSalary <= filter.RangeSalaryMax.Value);
 
         // Obtener la información del perfil del usuario
-        var tenantInfo = await _userTenantInfoRepository.GetById(userId);
+        //var tenantInfo = await _userTenantInfoRepository.GetById(userId);
 
-        if (tenantInfo != null)
-        {
-            // Aplicar filtros adicionales basados en el perfil del usuario
-            if (tenantInfo.IsWorking)
-                query = query.Where(p => p.Requirement!.IsWorking == true);
+        //if (tenantInfo != null)
+        //{
+        //    // Aplicar filtros adicionales basados en el perfil del usuario
+        //    if (tenantInfo.IsWorking)
+        //        query = query.Where(p => p.Requirement!.IsWorking == true);
 
-            if (tenantInfo.HasWarranty)
-                query = query.Where(p => p.Requirement!.HasWarranty == true);
+        //    if (tenantInfo.HasWarranty)
+        //        query = query.Where(p => p.Requirement!.HasWarranty == true);
 
-            if (tenantInfo.RangeSalary > 0)
-                query = query.Where(p => p.Requirement!.RangeSalary <= tenantInfo.RangeSalary);
-        }
+        //    //if (tenantInfo.RangeSalary > 0)
+        //    //    query = query.Where(p => p.Requirement!.RangeSalary <= tenantInfo.RangeSalary);
+        //}
 
-        // Ejecutar la consulta y devolver los resultados
         return await query.ToListAsync();
+    }
+
+    public IQueryable<Property> GetPropertiesAsQueryable()
+    {
+        return _dbSet.AsQueryable();
     }
 }

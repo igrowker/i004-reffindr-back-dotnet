@@ -27,19 +27,20 @@ public class Property : BaseModel
     public bool Grill { get; set; }
     public bool Elevator { get; set; }
     public bool Terrace { get; set; }
-	public bool IsHistoric { get; set; }
-    public int NotificationId { get; set; }
-	public string Description { get; set; } = default!;
+	  public bool IsHistoric { get; set; }
+	  public string Description { get; set; } = default!;
 
     #region Navigation Properties
 
-    public virtual Requirement? Requirement { get; set; }
-	public virtual Country? Country { get; set; }
-	public virtual State? State { get; set; }
+   public virtual Requirement? Requirement { get; set; }
+	 public virtual Country? Country { get; set; }
+	 public virtual State? State { get; set; }
 
-	public virtual Notification? Notification { get; set; }
-	public virtual List<ApplicationModel>? Application { get; set; }
-    public virtual List<Image>? Images { get; set; }
+	public virtual List<Notification>? Notification { get; set; }
+	 public virtual List<ApplicationModel>? Application { get; set; }
+   public virtual List<Favorite>? FavoriteByUsers { get; set; }
+   public virtual Image? Images { get; set; }
+
 
     #endregion Navigation Properties
 }
